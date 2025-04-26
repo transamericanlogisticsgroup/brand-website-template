@@ -1,4 +1,4 @@
-#Assets Directory Requirements:
+# Assets Directory Requirements:
 
 - logo.svg
 - hero.webp
