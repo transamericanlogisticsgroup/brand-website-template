@@ -1,0 +1,162 @@
+---
+layout: default
+title: Vancouvers Movers
+---
+{% include hero.html %}
+
+<section id="quote">
+  <div class="container">
+    <div class="card">
+      <h2 style="color:var(--primary-color); text-align:center; margin-bottom:1.5rem;">Get Your Free Quote</h2>
+      <form>
+        <div class="form-group">
+          <label for="date">Date of Move</label>
+          <input type="date" id="date" name="date" required />
+        </div>
+        <div class="form-group">
+          <label for="fname">First Name*</label>
+          <input type="text" id="fname" name="fname" placeholder="First Name" required />
+        </div>
+        <div class="form-group">
+          <label for="lname">Last Name*</label>
+          <input type="text" id="lname" name="lname" placeholder="Last Name" required />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number*</label>
+          <input type="tel" id="phone" name="phone" placeholder="(604) 123‑4567" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email*</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="from">Moving From*</label>
+          <input type="text" id="from" name="from" placeholder="City you’re moving from" required />
+        </div>
+        <div class="form-group">
+          <label for="to">Moving To</label>
+          <input type="text" id="to" name="to" placeholder="City you’re moving to" />
+        </div>
+        <div class="form-group">
+          <label for="size">Move Size*</label>
+          <select id="size" name="size" required>
+            <option value="">– Please Select –</option>
+            <option>Studio</option>
+            <option>1 Bedroom</option>
+            <option>2 Bedrooms</option>
+            <option>3 + Bedrooms</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-accent" style="width:100%;">Submit</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section id="about-us">
+  <div class="container">
+    <h2>Why Choose Vancouvers Movers</h2>
+    <div class="feature">
+      <h3>Local Expertise</h3>
+      <p>Our team knows Vancouver inside and out—your move is in trusted hands.</p>
+    </div>
+    <div class="feature">
+      <h3>Reliable Service</h3>
+      <p>We pride ourselves on timeliness, care, and clear communication.</p>
+    </div>
+    <div class="feature">
+      <h3>Community Focus</h3>
+      <p>A portion of every move supports local Vancouver initiatives.</p>
+    </div>
+    <div class="feature">
+      <h3>Smoothest Moves</h3>
+      <p>From expert packing to careful unloading, we handle the heavy lifting.</p>
+    </div>
+  </div>
+</section>
+
+<section id="book">
+  <div class="container card">
+    <div class="book-text">
+      <h2>{{ site.cta.title }}</h2>
+      <p>{{ site.cta.text }}</p>
+      <a href="#quote" class="btn btn-accent">{{ site.cta.button }}</a>
+    </div>
+    <div class="book-img">
+      <div class="placeholder-img">CTA Image Placeholder</div>
+    </div>
+  </div>
+</section>
+
+<section id="testimonials">
+  <div class="container" style="text-align:center;">
+    <h2>Our Testimonials</h2>
+    <div id="stars" class="stars"></div>
+    <div class="testimonial-card card" style="position:relative; max-width:600px; margin:1rem auto; padding:2rem; background:var(--secondary-bg); border-radius:var(--border-radius);">
+      <div class="nav-arrows" style="position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%);">
+        <i class="fas fa-chevron-left arrow prev" style="cursor:pointer; border-radius:var(--button-radius); padding:.5rem; background:var(--accent-color); color:#fff"></i>
+        <i class="fas fa-chevron-right arrow next" style="cursor:pointer; border-radius:var(--button-radius); padding:.5rem; background:var(--accent-color); color:#fff"></i>
+      </div>
+      <p id="testimonial-text" style="font-size:1rem; line-height:1.5;"></p>
+      <div id="testimonial-author" class="author" style="margin-top:1rem; font-weight:600;"></div>
+      <div class="location" style="font-size:.9rem; color:var(--primary-color); margin-top:.25rem;"><i class="fas fa-map-marker-alt"></i> <span id="testimonial-location-text"></span></div>
+    </div>
+  </div>
+</section>
+
+<section id="locations">
+  <div class="container">
+    <h2 style="text-align:center;">Service Areas</h2>
+    <div class="two-col">
+      <div class="map placeholder-img">Map Placeholder</div>
+      <ul class="areas">
+        {% for area in site.locations %}
+          <li><i class="fas fa-map-marker-alt"></i> {{ area }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <h2 style="text-align:center;">{{ site.contact.title }}</h2>
+    <div class="info">
+      <div class="item">
+        <i class="fas fa-map-marker-alt"></i>
+        <h3>Address</h3>
+        <p>
+          {% for line in site.address %}
+            {{ line }}<br>
+          {% endfor %}
+        </p>
+      </div>
+      <div class="item">
+        <i class="fas fa-phone"></i>
+        <h3>Phone</h3>
+        <p>
+          <a href="tel:{{ site.phone.ie64 }}" style="color:var(--accent-color);">
+            {{ site.phone.display }}
+          </a>
+        </p>
+      </div>
+      <div class="item">
+        <i class="fas fa-clock"></i>
+        <h3>Hours</h3>
+        <p>
+          {% for times in site.hours %}
+            {{ times }}<br>
+          {% endfor %}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="ready">
+  <div class="container">
+    <div class="placeholder-circle"><i class="fas fa-box-open"></i></div>
+    <h2 style="margin-bottom:1rem;">Ready to Go?</h2>
+    <a href="#quote" class="btn btn-outline-red">Get My Quote</a>
+  </div>
+</section>
