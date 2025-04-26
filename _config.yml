@@ -1,0 +1,85 @@
+# _config.yml
+
+# Site settings
+title: "Insert Title Here"  # Replace with your site title
+description: "Replace with your site description or tagline."
+url: "https://example.com"        # Your production URL
+baseurl: ""                    # e.g. "/blog" if served from a subpath
+
+# Color variables for CSS (as hex or CSS values)
+primary_color: "#777777"        # Replace with your primary brand color
+aacccent_color: "#aaaaaa"      # Replace with your accent color
+error_color: "#ff0000"          # Replace with error/alert color
+secondary_bg_color: "#eeeeee"   # Replace with section background color
+text_color: "#333333"           # Replace with default text color
+border_radius: "0.5rem"         # Roundness for cards/buttonsutton_radius: "0.25rem"        # Border radius for buttons
+
+# Site data
+hero:
+  description: "Replace me with your hero section headline or tagline."
+  image: "/assets/hero.webp"
+
+cta:
+  title: "Call To Action Title Here"
+  text: "Replace me with a short call-to-action message."
+  button: "Button Text Here"
+
+# Contact info
+phone:
+  ie64: "1234567890"          # International dialing number, no spaces
+  display: "(123) 456-7890"   # Formatted display phone number
+email: "contact@example.com"
+contact:
+  title: "Contact Our Branch"
+address:
+  - "123 Example Street"
+  - "Suite 100"
+  - "City, State ZIP"
+hours:
+  - "Mon–Fri: 9 AM – 6 PM"
+  - "Sat: 10 AM – 4 PM"
+  - "Sun: Closed"
+
+# Navigation links
+nav_links:
+  - title: "Services"
+    url: "#services"
+  - title: "Locations"
+    url: "#locations"
+  - title: "Moving Tips"
+    url: "#moving-tips"
+  - title: "About Us"
+    url: "#about-us"
+
+# Footer lists
+services:
+  - name: "Residential Moves"
+  - name: "Commercial Moves"
+  - name: "Packing Services"
+  - name: "Storage Solutions"
+
+locations:
+  - name: "Location A"
+  - name: "Location B"
+  - name: "Location C"
+  - name: "Location D"
+
+# Testimonials for carousel
+testimonials:
+  - text: "Replace with your first testimonial text."
+    author: "— Jane Doe"
+    location: "City Name"
+    rating: 5
+  - text: "Replace with your second testimonial."
+    author: "— John Smith"
+    location: "Another City"
+    rating: 4.5
+  - text: "Replace with your third testimonial."
+    author: "— Alice Johnson"
+    location: "Sample City"
+    rating: 4
+
+# Optional: Google Fonts
+google_fonts:
+  - family: "Montserrat"
+    weights: ["400", "600", "700"]
