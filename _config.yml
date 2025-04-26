@@ -12,7 +12,7 @@ aacccent_color: "#aaaaaa"      # Replace with your accent color
 error_color: "#ff0000"          # Replace with error/alert color
 secondary_bg_color: "#eeeeee"   # Replace with section background color
 text_color: "#333333"           # Replace with default text color
-border_radius: "0.5rem"         # Roundness for cards/buttonsutton_radius: "0.25rem"        # Border radius for buttons
+border_radius: "0.5rem"         # Roundness for cards/buttons/button_radius: "0.25rem"        # Border radius for buttons
 
 # Site data
 hero:
