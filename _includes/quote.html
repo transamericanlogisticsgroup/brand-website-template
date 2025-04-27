@@ -1,39 +1,79 @@
-<!-- _includes/quote.html -->
-
 <section id="quote">
   <div class="container">
     <div class="card">
       <h2 style="color:var(--primary-color); text-align:center; margin-bottom:1.5rem;">
         Get Your Free Quote
       </h2>
-      <form id="quote-form">
+      <form
+        id="quote-form"
+        method="POST"
+        action="{{ site.quote.submission_url }}"
+      >
+        <!-- tell the function which branch number this is -->
+        <input type="hidden" name="To" value="{{ site.phone.ie64 }}" />
+
         <div class="form-group">
           <label for="date">Date of Move</label>
           <input type="date" id="date" name="date" required />
         </div>
         <div class="form-group">
           <label for="fname">First Name*</label>
-          <input type="text" id="fname" name="fname" placeholder="First Name" required />
+          <input
+            type="text"
+            id="fname"
+            name="fname"
+            placeholder="First Name"
+            required
+          />
         </div>
         <div class="form-group">
           <label for="lname">Last Name*</label>
-          <input type="text" id="lname" name="lname" placeholder="Last Name" required />
+          <input
+            type="text"
+            id="lname"
+            name="lname"
+            placeholder="Last Name"
+            required
+          />
         </div>
         <div class="form-group">
           <label for="phone">Phone Number*</label>
-          <input type="tel" id="phone" name="phone" placeholder="(604) 123-4567" required />
+          <input
+            type="tel"
+            id="phone"
+            name="From"
+            placeholder="+1XXXXXXXXXX"
+            required
+          />
         </div>
         <div class="form-group">
           <label for="email">Email*</label>
-          <input type="email" id="email" name="email" placeholder="you@example.com" required />
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="you@example.com"
+            required
+          />
         </div>
         <div class="form-group">
-          <label for="from">Moving From*</label>
-          <input type="text" id="from" name="from" placeholder="City you’re moving from" required />
+          <label for="moving-from">Moving From*</label>
+          <input
+            type="text"
+            id="moving-from"
+            name="MovingFrom"
+            placeholder="City you’re moving from"
+            required
+          />
         </div>
         <div class="form-group">
-          <label for="to">Moving To</label>
-          <input type="text" id="to" name="to" placeholder="City you’re moving to" />
+          <label for="moving-to">Moving To</label>
+          <input
+            type="text"
+            id="moving-to"
+            name="MovingTo"
+            placeholder="City you’re moving to"
+          />
         </div>
         <div class="form-group">
           <label for="size">Move Size*</label>
@@ -45,70 +85,10 @@
             <option>3 + Bedrooms</option>
           </select>
         </div>
-        <button type="submit" class="btn btn-accent" style="width:100%;">Submit</button>
+        <button type="submit" class="btn btn-accent" style="width:100%;">
+          Submit
+        </button>
       </form>
     </div>
   </div>
 </section>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const endpoint   = 'https://chatwoot.talgroupofcompanies.com/twilio/callback';
-  const toNumber   = "{{ site.phone.ie64 }}";
-  const accountSid = "{{ site.phone.twilio_sid }}";
-  const form       = document.getElementById('quote-form');
-
-  function normalizeNumber(input) {
-    // remove all non-digits and ensure leading '+'
-    let num = input.replace(/\D/g, '');
-    if (!num.startsWith('+')) num = '+' + num;
-    return num;
-  }
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-
-    const data = new FormData(form);
-    const date  = data.get('date');
-    const fname = data.get('fname');
-    const lname = data.get('lname');
-    const phone = normalizeNumber(data.get('phone'));
-    const email = data.get('email');
-    const fromC = data.get('from');
-    const toC   = data.get('to') || 'N/A';
-    const size  = data.get('size');
-
-    const body = 
-`Quote Request:
-Date:         ${date}
-Name:         ${fname} ${lname}
-Phone:        ${phone}
-Email:        ${email}
-Moving From:  ${fromC}
-Moving To:    ${toC}
-Move Size:    ${size}`;
-
-    const payload = new URLSearchParams({
-      AccountSid: accountSid,
-      From:       phone,
-      To:         toNumber,
-      Body:       body
-    });
-
-    fetch(endpoint, {
-      method:  'POST',
-      mode:    'no-cors',  // dispatch even without CORS on server
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body:    payload
-    })
-    .then(() => {
-      alert('Your quote request has been sent!');
-      form.reset();
-    })
-    .catch(err => {
-      console.error('Error sending quote:', err);
-      alert('Error sending quote: ' + err.message);
-    });
-  });
-});
-</script>
