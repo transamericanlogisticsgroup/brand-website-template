@@ -53,71 +53,62 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const form       = document.getElementById('quote-form');
   const endpoint   = 'https://chatwoot.talgroupofcompanies.com/twilio/callback';
   const toNumber   = "{{ site.phone.ie64 }}";
   const accountSid = "{{ site.phone.twilio_sid }}";
+  const form       = document.getElementById('quote-form');
 
   function normalizeNumber(input) {
-    let num = input.trim().replace(/[^+\d]/g, '');
-    if (!num.startsWith('+')) {
-      if (/^\d{10}$/.test(num)) {
-        num = '+1' + num;
-      } else {
-        num = '+' + num;
-      }
-    }
+    // remove all non-digits and ensure leading '+'
+    let num = input.replace(/\D/g, '');
+    if (!num.startsWith('+')) num = '+' + num;
     return num;
   }
 
-  form.addEventListener('submit', async e => {
+  form.addEventListener('submit', e => {
     e.preventDefault();
-    const data     = new FormData(form);
-    const date     = data.get('date');
-    const fname    = data.get('fname');
-    const lname    = data.get('lname');
-    const phoneRaw = data.get('phone');
-    const fromNum  = normalizeNumber(phoneRaw);
-    const email    = data.get('email');
-    const fromCity = data.get('from');
-    const toCity   = data.get('to')    || 'N/A';
-    const size     = data.get('size');
+
+    const data = new FormData(form);
+    const date  = data.get('date');
+    const fname = data.get('fname');
+    const lname = data.get('lname');
+    const phone = normalizeNumber(data.get('phone'));
+    const email = data.get('email');
+    const fromC = data.get('from');
+    const toC   = data.get('to') || 'N/A';
+    const size  = data.get('size');
 
     const body = 
 `Quote Request:
 Date:         ${date}
 Name:         ${fname} ${lname}
-Phone:        ${fromNum}
+Phone:        ${phone}
 Email:        ${email}
-Moving From:  ${fromCity}
-Moving To:    ${toCity}
+Moving From:  ${fromC}
+Moving To:    ${toC}
 Move Size:    ${size}`;
 
     const payload = new URLSearchParams({
-      To:         toNumber,
-      From:       fromNum,
       AccountSid: accountSid,
+      From:       phone,
+      To:         toNumber,
       Body:       body
     });
 
-    try {
-      const resp = await fetch(endpoint, {
-        method:  'POST',
-        mode:    'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body:    payload
-      });
-
-      if (resp.ok) {
-        alert('Your quote request has been sent!');
-        form.reset();
-      } else {
-        const err = await resp.text();
-        alert('Error sending quote: ' + err);
-      }
-    } catch (err) {
-      alert('Network error: ' + err.message);
-    }
+    fetch(endpoint, {
+      method:  'POST',
+      mode:    'no-cors',  // dispatch even without CORS on server
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body:    payload
+    })
+    .then(() => {
+      alert('Your quote request has been sent!');
+      form.reset();
+    })
+    .catch(err => {
+      console.error('Error sending quote:', err);
+      alert('Error sending quote: ' + err.message);
+    });
   });
 });
 </script>
