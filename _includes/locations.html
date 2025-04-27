@@ -4,8 +4,8 @@
     <div class="two-col">
       <div class="map placeholder-img">Map Placeholder</div>
       <ul class="areas">
-        {% for area in site.locations %}
-          <li><i class="fas fa-map-marker-alt"></i> {{ area }}</li>
+        {% for location in site.locations %}
+          <li><i class="fas fa-map-marker-alt"></i> {{ location.name }}</li>
         {% endfor %}
       </ul>
     </div>
