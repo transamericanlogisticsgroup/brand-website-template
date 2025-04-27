@@ -26,8 +26,9 @@ cta:
 
 # Contact info
 phone:
-  ie64: "1234567890"          # International dialing number, no spaces
+  ie64: "+16473636683"          # International dialing number, no spaces
   display: "(123) 456-7890"   # Formatted display phone number
+  twilio_account_sid: "AC2d402e54f448be3bafcc2cc1df1ddf4f"
 email: "contact@example.com"
 contact:
   title: "Contact Our Branch"
