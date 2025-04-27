@@ -1,8 +1,12 @@
+<!-- _includes/quote.html -->
+
 <section id="quote">
   <div class="container">
     <div class="card">
-      <h2 style="color:var(--primary-color); text-align:center; margin-bottom:1.5rem;">Get Your Free Quote</h2>
-      <form>
+      <h2 style="color:var(--primary-color); text-align:center; margin-bottom:1.5rem;">
+        Get Your Free Quote
+      </h2>
+      <form id="quote-form">
         <div class="form-group">
           <label for="date">Date of Move</label>
           <input type="date" id="date" name="date" required />
@@ -17,7 +21,7 @@
         </div>
         <div class="form-group">
           <label for="phone">Phone Number*</label>
-          <input type="tel" id="phone" name="phone" placeholder="(604) 123‑4567" required />
+          <input type="tel" id="phone" name="phone" placeholder="(604) 123-4567" required />
         </div>
         <div class="form-group">
           <label for="email">Email*</label>
@@ -46,3 +50,73 @@
     </div>
   </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form       = document.getElementById('quote-form');
+  const endpoint   = 'https://chatwoot.talgroupofcompanies.com/twilio/callback';
+  const toNumber   = "{{ site.phone.ie64 }}";
+  const accountSid = "{{ site.phone.twilio_sid }}";
+
+  function normalizeNumber(input) {
+    let num = input.trim().replace(/[^+\d]/g, '');
+    if (!num.startsWith('+')) {
+      if (/^\d{10}$/.test(num)) {
+        num = '+1' + num;
+      } else {
+        num = '+' + num;
+      }
+    }
+    return num;
+  }
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const data     = new FormData(form);
+    const date     = data.get('date');
+    const fname    = data.get('fname');
+    const lname    = data.get('lname');
+    const phoneRaw = data.get('phone');
+    const fromNum  = normalizeNumber(phoneRaw);
+    const email    = data.get('email');
+    const fromCity = data.get('from');
+    const toCity   = data.get('to')    || 'N/A';
+    const size     = data.get('size');
+
+    const body = 
+`Quote Request:
+Date:         ${date}
+Name:         ${fname} ${lname}
+Phone:        ${fromNum}
+Email:        ${email}
+Moving From:  ${fromCity}
+Moving To:    ${toCity}
+Move Size:    ${size}`;
+
+    const payload = new URLSearchParams({
+      To:         toNumber,
+      From:       fromNum,
+      AccountSid: accountSid,
+      Body:       body
+    });
+
+    try {
+      const resp = await fetch(endpoint, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body:    payload
+      });
+
+      if (resp.ok) {
+        alert('Your quote request has been sent!');
+        form.reset();
+      } else {
+        const err = await resp.text();
+        alert('Error sending quote: ' + err);
+      }
+    } catch (err) {
+      alert('Network error: ' + err.message);
+    }
+  });
+});
+</script>
