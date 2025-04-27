@@ -24,6 +24,9 @@ cta:
   text: "Replace me with a short call-to-action message."
   button: "Button Text Here"
 
+quote:
+  submission_url: "https://shadow-seagull-4892.twil.io/submit_quote_request"
+
 # Contact info
 phone:
   ie64: "+16473636683"          # International dialing number, no spaces
