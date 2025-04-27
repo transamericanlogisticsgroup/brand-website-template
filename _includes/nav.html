@@ -9,8 +9,8 @@
       </ul>
       <div class="actions">
         <a href="#quote" class="btn btn-red">Get My Quote</a>
-        <a href="tel:{{ site.phone | remove: ' ' }}" style="color:var(--accent-color); font-weight:600;">
-          <i class="fas fa-phone"></i> {{ site.phone }}
+        <a href="tel:{{ site.phone.ie64 | remove: ' ' }}" style="color:var(--accent-color); font-weight:600;">
+          <i class="fas fa-phone"></i> {{ site.phone.display }}
         </a>
       </div>
     </div>
