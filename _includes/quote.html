@@ -13,6 +13,14 @@
   @keyframes spin {
     to { transform: rotate(360deg); }
   }
+
+  /* Add Address button spacing */
+  #add-address {
+    margin-bottom: 1rem;
+    background: var(--secondary-bg);
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+  }
 </style>
 
 <section id="quote">
@@ -21,11 +29,7 @@
       <h2 style="color:var(--primary-color); text-align:center; margin-bottom:1.5rem;">
         Get Your Free Quote
       </h2>
-      <form
-        id="quote-form"
-        method="POST"
-        action="{{ site.quote.submission_url }}"
-      >
+      <form id="quote-form" method="POST" action="{{ site.quote.submission_url }}">
         <!-- Branch number -->
         <input type="hidden" name="To" value="{{ site.phone.ie64 }}" />
 
@@ -35,63 +39,33 @@
         </div>
         <div class="form-group">
           <label for="fname">First Name*</label>
-          <input
-            type="text"
-            id="fname"
-            name="fname"
-            placeholder="First Name"
-            required
-          />
+          <input type="text" id="fname" name="fname" placeholder="First Name" required />
         </div>
         <div class="form-group">
           <label for="lname">Last Name*</label>
-          <input
-            type="text"
-            id="lname"
-            name="lname"
-            placeholder="Last Name"
-            required
-          />
+          <input type="text" id="lname" name="lname" placeholder="Last Name" required />
         </div>
         <div class="form-group">
           <label for="phone">Phone Number*</label>
-          <input
-            type="tel"
-            id="phone"
-            name="From"
-            placeholder="+1XXXXXXXXXX"
-            required
-          />
+          <input type="tel" id="phone" name="From" placeholder="+1XXXXXXXXXX" required />
         </div>
         <div class="form-group">
           <label for="email">Email*</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="you@example.com"
-            required
-          />
+          <input type="email" id="email" name="email" placeholder="you@example.com" required />
         </div>
-        <div class="form-group">
-          <label for="moving-from">Moving From*</label>
-          <input
-            type="text"
-            id="moving-from"
-            name="MovingFrom"
-            placeholder="City you’re moving from"
-            required
-          />
+
+        <div id="addresses-container">
+          <div class="form-group address-group">
+            <label>Address A</label>
+            <input type="text" name="Addresses" placeholder="Enter Address A" required />
+          </div>
+          <div class="form-group address-group">
+            <label>Address B</label>
+            <input type="text" name="Addresses" placeholder="Enter Address B" required />
+          </div>
         </div>
-        <div class="form-group">
-          <label for="moving-to">Moving To</label>
-          <input
-            type="text"
-            id="moving-to"
-            name="MovingTo"
-            placeholder="City you’re moving to"
-          />
-        </div>
+        <button type="button" id="add-address" class="btn">Add Address</button>
+
         <div class="form-group">
           <label for="size">Move Size*</label>
           <select id="size" name="size" required>
@@ -105,11 +79,7 @@
         <button
           type="submit"
           class="btn"
-          style="
-            width:100%;
-            background: var(--secondary-bg);
-            color: var(--text-color);
-          "
+          style="width:100%; background: var(--secondary-bg); color: var(--text-color);"
         >
           Submit
         </button>
@@ -117,12 +87,7 @@
 
       <div
         id="quote-success"
-        style="
-          display:none;
-          text-align:center;
-          margin-top:1rem;
-          color:var(--primary-color);
-        "
+        style="display:none; text-align:center; margin-top:1rem; color:var(--primary-color);"
       >
         <strong>Sent!</strong><br />
         Thank you! You will receive an emailed quote and an SMS or call follow-up shortly.
@@ -133,29 +98,82 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const form      = document.getElementById('quote-form');
+  const form = document.getElementById('quote-form');
+  const addBtn = document.getElementById('add-address');
+  const addressesContainer = document.getElementById('addresses-container');
   const submitBtn = form.querySelector('button[type="submit"]');
   const successEl = document.getElementById('quote-success');
 
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  let addressCount = 2;
 
+  // Add new address field
+  addBtn.addEventListener('click', () => {
+    addressCount++;
+    const letter = letters[addressCount - 1] || (addressCount);
+    const div = document.createElement('div');
+    div.className = 'form-group address-group';
+    const label = document.createElement('label');
+    label.textContent = `Address ${letter}`;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.name = 'Addresses';
+    input.placeholder = `Enter Address ${letter}`;
+    input.required = true;
+    div.append(label, input);
+    addressesContainer.append(div);
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
     // show loading spinner
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span class="spinner"></span>';
 
-    // send form data to Twilio Function
+    // collect form data
+    const data = new FormData(form);
+    const date = data.get('date');
+    const fname = data.get('fname');
+    const lname = data.get('lname');
+    const phone = data.get('From');
+    const email = data.get('email');
+    const size = data.get('size');
+    const addrs = data.getAll('Addresses');
+
+    // build message body
+    let body =
+`Quote Request:
+Date:         ${date}
+Name:         ${fname} ${lname}
+Phone:        ${phone}
+Email:        ${email}
+Move Size:    ${size}
+`;
+    addrs.forEach((addr, i) => {
+      const letter = letters[i] || (i + 1);
+      body += `Service Address ${letter}: ${addr}
+`;
+    });
+
+    // prepare payload
+    const payload = new URLSearchParams({
+      AccountSid: '{{ site.phone.twilio_sid }}',
+      From:       phone,
+      To:         '{{ site.phone.ie64 }}',
+      Body:       body
+    });
+
     try {
       await fetch(form.action, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(form))
+        body: payload
       });
     } catch (err) {
       console.error('Error sending quote:', err);
     }
 
-    // show confirmation message
+    // show confirmation
     submitBtn.style.display = 'none';
     successEl.style.display = 'block';
   });
