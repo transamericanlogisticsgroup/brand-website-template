@@ -221,16 +221,26 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Populate Job Type options
+  // Populate Job Type options with categories
   const jobTypeSelect = document.getElementById('job-type');
   const jobTypeDisplay = document.getElementById('job-type-display');
-  const jobOptions = [
-    'Studio Home','1 Bedroom Home','2 Bedroom Home','3+ Bedroom Home',
-    'Piano Moving','Junk Removal','Furniture Packing/Unpacking','Full-Service Packing','Partial Packing',
-    'Commercial Move','Office Relocation'
-  ];
-  jobOptions.forEach(opt => { const o=document.createElement('option'); o.text=opt; jobTypeSelect.add(o); });
-  jobTypeSelect.addEventListener('change', () => { jobTypeDisplay.value = jobTypeSelect.value; });
+  const jobGroups = {
+    'Home': ['Studio Home', '1 Bedroom Home', '2 Bedroom Home', '3+ Bedroom Home'],
+    'Specialty Services': ['Piano Moving', 'Junk Removal', 'Furniture Packing/Unpacking', 'Full-Service Packing', 'Partial Packing'],
+    'Commercial/Other': ['Commercial Move', 'Office Relocation']
+  };
+  Object.entries(jobGroups).forEach(([groupLabel, options]) => {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = groupLabel;
+    options.forEach(optText => {
+      const option = document.createElement('option');
+      option.value = optText;
+      option.text = optText;
+      optgroup.appendChild(option);
+    });
+    jobTypeSelect.appendChild(optgroup);
+  });
+  jobTypeSelect.addEventListener('change', ('change', () => { jobTypeDisplay.value = jobTypeSelect.value; });
 
   // Date picker and display
   const dateInput = document.getElementById('date');
