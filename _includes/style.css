@@ -114,11 +114,25 @@ nav .actions {
   color: var(--text-dark-bg);
 }
 
-/* utility for accent‐colored text/buttons */
-.link-accent {
-  color: var(--accent);
+/* phone link in nav uses text color */
+.link-text {
+  color: var(--text);
   font-weight: var(--font-weight-semibold);
 }
+
+/* override btn-accent in nav so it sits inline and has no auto margins */
+nav .actions .btn-accent {
+  display: inline-block;
+  margin: 0;
+}
+
+/* ensure the two items are vertically centered */
+nav .actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* optional spacing */
+}
+
 
 /* Hero */
 .hero {
