@@ -1,6 +1,16 @@
 <!-- _includes/quote.html -->
 
 <style>
+  :root {
+    --primary-color:    {{ site.primary_color }};
+    --accent-color:     {{ site.aacccent_color }};
+    --text-color:       {{ site.text_color }};
+    --secondary-bg:     {{ site.secondary_bg_color }};
+    --error-color:      {{ site.error_color }};
+    --border-radius:    {{ site.border_radius }};
+    --button-radius:    {{ site.button_radius }};
+  }
+
   /* Spinner for submit button */
   .spinner {
     display: inline-block;
@@ -144,6 +154,24 @@
   .field-wrapper .delete-icon i {
     pointer-events: auto;
   }
+
+  /* Full-width quote submit button */
+  .btn-submit {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: var(--border-radius);
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-submit:hover {
+    background-color: var(--accent-color);
+  }
 </style>
 
 <section id="quote">
@@ -242,7 +270,7 @@
           </div>
         </div>
         <button type="button" id="add-address" class="btn">
-          <i class="fa-solid fa-plus" aria-hidden="true"></i> Add Address
+          <i class="fa-solid fa-plus"></i> Add Address
         </button>
 
         <!-- Submit -->
@@ -385,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
-          AccountSid: '{{ site.phone.twilio_sid }}',
+          AccountSid: '{{ site.phone.twilio_account_sid }}',
           From: phone,
           To: '{{ site.phone.ie64 }}',
           Body: body
