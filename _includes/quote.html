@@ -75,8 +75,7 @@
     font-size: 1.25rem;
     pointer-events: none;
   }
-  .field-wrapper i.fa-calendar-plus,
-  .field-wrapper i.fa-map-marker-alt {
+  .field-wrapper{
     color: var(--accent-color);
   }
   .field-wrapper i.fa-chevron-down {
@@ -365,10 +364,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const inp = document.createElement('input');
     inp.type = 'text';
     inp.name = 'Addresses';
-
-    const icon = document.createElement('i');
-    icon.className = 'fa-solid fa-map-marker-alt';
-    icon.setAttribute('aria-hidden', 'true');
 
     const btn = document.createElement('button');
     btn.type = 'button';
