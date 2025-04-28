@@ -26,13 +26,20 @@
   /* Text */
   --text:              {{ site.theme.colors.text }};
   --text-light:        {{ site.theme.colors.text_light }};
-  --text-dark-bg:      {{ site.theme.colors.text_dark_bg }};
 
   /* Accent & states */
   --accent:            {{ site.theme.colors.accent }};
   --accent-dark:       {{ site.theme.colors.accent_dark }};
   --error:             {{ site.theme.colors.error }};
   --delete:            {{ site.theme.colors.delete }};
+
+  /* New variables – add these to your _config.yml under theme.colors:
+     on_primary: "#ffffff"
+     shadow_md:  "rgba(0,0,0,0.1)"
+     shadow_sm:  "rgba(0,0,0,0.05)" */
+  --on-primary:        {{ site.theme.colors.on_primary }};
+  --shadow-md:         {{ site.theme.colors.shadow_md }};
+  --shadow-sm:         {{ site.theme.colors.shadow_sm }};
 }
 
 /* Global reset */
@@ -68,7 +75,7 @@ nav {
   position: sticky;
   top: 0;
   background: var(--bg);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px var(--shadow-md);
   z-index: 100;
 }
 nav .container {
@@ -124,7 +131,7 @@ nav .actions {
   margin: 0 auto 2rem;
 }
 
-/* Placeholders */
+/* Placeholder */
 .placeholder-img {
   width: 100%;
   height: 625px;
@@ -144,7 +151,7 @@ nav .actions {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--bg);
+  color: var(--on-primary);
   font-size: 2rem;
 }
 
@@ -155,13 +162,15 @@ section {
 .card {
   background: var(--bg);
   border-radius: var(--border-radius);
-  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 3px 10px var(--shadow-sm);
   padding: 2rem;
 }
 #quote .card {
   max-width: 600px;
   margin: 0 auto;
 }
+
+/* Form */
 .form-group {
   margin-bottom: 1rem;
 }
@@ -188,7 +197,7 @@ section {
 }
 #book .book-text {
   background: var(--primary);
-  color: var(--bg);
+  color: var(--on-primary);
   padding: 2rem;
   flex: 1;
 }
@@ -199,7 +208,7 @@ section {
 /* About Section */
 #about {
   background: var(--primary);
-  color: var(--bg);
+  color: var(--on-primary);
 }
 #about h2 {
   text-align: center;
@@ -214,7 +223,7 @@ section {
   margin-bottom: 0.5rem;
 }
 
-/* Locations Section */
+/* Locations */
 #locations .two-col {
   display: flex;
   gap: 2rem;
@@ -233,7 +242,7 @@ section {
   margin-right: 0.5rem;
 }
 
-/* Contact Section */
+/* Contact */
 #contact .info {
   display: flex;
   gap: 2rem;
@@ -251,7 +260,7 @@ section {
   margin-bottom: 0.5rem;
 }
 
-/* Ready Section */
+/* Ready */
 #ready {
   text-align: center;
 }
@@ -259,7 +268,7 @@ section {
 /* Footer */
 footer {
   background: var(--primary);
-  color: var(--bg);
+  color: var(--on-primary);
 }
 footer .footer-cols {
   display: flex;
@@ -284,7 +293,7 @@ footer ul li {
   margin-bottom: 0.5rem;
 }
 footer ul li a {
-  color: var(--bg);
+  color: var(--on-primary);
 }
 .social {
   display: flex;
@@ -292,6 +301,175 @@ footer ul li a {
   margin-top: 1rem;
 }
 .social a {
-  color: var(--bg);
+  color: var(--on-primary);
   font-size: 1.25rem;
+}
+
+/* Quote Form overrides (inputs, select, spinner, modal) */
+/* Hide native date-picker */
+input[type="date"]#date-picker {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0;
+  z-index: 2;
+  cursor: pointer;
+}
+/* Base fields */
+input:not(#date-picker), select, textarea {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--bg);
+  border: 1px solid var(--primary-light);
+  border-radius: var(--border-radius);
+  font-family: var(--font-family);
+  font-size: 1rem;
+  color: var(--text);
+  appearance: none;
+}
+/* Field wrappers & icons */
+.field-wrapper {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.field-wrapper > i {
+  position: absolute;
+  top: 50%; right: 0.75rem;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  color: var(--text-light);
+  pointer-events: none;
+}
+.field-wrapper .delete-icon {
+  position: absolute;
+  top: 50%; right: 0.5rem;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: var(--error);
+  display: none;
+  z-index: 1;
+}
+.address-group.show-delete .delete-icon {
+  display: block;
+}
+.field-wrapper .delete-icon i {
+  pointer-events: auto;
+  color: var(--delete);
+}
+/* Spinner */
+.spinner {
+  display: inline-block;
+  width: 1em; height: 1em;
+  border: 2px solid var(--accent);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+/* Buttons */
+.btn-primary {
+  display: block;
+  margin: 1rem auto;
+  background-color: var(--primary);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-semibold);
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s ease;
+}
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+}
+.btn-secondary {
+  display: inline-block;
+  background-color: var(--secondary);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.5rem;
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-normal);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.btn-secondary:hover {
+  background-color: var(--secondary-dark);
+}
+.btn-accent {
+  display: block;
+  margin: 0 auto 1.5rem;
+  background-color: var(--accent);
+  color: var(--text);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.75rem;
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-semibold);
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s ease;
+}
+.btn-accent:hover {
+  background-color: var(--accent-dark);
+}
+/* Modal button overrides */
+.modal .btn-group .btn-secondary,
+.modal .btn-group .btn-primary {
+  margin: 0;
+  padding: 0.75rem 1.5rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+.modal .btn-group .btn-primary {
+  margin: 0;
+}
+/* Modal */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center; justify-content: center;
+  z-index: 1000;
+}
+.modal {
+  background: var(--bg);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  max-width: 400px; width: 90%;
+  box-shadow: 0 4px 12px var(--shadow-md);
+}
+.modal h3 {
+  margin: 0 0 1rem;
+  font-family: var(--font-family);
+  color: var(--primary);
+}
+.modal p { margin-bottom: 1rem; }
+.btn-group {
+  display: flex; gap: 0.5rem; justify-content: flex-end;
+}
+/* Scrollbars */
+#job-type::-webkit-scrollbar {
+  width: 0.75rem; border-radius: var(--border-radius);
+}
+#job-type::-webkit-scrollbar-track {
+  background: var(--bg-alt); border-radius: var(--border-radius);
+}
+#job-type::-webkit-scrollbar-thumb {
+  background: var(--primary-light); border-radius: var(--border-radius);
+}
+/* Submit button sizing */
+#submit-btn {
+  min-width: 220px;
+  padding: 0.75rem 1.5rem;
 }
