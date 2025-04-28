@@ -192,6 +192,24 @@
     background: var(--primary-light); border-radius: var(--border-radius);
   }
 
+  .field-wrapper > i {
+    position: absolute;
+    top: 50%; right: 0.75rem;
+    transform: translateY(-50%);
+    font-size: 1.25rem;
+    color: var(--text-light);
+    pointer-events: none;
+  }
+  
+  .field-wrapper .delete-icon i {
+    pointer-events: auto;
+  }
+  
+  .field-wrapper .delete-icon {
+    z-index: 1;
+  }
+
+
 </style>
 
 <section id="quote">
