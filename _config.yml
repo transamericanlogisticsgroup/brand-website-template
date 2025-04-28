@@ -6,13 +6,36 @@ description: "Replace with your site description or tagline."
 url: "https://example.com"        # Your production URL
 baseurl: ""                    # e.g. "/blog" if served from a subpath
 
-# Color variables for CSS (as hex or CSS values)
-primary_color: "#777777"        # Replace with your primary brand color
-accent_color: "#aaaaaa"      # Replace with your accent color
-error_color: "#ff0000"          # Replace with error/alert color
-secondary_bg_color: "#eeeeee"   # Replace with section background color
-text_color: "#333333"           # Replace with default text color
-border_radius: "0.5rem"         # Roundness for cards/buttons/button_radius: "0.25rem"        # Border radius for buttons
+# Theming
+theme:
+  font:
+    family: "Montserrat"
+    weights: ["400", "600", "700"]
+
+  border_radius: "0.5rem"
+
+  colors:
+    # backgrounds
+    background:      "#ffffff"
+    background_alt:  "#f9f9f9"
+    surface:         "#eeeeee"
+
+    # primary / secondary
+    primary:         "#777777"
+    primary_light:   "#888888"
+    primary_dark:    "#666666"
+    secondary:       "#aaaaaa"
+    secondary_light: "#bbbbbb"
+    secondary_dark:  "#999999"
+
+    # text
+    text:            "#333333"
+    text_light:      "#666666"
+
+    # accents & states
+    accent:          "#dddddd"
+    accent_dark:     "#cccccc"
+    error:           "#ff0000"
 
 # Site data
 hero:
@@ -82,8 +105,3 @@ testimonials:
     author: "— Alice Johnson"
     location: "Sample City"
     rating: 4
-
-# Optional: Google Fonts
-google_fonts:
-  - family: "Montserrat"
-    weights: ["400", "600", "700"]
