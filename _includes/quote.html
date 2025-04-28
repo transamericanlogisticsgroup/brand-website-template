@@ -224,28 +224,21 @@
     background-color: var(--accent-color);
   }
 
-  .field-wrapper select, select {
-    border-radius: var(--border-radius) !important;
-    font-family: 'Montserrat', sans-serif !important;
-    font-size: 1rem !important;
-    font-weight: 400 !important;
-    line-height: 1.5 !important;
-    color: var(--text-color) !important;
-    padding: 0.75rem 2.5rem 0.75rem 0.75rem !important;
-    background: #fff !important;
-    border: 1px solid #ccc !important;
-    appearance: none !important;
+  .field-wrapper {
+    border: 1px solid #ccc;              /* same border you had on the select */
+    border-radius: var(--border-radius);  /* your rounded corners */
+    overflow: hidden;                     /* clip the child to the wrapper’s radius */
   }
   
-  .field-wrapper select::-ms-expand {
-    display: none !important;
+  .field-wrapper select {
+    border: none;       /* let the wrapper draw the border */
+    border-radius: 0;   /* reset its own radius */
   }
   
-  .field-wrapper select option {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    color: var(--text-color);
+  .field-wrapper i.fa-chevron-down {
+    z-index: 1;
   }
+
   
 </style>
 
