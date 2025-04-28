@@ -26,7 +26,7 @@
     cursor: pointer;
   }
 
-  /* Base field styles for inputs and selects */
+  /* Base field styles for both inputs and selects */
   .field-wrapper select,
   .field-wrapper input {
     width: 100%;
@@ -67,7 +67,7 @@
     color: var(--text-color);
   }
 
-  /* Hide native date icon */
+  /* Hide native picker icon */
   input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0; }
   input[type="date"]::-ms-clear,
   input[type="date"]::-ms-expand { display: none; }
@@ -84,10 +84,8 @@
   /* Modal backdrop */
   .modal-backdrop {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     background: rgba(0,0,0,0.5);
     display: none;
     align-items: center;
@@ -102,14 +100,8 @@
     width: 90%;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
-  .modal h3 {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    color: var(--primary-color);
-  }
-  .modal p {
-    margin-bottom: 1.5rem;
-  }
+  .modal h3 { margin: 0 0 1rem; color: var(--primary-color); }
+  .modal p { margin-bottom: 1.5rem; }
   .modal .btn-group {
     display: flex;
     gap: 1rem;
@@ -133,7 +125,7 @@
 <section id="quote">
   <div class="container">
     <div class="card">
-      <h2 style="color:var(--primary-color); text-align:center; margin-bottom:1.5rem;">
+      <h2 style="color: var(--primary-color); text-align: center; margin-bottom: 1.5rem;">
         Get Your Free Quote
       </h2>
       <form id="quote-form" method="POST" action="{{ site.quote.submission_url }}">
@@ -170,9 +162,15 @@
         <!-- Date -->
         <div class="form-group">
           <label for="date">Date*</label>
-          <div class="field-wrapper date-wrapper">
-            <input type="date" id="date-picker" />
-            <input type="text" id="date" name="date" placeholder="Select a date" required readonly />
+          <div class="field-wrapper" id="date-wrapper">
+            <input
+              type="text"
+              id="date"
+              name="date"
+              placeholder="Select a date"
+              readonly
+              required
+            />
             <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
           </div>
         </div>
@@ -260,41 +258,59 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const datePicker = document.getElementById('date-picker');
-  const displayDate = document.getElementById('date');
-  const dateWrapper = document.querySelector('.date-wrapper');
-  const addBtn = document.getElementById('add-address');
-  const container = document.getElementById('addresses-container');
-  const successEl = document.getElementById('quote-success');
+  const dateInput = document.getElementById('date');
+  const dateWrapper = document.getElementById('date-wrapper');
   const submitBtn = document.getElementById('submit-btn');
   const modal = document.getElementById('confirm-modal');
   const cancelBtn = document.getElementById('cancel-btn');
   const confirmBtn = document.getElementById('confirm-btn');
   const confirmPhone = document.getElementById('confirm-phone');
   const confirmEmail = document.getElementById('confirm-email');
+  const addBtn = document.getElementById('add-address');
+  const container = document.getElementById('addresses-container');
+  const successEl = document.getElementById('quote-success');
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-  function openPicker() {
-    if (datePicker.showPicker) datePicker.showPicker();
-    else datePicker.focus();
+  // Single date field behavior
+  function openDatePicker() {
+    dateInput.type = 'date';
+    if (dateInput.showPicker) dateInput.showPicker();
+    else dateInput.focus();
   }
-  dateWrapper.addEventListener('click', openPicker);
 
-  datePicker.addEventListener('change', () => {
-    const d = new Date(datePicker.value);
-    displayDate.value = d.toLocaleDateString('en-US', {
+  dateWrapper.addEventListener('click', openDatePicker);
+
+  dateInput.addEventListener('change', () => {
+    const d = new Date(dateInput.value);
+    dateInput.type = 'text';
+    dateInput.value = d.toLocaleDateString('en-US', {
       weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
     });
   });
 
+  dateInput.addEventListener('blur', () => {
+    if (dateInput.type === 'date') {
+      const d = new Date(dateInput.value);
+      dateInput.type = 'text';
+      if (!isNaN(d)) {
+        dateInput.value = d.toLocaleDateString('en-US', {
+          weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+        });
+      } else {
+        dateInput.value = '';
+      }
+    }
+  });
+
+  // Address fields dynamic handling
   function refresh() {
     const groups = container.querySelectorAll('.address-group');
     groups.forEach((g, i) => {
-      const label = g.querySelector('label');
-      const input = g.querySelector('input');
-      label.textContent = `Address ${letters[i]}${i === 0 ? '*' : ''}`;
-      input.placeholder = `Enter Address ${letters[i]}`;
-      input.required = i === 0;
+      const lbl = g.querySelector('label');
+      const inp = g.querySelector('input');
+      lbl.textContent = `Address ${letters[i]}${i === 0 ? '*' : ''}`;
+      inp.placeholder = `Enter Address ${letters[i]}`;
+      inp.required = i === 0;
       g.classList.toggle('show-delete', groups.length >= 3);
     });
   }
@@ -327,6 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
     refresh();
   });
 
+  // Confirmation modal & submit
   submitBtn.addEventListener('click', () => {
     confirmPhone.textContent = document.getElementById('phone').value;
     confirmEmail.textContent = document.getElementById('email').value;
@@ -349,7 +366,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const addrs = data.getAll('Addresses');
 
     let body = `Quote Request:\nJob Type:     ${job}\nDate:         ${rawDate}\nName:         ${name}\nPhone:        ${phone}\nEmail:        ${email}\n`;
-    addrs.forEach((a, i) => body += `Service Address ${letters[i]}: ${a}\n`);
+    addrs.forEach((a, i) => {
+      body += `Service Address ${letters[i]}: ${a}\n`;
+    });
 
     try {
       await fetch(form.action, {
