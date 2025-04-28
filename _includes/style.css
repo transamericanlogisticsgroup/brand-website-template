@@ -78,51 +78,28 @@ nav {
   box-shadow: 0 2px 5px var(--shadow-md);
   z-index: 100;
 }
-/* 1) Make container relative so children can be absolute */
+/* 1) Make the nav container a flex row */
 nav .container {
-  position: relative;
-  height: 4.5rem; /* or whatever your nav height is */
-}
-
-/* 2) Center the menu UL */
-nav .nav-menu {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   display: flex;
-  gap: 1.5rem;
-}
-nav .nav-menu li a {
-  color: var(--text);
-  font-weight: var(--font-weight-normal);
-}
-
-/* 3) Position logo on left, vertically centered */
-nav .logo {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-/* 4) Position actions on right, vertically centered */
-nav .actions {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  gap: 1rem;
   align-items: center;
 }
 
-/* 5) Ensure the “Get My Quote” button doesn’t auto-margin */
-nav .actions .btn-accent {
-  margin: 0;
-  display: inline-block;
+/* 2) Center the menu by auto-margins and remove bullets */
+nav .nav-menu {
+  display: flex;
+  margin: 0 auto;
+  list-style: none;
 }
 
+/* 3) Gap between links */
+nav .nav-menu li + li {
+  margin-left: 1.5rem;
+}
+
+/* 4) Use your text color only */
+nav .nav-menu li a {
+  color: var(--text);
+}
 /* 6) Phone link uses text color */
 .link-text {
   color: var(--text);
