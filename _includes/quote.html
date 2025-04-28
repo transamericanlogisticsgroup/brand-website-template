@@ -8,7 +8,6 @@
     --secondary-bg:     {{ site.secondary_bg_color }};
     --error-color:      {{ site.error_color }};
     --border-radius:    {{ site.border_radius }};
-    --button-radius:    {{ site.button_radius }};
     --font-family:      '{{ site.google_fonts[0].family }}', sans-serif;
   }
 
@@ -24,13 +23,13 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Add Address button spacing */
+  /* Add Address button */
   #add-address {
     display: block;
     margin: 0 auto 3rem;
     padding: 0.75rem;
     width: auto;
-    border-radius: var(--button-radius);
+    border-radius: var(--border-radius);
     background-color: var(--primary-color);
     color: #fff;
     font-family: var(--font-family);
@@ -141,7 +140,7 @@
     pointer-events: none;
   }
 
-  /* Delete-X button: visible only after 3+ addresses, catches clicks */
+  /* Delete-X button: visible only after 3+ addresses */
   .field-wrapper .delete-icon {
     position: absolute;
     top: 50%; right: 0.5rem;
@@ -192,7 +191,7 @@
   }
   .modal .btn {
     padding: 0.5rem 1rem;
-    border-radius: var(--button-radius);
+    border-radius: var(--border-radius);
     border: 1px solid var(--text-color);
     background: var(--secondary-bg);
     color: var(--text-color);
@@ -206,21 +205,12 @@
     border: none;
   }
 
-  /* Override so delete-icon and its <i> catch clicks */
-  .field-wrapper .delete-icon {
-    z-index: 10;
-    pointer-events: all;
-  }
-  .field-wrapper .delete-icon i {
-    pointer-events: auto;
-  }
-
   /* Full-width quote submit button */
   .btn-submit {
     display: block;
     width: 100%;
     padding: 0.75rem;
-    border-radius: var(--button-radius);
+    border-radius: var(--border-radius);
     background-color: var(--primary-color);
     color: #fff;
     font-family: var(--font-family);
@@ -352,7 +342,7 @@
             </div>
           </div>
         </div>
-        <button type="button" id="add-address" class="btn">
+        <button type="button" id="add-address">
           <i class="fa-solid fa-plus"></i> Add Address
         </button>
 
@@ -401,7 +391,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const confirmEmail = document.getElementById('confirm-email');
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-  // Show modal only if form is valid
   form.addEventListener('submit', (e) => {
     if (!form.checkValidity()) {
       form.reportValidity();
@@ -413,7 +402,6 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.style.display = 'flex';
   });
 
-  // Date picker display
   datePicker.addEventListener('click', () =>
     datePicker.showPicker ? datePicker.showPicker() : datePicker.focus()
   );
@@ -427,7 +415,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Dynamic address fields
   function refresh() {
     const groups = container.querySelectorAll('.address-group');
     groups.forEach((g, i) => {
@@ -475,7 +462,6 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.style.display = 'none';
   });
 
-  // On confirm, send the quote and show success state
   confirmBtn.addEventListener('click', async () => {
     modal.style.display = 'none';
     submitBtn.disabled = true;
