@@ -392,6 +392,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const confirmEmail = document.getElementById('confirm-email');
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
+  submitBtn.addEventListener('click', () => {
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    confirmPhone.textContent = document.getElementById('phone').value;
+    confirmEmail.textContent = document.getElementById('email').value;
+    modal.style.display = 'flex';
+  });
+  
   // Date picker
   datePicker.addEventListener('click', () =>
     datePicker.showPicker ? datePicker.showPicker() : datePicker.focus()
