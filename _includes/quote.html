@@ -192,6 +192,41 @@
     border-color: #ccc !important;
   }
 
+  .field-wrapper select {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    font-family: inherit;
+    font-size: 1rem;
+    color: inherit;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  
+  .field-wrapper select::-ms-expand {
+    display: none;
+  }
+  
+  .field-wrapper select option {
+    padding: 0.75rem;
+    background: #fff;
+    color: inherit;
+  }
+  
+  .field-wrapper i.fa-chevron-down {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 1.25rem;
+    color: var(--text-color);
+  }
+  
 </style>
 
 <section id="quote">
