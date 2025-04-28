@@ -16,16 +16,16 @@
     to { transform: rotate(360deg); }
   }
 
-  /* Add Address button: only bottom margin */
+  /* Add Address button: only bottom margin increased */
   #add-address {
     display: block;
-    margin: 0 auto 2rem;
+    margin: 0 auto 3rem; /* 3rem bottom for more separation */
     background: var(--secondary-bg);
     color: var(--text-color);
     border: 1px solid var(--text-color);
   }
 
-  /* Address group styling */
+  /* Address group styling: match other form-group styles */
   .address-group {
     margin-bottom: 1rem;
   }
@@ -34,20 +34,28 @@
     margin-bottom: 0.5rem;
   }
   .address-input {
-    display: flex;
-    align-items: center;
+    position: relative;
   }
   .address-input input {
-    flex: 1;
+    width: 100%;
+    padding-right: 2em; /* space for delete button */
   }
   .address-input .delete-address {
-    margin-left: 0.5rem;
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
     background: transparent;
     border: none;
     font-size: 1.2rem;
     color: var(--error-color);
     cursor: pointer;
     display: none; /* show only when 3+ addresses */
+  }
+
+  /* Make job-type select background white */
+  #job-type {
+    background: #fff;
   }
 </style>
 
@@ -86,14 +94,14 @@
         </div>
 
         <!-- Date -->
-        <div class="form-group">
+        <div class="form-group" id="date-group">
           <label for="date">Date</label>
           <input type="date" id="date" name="date" required />
         </div>
 
         <!-- Name -->
         <div class="form-group">
-          <label for="name">Name*</nlabel>
+          <label for="name">Name*</label>
           <input type="text" id="name" name="name" placeholder="Full Name" required />
         </div>
 
@@ -130,7 +138,7 @@
 
         <!-- Submit -->
         <button type="submit" class="btn" style="width:100%; background: var(--secondary-bg); color: var(--text-color);">
-          Submit
+          Get My Quote!
         </button>
       </form>
 
@@ -152,7 +160,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const addressesContainer = document.getElementById('addresses-container');
   const submitBtn = form.querySelector('button[type="submit"]');
   const successEl = document.getElementById('quote-success');
+  const dateInput = document.getElementById('date');
+  const dateGroup = document.getElementById('date-group');
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+  // Make clicking anywhere on date group open picker
+  dateGroup.addEventListener('click', () => {
+    if (dateInput.showPicker) dateInput.showPicker(); else dateInput.focus();
+  });
 
   function updateAddressLabels() {
     const groups = addressesContainer.querySelectorAll('.address-group');
@@ -190,10 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const group = document.createElement('div');
     group.className = 'address-group';
     const label = document.createElement('label');
-    const wrapper = document.createElement('div');
-    wrapper.className = 'address-input';
-    const input = document.createElement('input');
-    input.type = 'text'; input.name = 'Addresses'; input.required = true;
+    const wrapper = document.createElement('div'); wrapper.className = 'address-input';
+    const input = document.createElement('input'); input.type = 'text'; input.name = 'Addresses'; input.required = true;
     const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'delete-address'; btn.innerHTML = '&times;';
     wrapper.append(input, btn);
     group.append(label, wrapper);
