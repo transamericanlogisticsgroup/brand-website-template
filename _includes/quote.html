@@ -79,21 +79,6 @@
     appearance: none !important;
   }
 
-  #job-type {
-    border-radius: var(--border-radius) !important;
-    border: 1px solid #ccc !important;
-    background: #fff !important;
-    padding: 0.75rem 2.5rem 0.75rem 0.75rem !important;
-    font-family: 'Montserrat', sans-serif !important;
-    font-size: 1rem !important;
-    font-weight: 400 !important;
-    line-height: 1.5 !important;
-    color: var(--text-color) !important;
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-  }
-
   /* Make the <select> look like the other inputs */
   .field-wrapper select {
     width: 100%;
@@ -256,6 +241,22 @@
   .btn-submit:hover {
     background-color: var(--accent-color);
   }
+  
+  .field-wrapper select,
+  .field-wrapper select option,
+  .field-wrapper optgroup {
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    color: var(--text-color) !important;
+  }
+  
+  .field-wrapper select:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 1px var(--accent-color) !important;
+  }
+
 
 </style>
 
