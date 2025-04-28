@@ -28,6 +28,7 @@
 
   /* Base field styles */
   select,
+  input#date,
   input[type="text"],
   input[type="tel"],
   input[type="email"] {
@@ -72,8 +73,7 @@
   }
 
   /* Color overrides */
-  .field-wrapper i.fa-calendar-plus,
-  .field-wrapper i.fa-map-marker-alt {
+  .field-wrapper i.fa-calendar-plus {
     color: var(--accent-color);
   }
   .field-wrapper i.fa-chevron-down {
@@ -184,7 +184,7 @@
         <div class="form-group">
           <label for="date">Date*</label>
           <div class="field-wrapper">
-            <input type="date" id="date-picker" required />
+            <input type="date" id="date-picker" />
             <input type="text" id="date" name="date" placeholder="Select a date" required readonly />
             <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
           </div>
@@ -217,13 +217,12 @@
           </div>
         </div>
 
-        <!-- Service Addresses -->
+        <!-- Addresses (no icons) -->
         <div id="addresses-container">
           <div class="form-group address-group">
             <label>Address A*</label>
             <div class="field-wrapper">
               <input type="text" name="Addresses" placeholder="Enter Address A" required />
-              <i class="fa-solid fa-map-marker-alt" aria-hidden="true"></i>
               <button type="button" class="delete-icon" aria-label="Delete address">
                 <i class="fa-solid fa-xmark"></i>
               </button>
@@ -233,7 +232,6 @@
             <label>Address B</label>
             <div class="field-wrapper">
               <input type="text" name="Addresses" placeholder="Enter Address B" />
-              <i class="fa-solid fa-map-marker-alt" aria-hidden="true"></i>
               <button type="button" class="delete-icon" aria-label="Delete address">
                 <i class="fa-solid fa-xmark"></i>
               </button>
@@ -275,10 +273,9 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('quote-form');
   const datePicker = document.getElementById('date-picker');
   const displayDate = document.getElementById('date');
-  const dateIcon = form.querySelector('.fa-calendar-plus');
+  const dateIcon = document.querySelector('.fa-calendar-plus');
   const addBtn = document.getElementById('add-address');
   const container = document.getElementById('addresses-container');
   const successEl = document.getElementById('quote-success');
@@ -290,14 +287,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const confirmEmail = document.getElementById('confirm-email');
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-  // Date picker handling
-  dateIcon.addEventListener('click', () => datePicker.showPicker());
-  displayDate.addEventListener('click', () => datePicker.showPicker());
+  // Date picker logic: fallback to focus if showPicker isn't available
+  function openPicker() {
+    if (datePicker.showPicker) datePicker.showPicker();
+    else datePicker.focus();
+  }
+  dateIcon.addEventListener('click', openPicker);
+  displayDate.addEventListener('click', openPicker);
   datePicker.addEventListener('change', () => {
-    const raw = datePicker.value;
-    const d = new Date(raw);
+    const d = new Date(datePicker.value);
     displayDate.value = d.toLocaleDateString('en-US', {
-      weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
     });
   });
 
@@ -307,21 +310,19 @@ document.addEventListener('DOMContentLoaded', () => {
     groups.forEach((g, i) => {
       const label = g.querySelector('label');
       const input = g.querySelector('input');
-      label.textContent = `Address ${letters[i]}${i===0?'*':''}`;
+      label.textContent = `Address ${letters[i]}${i === 0 ? '*' : ''}`;
       input.placeholder = `Enter Address ${letters[i]}`;
-      input.required = i===0;
+      input.required = i === 0;
       g.classList.toggle('show-delete', groups.length >= 3);
     });
   }
-
-  function attach(g) {
-    const btn = g.querySelector('.delete-icon');
-    btn.addEventListener('click', () => {
-      g.remove();
-      refresh();
-    });
+  function attach(groupEl) {
+    groupEl.querySelector('.delete-icon')
+      .addEventListener('click', () => {
+        groupEl.remove();
+        refresh();
+      });
   }
-
   container.querySelectorAll('.address-group').forEach(attach);
   refresh();
 
@@ -329,49 +330,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const g = document.createElement('div');
     g.className = 'form-group address-group';
     const lbl = document.createElement('label');
-    const wrapper = document.createElement('div');
-    wrapper.className = 'field-wrapper';
-
+    const wrap = document.createElement('div');
+    wrap.className = 'field-wrapper';
     const inp = document.createElement('input');
     inp.type = 'text';
     inp.name = 'Addresses';
-
-    const icon = document.createElement('i');
-    icon.className = 'fa-solid fa-map-marker-alt';
-    icon.setAttribute('aria-hidden', 'true');
-
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'delete-icon';
-    btn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-
-    wrapper.append(inp, icon, btn);
-    g.append(lbl, wrapper);
+    const del = document.createElement('button');
+    del.type = 'button';
+    del.className = 'delete-icon';
+    del.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+    wrap.append(inp, del);
+    g.append(lbl, wrap);
     container.appendChild(g);
-
     attach(g);
     refresh();
   });
 
-  // Show confirmation modal
+  // Confirmation modal & submit logic
   submitBtn.addEventListener('click', () => {
     confirmPhone.textContent = document.getElementById('phone').value;
     confirmEmail.textContent = document.getElementById('email').value;
     modal.style.display = 'flex';
   });
-
-  // Cancel submission
   cancelBtn.addEventListener('click', () => modal.style.display = 'none');
 
-  // Confirm and submit
   confirmBtn.addEventListener('click', async () => {
     modal.style.display = 'none';
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span class="spinner"></span>';
 
-    const data = new FormData(form);
+    const data = new FormData(document.getElementById('quote-form'));
     const job = data.get('job_type');
-    const rawDate = data.get('date'); // formatted string
+    const rawDate = data.get('date');
     const name = data.get('name');
     const phone = data.get('From');
     const email = data.get('email');
@@ -381,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addrs.forEach((a, i) => body += `Service Address ${letters[i]}: ${a}\n`);
 
     try {
-      await fetch(form.action, {
+      await fetch(document.getElementById('quote-form').action, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
