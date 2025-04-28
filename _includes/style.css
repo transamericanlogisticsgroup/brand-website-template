@@ -78,28 +78,55 @@ nav {
   box-shadow: 0 2px 5px var(--shadow-md);
   z-index: 100;
 }
-/* 1) Make the nav container a flex row */
-nav .container {
+/* 1) Restore horizontal padding & set nav height */
+.nav-container {
+  position: relative;
+  padding: 0 2rem;   /* adjust left/right gutter */
+  height: 5rem;      /* set your desired nav height */
+}
+
+/* 2) Pin logo & actions to edges, vertically centered */
+.nav-container .logo,
+.nav-container .actions {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.nav-container .logo {
+  left: 2rem;
+}
+.nav-container .actions {
+  right: 2rem;
   display: flex;
   align-items: center;
+  gap: 1rem;
 }
 
-/* 2) Center the menu by auto-margins and remove bullets */
-nav .nav-menu {
+/* 3) Absolutely center the menu in the page */
+.nav-menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
   display: flex;
-  margin: 0 auto;
   list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 2rem;         /* space between menu items */
 }
 
-/* 3) Gap between links */
-nav .nav-menu li + li {
-  margin-left: 1.5rem;
-}
-
-/* 4) Use your text color only */
-nav .nav-menu li a {
+/* 4) Use your theme’s text color and restore padding */
+.nav-menu li a {
   color: var(--text);
+  padding: 0.5rem 1rem;  /* clickable area */
 }
+
+/* 5) Prevent Get-My-Quote button auto-margin */
+.actions .btn-accent {
+  margin: 0;
+}
+
 /* 6) Phone link uses text color */
 .link-text {
   color: var(--text);
