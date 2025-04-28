@@ -114,6 +114,12 @@ nav .actions {
   color: var(--text-dark-bg);
 }
 
+/* utility for accent‐colored text/buttons */
+.link-accent {
+  color: var(--accent);
+  font-weight: var(--font-weight-semibold);
+}
+
 /* Hero */
 .hero {
   background: var(--bg-alt);
