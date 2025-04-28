@@ -217,10 +217,10 @@
     padding: 0.75rem;
     border-radius: var(--border-radius);
     background-color: var(--primary-color);
-    color: #fff;
+    color: #fff;               /* white text */
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 600;          /* thicker text */
     text-align: center;
     border: none;
     cursor: pointer;
@@ -451,7 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = new FormData(form);
     const job = data.get('job_type');
     const rawDate = data.get('date');
-    const name = data.get('name');
+    const name = data.get('name');  
     const phone = data.get('From');
     const email = data.get('email');
     const addrs = data.getAll('Addresses');
