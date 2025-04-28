@@ -23,7 +23,7 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Add Address button */
+  /* Add Address button spacing */
   #add-address {
     display: block;
     margin: 0 auto 3rem;
@@ -52,7 +52,7 @@
     -moz-appearance: none;
   }
 
-  /* Invisible date picker overlay */
+  /* Invisible native date input to trigger picker */
   .field-wrapper input#date-picker {
     position: absolute;
     top: 0; left: 0;
@@ -61,13 +61,13 @@
     cursor: pointer;
   }
 
-  /* Field wrapper */
+  /* Wrapper for fields with icons */
   .field-wrapper {
     position: relative;
     margin-bottom: 1rem;
   }
 
-  /* Icons */
+  /* Decorative icons never block clicks */
   .field-wrapper i {
     position: absolute;
     top: 50%; right: 0.5rem;
@@ -83,7 +83,7 @@
     color: var(--text-color);
   }
 
-  /* Delete-X button */
+  /* Delete-X button: visible only after 3+ addresses, catches clicks */
   .field-wrapper .delete-icon {
     position: absolute;
     top: 50%; right: 0.5rem;
@@ -106,7 +106,7 @@
   input[type="date"]::-ms-clear,
   input[type="date"]::-ms-expand { display: none; }
 
-  /* Modal */
+  /* Modal backdrop */
   .modal-backdrop {
     position: fixed;
     top: 0; left: 0;
@@ -125,14 +125,12 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
   .modal h3 {
-    margin: 0 0 1rem;
+    margin-top: 0; margin-bottom: 1rem;
     color: var(--primary-color);
   }
   .modal p { margin-bottom: 1.5rem; }
   .modal .btn-group {
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
+    display: flex; gap: 1rem; justify-content: flex-end;
   }
   .modal .btn {
     padding: 0.5rem 1rem;
@@ -148,17 +146,26 @@
     border: none;
   }
 
-  /* Full-width submit button */
+  /* Override so delete-icon and its <i> catch clicks */
+  .field-wrapper .delete-icon {
+    z-index: 10;
+    pointer-events: all;
+  }
+  .field-wrapper .delete-icon i {
+    pointer-events: auto;
+  }
+
+  /* Full-width quote submit button */
   .btn-submit {
     display: block;
     width: 100%;
     padding: 0.75rem;
     border-radius: var(--border-radius);
     background-color: var(--primary-color);
-    color: #fff;
+    color: #fff;               /* white text */
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 600;          /* thicker text */
     text-align: center;
     border: none;
     cursor: pointer;
@@ -166,6 +173,7 @@
   .btn-submit:hover {
     background-color: var(--accent-color);
   }
+
 </style>
 
 <section id="quote">
@@ -248,7 +256,6 @@
             <label>Address A*</label>
             <div class="field-wrapper">
               <input type="text" name="Addresses" placeholder="Enter Address A" required />
-              <i class="fa-solid fa-map-marker-alt" aria-hidden="true"></i>
               <button type="button" class="delete-icon" aria-label="Delete address">
                 <i class="fa-solid fa-xmark"></i>
               </button>
@@ -258,7 +265,6 @@
             <label>Address B</label>
             <div class="field-wrapper">
               <input type="text" name="Addresses" placeholder="Enter Address B" />
-              <i class="fa-solid fa-map-marker-alt" aria-hidden="true"></i>
               <button type="button" class="delete-icon" aria-label="Delete address">
                 <i class="fa-solid fa-xmark"></i>
               </button>
@@ -300,21 +306,21 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const form         = document.getElementById('quote-form');
-  const datePicker   = document.getElementById('date-picker');
-  const displayDate  = document.getElementById('date');
-  const addBtn       = document.getElementById('add-address');
-  const container    = document.getElementById('addresses-container');
-  const successEl    = document.getElementById('quote-success');
-  const submitBtn    = document.getElementById('submit-btn');
-  const modal        = document.getElementById('confirm-modal');
-  const cancelBtn    = document.getElementById('cancel-btn');
-  const confirmBtn   = document.getElementById('confirm-btn');
+  const form = document.getElementById('quote-form');
+  const datePicker = document.getElementById('date-picker');
+  const displayDate = document.getElementById('date');
+  const addBtn = document.getElementById('add-address');
+  const container = document.getElementById('addresses-container');
+  const successEl = document.getElementById('quote-success');
+  const submitBtn = document.getElementById('submit-btn');
+  const modal = document.getElementById('confirm-modal');
+  const cancelBtn = document.getElementById('cancel-btn');
+  const confirmBtn = document.getElementById('confirm-btn');
   const confirmPhone = document.getElementById('confirm-phone');
   const confirmEmail = document.getElementById('confirm-email');
-  const letters      = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-  // Date picker: anywhere in wrapper
+  // Date picker
   datePicker.addEventListener('click', () =>
     datePicker.showPicker ? datePicker.showPicker() : datePicker.focus()
   );
@@ -328,37 +334,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Refresh labels & delete-icon visibility
+  // Address fields dynamic handling
   function refresh() {
     const groups = container.querySelectorAll('.address-group');
-    groups.forEach((g,i) => {
+    groups.forEach((g, i) => {
       const label = g.querySelector('label');
       const input = g.querySelector('input');
       label.textContent = `Address ${letters[i]}${i===0?'*':''}`;
-      input.placeholder   = `Enter Address ${letters[i]}`;
-      input.required      = i===0;
+      input.placeholder = `Enter Address ${letters[i]}`;
+      input.required = i===0;
       g.classList.toggle('show-delete', groups.length >= 3);
     });
   }
-
-  // Attach delete handler
-  function attachDelete(g) {
+  function attach(g) {
     const btn = g.querySelector('.delete-icon');
     btn.addEventListener('click', () => {
       g.remove();
       refresh();
     });
   }
-
-  // Initialize existing
-  container.querySelectorAll('.address-group').forEach(attachDelete);
+  container.querySelectorAll('.address-group').forEach(attach);
   refresh();
-
-  // Add Address
   addBtn.addEventListener('click', () => {
     const g = document.createElement('div');
     g.className = 'form-group address-group';
-
     const lbl = document.createElement('label');
     const wrapper = document.createElement('div');
     wrapper.className = 'field-wrapper';
@@ -369,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const icon = document.createElement('i');
     icon.className = 'fa-solid fa-map-marker-alt';
-    icon.setAttribute('aria-hidden','true');
+    icon.setAttribute('aria-hidden', 'true');
 
     const btn = document.createElement('button');
     btn.type = 'button';
@@ -380,7 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
     g.append(lbl, wrapper);
     container.appendChild(g);
 
-    attachDelete(g);
+    attach(g);
     refresh();
   });
 
@@ -392,37 +391,39 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   cancelBtn.addEventListener('click', () => modal.style.display = 'none');
 
-  // Confirm & submit
+  // Confirm and submit
   confirmBtn.addEventListener('click', async () => {
     modal.style.display = 'none';
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span class="spinner"></span>';
 
-    const data  = new FormData(form);
-    const job   = data.get('job_type');
+    const data = new FormData(form);
+    const job = data.get('job_type');
     const rawDate = data.get('date');
-    const name  = data.get('name');
+    const name = data.get('name');
     const phone = data.get('From');
     const email = data.get('email');
     const addrs = data.getAll('Addresses');
 
-    let body = `Quote Request:\nJob Type: ${job}\nDate: ${rawDate}\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\n`;
-    addrs.forEach((a,i) => body += `Service Address ${letters[i]}: ${a}\n`);
+    let body = `Quote Request:\nJob Type:     ${job}\nDate:         ${rawDate}\nName:         ${name}\nPhone:        ${phone}\nEmail:        ${email}\n`;
+    addrs.forEach((a, i) =>
+      body += `Service Address ${letters[i]}: ${a}\n`
+    );
 
     try {
       await fetch(form.action, {
         method: 'POST',
-        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
           AccountSid: '{{ site.phone.twilio_account_sid }}',
           From: phone,
-          To:   '{{ site.phone.ie64 }}',
+          To: '{{ site.phone.ie64 }}',
           Body: body
         })
       });
       submitBtn.style.display = 'none';
       successEl.style.display = 'block';
-    } catch(err) {
+    } catch (err) {
       console.error(err);
       submitBtn.disabled = false;
       submitBtn.textContent = 'Get My Quote!';
