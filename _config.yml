@@ -1,431 +1,89 @@
-<!-- _includes/quote.html -->
+# _config.yml
 
-<style>
-  :root {
-    --primary-color:    {{ site.primary_color }};
-    --accent-color:     {{ site.aacccent_color }};
-    --text-color:       {{ site.text_color }};
-    --secondary-bg:     {{ site.secondary_bg_color }};
-    --error-color:      {{ site.error_color }};
-    --border-radius:    {{ site.border_radius }};
-    --button-radius:    {{ site.button_radius }};
-  }
+# Site settings
+title: "Insert Title Here"  # Replace with your site title
+description: "Replace with your site description or tagline."
+url: "https://example.com"        # Your production URL
+baseurl: ""                    # e.g. "/blog" if served from a subpath
 
-  /* Spinner for submit button */
-  .spinner {
-    display: inline-block;
-    width: 1em; height: 1em;
-    border: 2px solid var(--accent-color);
-    border-top-color: transparent;
-    border-radius: 50%;
-    animation: spin 0.6s linear infinite;
-    vertical-align: middle;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+# Color variables for CSS (as hex or CSS values)
+primary_color: "#777777"        # Replace with your primary brand color
+aacccent_color: "#aaaaaa"      # Replace with your accent color
+error_color: "#ff0000"          # Replace with error/alert color
+secondary_bg_color: "#eeeeee"   # Replace with section background color
+text_color: "#333333"           # Replace with default text color
+border_radius: "0.5rem"         # Roundness for cards/buttons/button_radius: "0.25rem"        # Border radius for buttons
 
-  /* Add Address button spacing */
-  #add-address {
-    display: block;
-    margin: 0 auto 3rem;
-    padding: 0.75rem;
-    background: var(--secondary-bg);
-    color: var(--text-color);
-    border: 1px solid var(--text-color);
-    border-radius: var(--border-radius);
-    cursor: pointer;
-  }
+# Site data
+hero:
+  description: "Replace me with your hero section headline or tagline."
+  image: "/assets/hero.webp"
 
-  /* Base field styles */
-  select,
-  input[type="text"],
-  input[type="tel"],
-  input[type="email"] {
-    width: 100%;
-    padding: 0.75rem;
-    padding-right: 2.5rem;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: var(--border-radius);
-    box-sizing: border-box;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-  }
+cta:
+  title: "Call To Action Title Here"
+  text: "Replace me with a short call-to-action message."
+  button: "Button Text Here"
 
-  /* Invisible native date input to trigger picker */
-  .field-wrapper input#date-picker {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    opacity: 0;
-    cursor: pointer;
-  }
+quote:
+  submission_url: "https://shadow-seagull-4892.twil.io/submit_quote_request"
 
-  /* Wrapper for fields with icons */
-  .field-wrapper {
-    position: relative;
-    margin-bottom: 1rem;
-  }
+# Contact info
+phone:
+  ie64: "+16473636683"          # International dialing number, no spaces
+  display: "(123) 456-7890"   # Formatted display phone number
+  twilio_account_sid: "AC2d402e54f448be3bafcc2cc1df1ddf4f"
+email: "contact@example.com"
+contact:
+  title: "Contact Our Branch"
+address:
+  - "123 Example Street"
+  - "Suite 100"
+  - "City, State ZIP"
+hours:
+  - "Mon–Fri: 9 AM – 6 PM"
+  - "Sat: 10 AM – 4 PM"
+  - "Sun: Closed"
 
-  /* Decorative icons never block clicks */
-  .field-wrapper i {
-    position: absolute;
-    top: 50%; right: 0.5rem;
-    transform: translateY(-50%);
-    font-size: 1.25rem;
-    pointer-events: none;
-  }
-  .field-wrapper i.fa-calendar-plus,
-  .field-wrapper i.fa-map-marker-alt {
-    color: var(--accent-color);
-  }
-  .field-wrapper i.fa-chevron-down {
-    color: var(--text-color);
-  }
+# Navigation links
+nav_links:
+  - title: "Services"
+    url: "#services"
+  - title: "Locations"
+    url: "#locations"
+  - title: "Moving Tips"
+    url: "#moving-tips"
+  - title: "About Us"
+    url: "#about"
 
-  /* Delete-X button: visible only after 3+ addresses, catches clicks */
-  .field-wrapper .delete-icon {
-    position: absolute;
-    top: 50%; right: 0.5rem;
-    transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.25rem;
-    color: var(--error-color);
-    display: none;
-    z-index: 2;
-    pointer-events: all;
-  }
-  .address-group.show-delete .delete-icon {
-    display: block;
-  }
+# Footer lists
+services:
+  - name: "Residential Moves"
+  - name: "Commercial Moves"
+  - name: "Packing Services"
+  - name: "Storage Solutions"
 
-  /* Hide native date picker icon */
-  input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0; }
-  input[type="date"]::-ms-clear,
-  input[type="date"]::-ms-expand { display: none; }
+locations:
+  - name: "Location A"
+  - name: "Location B"
+  - name: "Location C"
+  - name: "Location D"
 
-  /* Modal backdrop */
-  .modal-backdrop {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  .modal {
-    background: #fff;
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    max-width: 400px; width: 90%;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
-  .modal h3 {
-    margin-top: 0; margin-bottom: 1rem;
-    color: var(--primary-color);
-  }
-  .modal p { margin-bottom: 1.5rem; }
-  .modal .btn-group {
-    display: flex; gap: 1rem; justify-content: flex-end;
-  }
-  .modal .btn {
-    padding: 0.5rem 1rem;
-    border-radius: var(--button-radius);
-    border: 1px solid var(--text-color);
-    background: var(--secondary-bg);
-    color: var(--text-color);
-    cursor: pointer;
-  }
-  .modal .btn-confirm {
-    background: var(--accent-color);
-    color: #fff;
-    border: none;
-  }
+# Testimonials for carousel
+testimonials:
+  - text: "Replace with your first testimonial text."
+    author: "— Jane Doe"
+    location: "City Name"
+    rating: 5
+  - text: "Replace with your second testimonial."
+    author: "— John Smith"
+    location: "Another City"
+    rating: 4.5
+  - text: "Replace with your third testimonial."
+    author: "— Alice Johnson"
+    location: "Sample City"
+    rating: 4
 
-  /* Override so delete-icon and its <i> catch clicks */
-  .field-wrapper .delete-icon {
-    z-index: 10;
-    pointer-events: all;
-  }
-  .field-wrapper .delete-icon i {
-    pointer-events: auto;
-  }
-
-  /* Full-width quote submit button */
-  .btn-submit {
-    display: block;
-    width: 100%;
-    padding: 0.75rem;
-    border-radius: var(--border-radius);
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    text-align: center;
-    border: none;
-    cursor: pointer;
-  }
-  .btn-submit:hover {
-    background-color: var(--accent-color);
-  }
-</style>
-
-<section id="quote">
-  <div class="container">
-    <div class="card">
-      <h2 style="color:var(--primary-color); text-align:center; margin-bottom:1.5rem;">
-        Get Your Free Quote
-      </h2>
-      <form id="quote-form" method="POST" action="{{ site.quote.submission_url }}">
-        <input type="hidden" name="To" value="{{ site.phone.ie64 }}" />
-
-        <!-- Job Type -->
-        <div class="form-group">
-          <label for="job-type">Job Type*</label>
-          <div class="field-wrapper">
-            <select id="job-type" name="job_type" required>
-              <option value="">– Please Select –</option>
-              <optgroup label="Home">
-                <option>Studio Home</option>
-                <option>1 Bedroom Home</option>
-                <option>2 Bedroom Home</option>
-                <option>3+ Bedroom Home</option>
-              </optgroup>
-              <optgroup label="Specialty Services">
-                <option>Piano Moving</option>
-                <option>Junk Removal</option>
-                <option>Furniture Packing/Unpacking</option>
-                <option>Full-Service Packing</option>
-                <option>Partial Packing</option>
-              </optgroup>
-              <optgroup label="Commercial/Other">
-                <option>Commercial Move</option>
-                <option>Office Relocation</option>
-              </optgroup>
-            </select>
-            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
-          </div>
-        </div>
-
-        <!-- Date -->
-        <div class="form-group">
-          <label for="date">Date*</label>
-          <div class="field-wrapper">
-            <input type="date" id="date-picker" required />
-            <input type="text" id="date" name="date" placeholder="Select a date" required readonly />
-            <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
-          </div>
-        </div>
-
-        <!-- Name -->
-        <div class="form-group">
-          <label for="name">Name*</label>
-          <div class="field-wrapper">
-            <input type="text" id="name" name="name" placeholder="Full Name" required />
-            <i class="fa-solid fa-user" aria-hidden="true"></i>
-          </div>
-        </div>
-
-        <!-- Phone -->
-        <div class="form-group">
-          <label for="phone">Phone Number*</label>
-          <div class="field-wrapper">
-            <input type="tel" id="phone" name="From" placeholder="+1XXXXXXXXXX" required />
-            <i class="fa-solid fa-phone" aria-hidden="true"></i>
-          </div>
-        </div>
-
-        <!-- Email -->
-        <div class="form-group">
-          <label for="email">Email*</label>
-          <div class="field-wrapper">
-            <input type="email" id="email" name="email" placeholder="you@example.com" required />
-            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-          </div>
-        </div>
-
-        <!-- Service Addresses -->
-        <div id="addresses-container">
-          <div class="form-group address-group">
-            <label>Address A*</label>
-            <div class="field-wrapper">
-              <input type="text" name="Addresses" placeholder="Enter Address A" required />
-              <button type="button" class="delete-icon" aria-label="Delete address">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </div>
-          </div>
-          <div class="form-group address-group">
-            <label>Address B</label>
-            <div class="field-wrapper">
-              <input type="text" name="Addresses" placeholder="Enter Address B" />
-              <button type="button" class="delete-icon" aria-label="Delete address">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-        <button type="button" id="add-address" class="btn">
-          <i class="fa-solid fa-plus"></i> Add Address
-        </button>
-
-        <!-- Submit -->
-        <div class="form-group">
-          <button type="button" id="submit-btn" class="btn-submit">Get My Quote!</button>
-        </div>
-      </form>
-
-      <!-- Confirmation Modal -->
-      <div class="modal-backdrop" id="confirm-modal">
-        <div class="modal">
-          <h3>Please Confirm</h3>
-          <p>Please confirm your contact details before submitting:</p>
-          <p><strong>Phone:</strong> <span id="confirm-phone"></span></p>
-          <p><strong>Email:</strong> <span id="confirm-email"></span></p>
-          <div class="btn-group">
-            <button type="button" class="btn" id="cancel-btn">Cancel</button>
-            <button type="button" class="btn btn-confirm" id="confirm-btn">Confirm</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Success Message -->
-      <div id="quote-success" style="display:none; text-align:center; margin-top:1rem; color:var(--primary-color);">
-        <strong>Sent!</strong><br>
-        Thank you! You will receive an emailed quote and an SMS or call follow-up shortly.
-      </div>
-    </div>
-  </div>
-</section>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('quote-form');
-  const datePicker = document.getElementById('date-picker');
-  const displayDate = document.getElementById('date');
-  const addBtn = document.getElementById('add-address');
-  const container = document.getElementById('addresses-container');
-  const successEl = document.getElementById('quote-success');
-  const submitBtn = document.getElementById('submit-btn');
-  const modal = document.getElementById('confirm-modal');
-  const cancelBtn = document.getElementById('cancel-btn');
-  const confirmBtn = document.getElementById('confirm-btn');
-  const confirmPhone = document.getElementById('confirm-phone');
-  const confirmEmail = document.getElementById('confirm-email');
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-
-  // Date picker
-  datePicker.addEventListener('click', () =>
-    datePicker.showPicker ? datePicker.showPicker() : datePicker.focus()
-  );
-  displayDate.addEventListener('click', () =>
-    datePicker.showPicker ? datePicker.showPicker() : datePicker.focus()
-  );
-  datePicker.addEventListener('change', () => {
-    const d = new Date(datePicker.value);
-    displayDate.value = d.toLocaleDateString('en-US', {
-      weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
-    });
-  });
-
-  // Address fields dynamic handling
-  function refresh() {
-    const groups = container.querySelectorAll('.address-group');
-    groups.forEach((g, i) => {
-      const label = g.querySelector('label');
-      const input = g.querySelector('input');
-      label.textContent = `Address ${letters[i]}${i===0?'*':''}`;
-      input.placeholder = `Enter Address ${letters[i]}`;
-      input.required = i===0;
-      g.classList.toggle('show-delete', groups.length >= 3);
-    });
-  }
-  function attach(g) {
-    const btn = g.querySelector('.delete-icon');
-    btn.addEventListener('click', () => {
-      g.remove();
-      refresh();
-    });
-  }
-  container.querySelectorAll('.address-group').forEach(attach);
-  refresh();
-  addBtn.addEventListener('click', () => {
-    const g = document.createElement('div');
-    g.className = 'form-group address-group';
-    const lbl = document.createElement('label');
-    const wrapper = document.createElement('div');
-    wrapper.className = 'field-wrapper';
-
-    const inp = document.createElement('input');
-    inp.type = 'text';
-    inp.name = 'Addresses';
-
-    const icon = document.createElement('i');
-    icon.className = 'fa-solid fa-map-marker-alt';
-    icon.setAttribute('aria-hidden', 'true');
-
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'delete-icon';
-    btn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-
-    wrapper.append(inp, icon, btn);
-    g.append(lbl, wrapper);
-    container.appendChild(g);
-
-    attach(g);
-    refresh();
-  });
-
-  // Show confirmation modal
-  submitBtn.addEventListener('click', () => {
-    confirmPhone.textContent = document.getElementById('phone').value;
-    confirmEmail.textContent = document.getElementById('email').value;
-    modal.style.display = 'flex';
-  });
-  cancelBtn.addEventListener('click', () => modal.style.display = 'none');
-
-  // Confirm and submit
-  confirmBtn.addEventListener('click', async () => {
-    modal.style.display = 'none';
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="spinner"></span>';
-
-    const data = new FormData(form);
-    const job = data.get('job_type');
-    const rawDate = data.get('date');
-    const name = data.get('name');
-    const phone = data.get('From');
-    const email = data.get('email');
-    const addrs = data.getAll('Addresses');
-
-    let body = `Quote Request:\nJob Type:     ${job}\nDate:         ${rawDate}\nName:         ${name}\nPhone:        ${phone}\nEmail:        ${email}\n`;
-    addrs.forEach((a, i) =>
-      body += `Service Address ${letters[i]}: ${a}\n`
-    );
-
-    try {
-      await fetch(form.action, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          AccountSid: '{{ site.phone.twilio_account_sid }}',
-          From: phone,
-          To: '{{ site.phone.ie64 }}',
-          Body: body
-        })
-      });
-      submitBtn.style.display = 'none';
-      successEl.style.display = 'block';
-    } catch (err) {
-      console.error(err);
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Get My Quote!';
-    }
-  });
-});
-</script>
+# Optional: Google Fonts
+google_fonts:
+  - family: "Montserrat"
+    weights: ["400", "600", "700"]
