@@ -3,7 +3,7 @@
 <style>
   :root {
     --primary-color:    {{ site.primary_color }};
-    --accent-color:     {{ site.accent_color }};
+    --accent-color:     {{ site.aacccent_color }};
     --text-color:       {{ site.text_color }};
     --secondary-bg:     {{ site.secondary_bg_color }};
     --error-color:      {{ site.error_color }};
@@ -57,7 +57,7 @@
     color: var(--text-color);
   }
 
-  /* Ensure readonly date display matches */
+  /* Also ensure the readonly display-date input matches */
   .field-wrapper input#date {
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
@@ -66,21 +66,9 @@
     color: var(--text-color);
   }
 
-  /* Override dropdown to exactly match other fields */
+  /* Ensure job-type select matches the other fields */
+  .field-wrapper select,
   #job-type {
-    font-family: 'Montserrat', sans-serif !important;
-    font-size: 1rem !important;
-    font-weight: 400 !important;
-    line-height: 1.5 !important;
-    padding: 0.75rem 2.5rem 0.75rem 0.75rem !important;
-    background: #fff !important;
-    border: 1px solid #ccc !important;
-    border-radius: var(--border-radius) !important;
-    appearance: none !important;
-  }
-
-  /* Make the <select> look like the other inputs */
-  .field-wrapper select {
     width: 100%;
     padding: 0.75rem 2.5rem 0.75rem 0.75rem;
     background: #fff;
@@ -107,10 +95,6 @@
     padding: 0.75rem;
     background: #fff;
     color: var(--text-color);
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
   }
 
   /* Keep your Font-Awesome chevron perfectly positioned */
@@ -124,7 +108,7 @@
     color: var(--text-color);
   }
 
-  /* Invisible native date input to trigger picker */
+  /* Invisible native date picker icon */
   .field-wrapper input#date-picker {
     position: absolute;
     top: 0; left: 0;
@@ -147,8 +131,11 @@
     font-size: 1.25rem;
     pointer-events: none;
   }
-  .field-wrapper {
+  .field-wrapper{
     color: var(--accent-color);
+  }
+  .field-wrapper i.fa-chevron-down {
+    color: var(--text-color);
   }
 
   /* Delete-X button: visible only after 3+ addresses, catches clicks */
@@ -230,10 +217,10 @@
     padding: 0.75rem;
     border-radius: var(--border-radius);
     background-color: var(--primary-color);
-    color: #fff;
+    color: #fff;               /* white text */
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 600;          /* thicker text */
     text-align: center;
     border: none;
     cursor: pointer;
@@ -241,22 +228,6 @@
   .btn-submit:hover {
     background-color: var(--accent-color);
   }
-  
-  .field-wrapper select,
-  .field-wrapper select option,
-  .field-wrapper optgroup {
-    font-family: 'Montserrat', sans-serif !important;
-    font-size: 1rem !important;
-    font-weight: 400 !important;
-    line-height: 1.5 !important;
-    color: var(--text-color) !important;
-  }
-  
-  .field-wrapper select:focus {
-    outline: none !important;
-    box-shadow: 0 0 0 1px var(--accent-color) !important;
-  }
-
 
 </style>
 
