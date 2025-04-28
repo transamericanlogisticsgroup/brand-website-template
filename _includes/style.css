@@ -1,0 +1,245 @@
+  :root {
+    /* Typography */
+    --font-family:       '{{ site.theme.font.family }}', sans-serif;
+    --font-weight-normal:   {{ site.theme.font.weights[0] }};
+    --font-weight-semibold: {{ site.theme.font.weights[1] }};
+    --font-weight-bold:     {{ site.theme.font.weights[2] }};
+
+    /* Shapes */
+    --border-radius:     {{ site.theme.border_radius }};
+
+    /* Backgrounds */
+    --bg:                {{ site.theme.colors.background }};
+    --bg-alt:            {{ site.theme.colors.background_alt }};
+    --surface:           {{ site.theme.colors.surface }};
+
+    /* Primary palette */
+    --primary:           {{ site.theme.colors.primary }};
+    --primary-light:     {{ site.theme.colors.primary_light }};
+    --primary-dark:      {{ site.theme.colors.primary_dark }};
+
+    /* Secondary palette */
+    --secondary:         {{ site.theme.colors.secondary }};
+    --secondary-light:   {{ site.theme.colors.secondary_light }};
+    --secondary-dark:    {{ site.theme.colors.secondary_dark }};
+
+    /* Text */
+    --text:              {{ site.theme.colors.text }};
+    --text-light:        {{ site.theme.colors.text_light }};
+
+    /* Accent & states */
+    --accent:            {{ site.theme.colors.accent }};
+    --accent-dark:       {{ site.theme.colors.accent_dark }};
+    --error:             {{ site.theme.colors.error }};
+    --delete:             {{ site.theme.colors.delete }};
+  }
+
+  /* Hide the native date‐picker input */
+  input[type="date"]#date-picker {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    opacity: 0;
+    z-index: 2;
+    cursor: pointer;
+  }
+
+  /* Base fields (excluding the hidden date‐picker) */
+  input:not(#date-picker), select, textarea {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--bg);
+    border: 1px solid var(--primary-light);
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+    font-family: var(--font-family);
+    font-size: 1rem;
+    color: var(--text);
+    appearance: none;
+  }
+
+  /* Wrapper for inputs with icons */
+  .field-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .field-wrapper i {
+    position: absolute;
+    top: 50%; right: 0.75rem;
+    transform: translateY(-50%);
+    font-size: 1.25rem;
+    color: var(--text-light);
+    pointer-events: none;
+  }
+  .field-wrapper .delete-icon {
+    position: absolute;
+    top: 50%; right: 0.5rem;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: var(--error);
+    display: none;
+  }
+  .address-group.show-delete .delete-icon {
+    display: block;
+  }
+
+  .field-wrapper select {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--bg);
+    border: 1px solid var(--primary-light);
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+    font-family: var(--font-family);
+    font-size: 1rem;
+    color: var(--text);
+    appearance: none;
+  }
+  
+  /* Spinner */
+  .spinner {
+    display: inline-block;
+    width: 1em; height: 1em;
+    border: 2px solid var(--accent);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Buttons */
+  .btn-primary {
+    display: block;
+    margin: 1rem auto;
+    background-color: var(--primary);
+    color: var(--bg);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-semibold);
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s ease;
+  }
+  .btn-primary:hover {
+    background-color: var(--primary-dark);
+  }
+
+  .btn-secondary {
+    display: inline-block;
+    background-color: var(--secondary);
+    color: var(--bg);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-normal);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .btn-secondary:hover {
+    background-color: var(--secondary-dark);
+  }
+
+  .btn-accent {
+    display: block;
+    margin: 0 auto 1.5rem;
+    background-color: var(--accent);
+    color: var(--text);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-semibold);
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s ease;
+  }
+  .btn-accent:hover {
+    background-color: var(--accent-dark);
+  }
+
+  .modal .btn-group .btn-secondary,
+  .modal .btn-group .btn-primary {
+    /* remove any auto-margins and equalize padding */
+    margin: 0;
+    padding: 0.75rem 1.5rem;
+    display: inline-block;    /* let them sit side-by-side */
+    vertical-align: middle;
+  }
+  
+  /* specifically nuke the 1rem auto from .btn-primary */
+  .modal .btn-group .btn-primary {
+    /* override the global margin:1rem auto; */
+    margin: 0;
+  }
+    
+  /* Modal */
+  .modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 1000;
+  }
+  .modal {
+    background: var(--bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    max-width: 400px; width: 90%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .modal h3 {
+    margin: 0 0 1rem;
+    font-family: var(--font-family);
+    color: var(--primary);
+  }
+  .modal p { margin-bottom: 1rem; }
+  .btn-group {
+    display: flex; gap: 0.5rem; justify-content: flex-end;
+  }
+
+  /* Scrollbars */
+  #job-type::-webkit-scrollbar {
+    width: 0.75rem; border-radius: var(--border-radius);
+  }
+  #job-type::-webkit-scrollbar-track {
+    background: var(--bg-alt); border-radius: var(--border-radius);
+  }
+  #job-type::-webkit-scrollbar-thumb {
+    background: var(--primary-light); border-radius: var(--border-radius);
+  }
+
+  #submit-btn {
+    min-width: 220px;          /* adjust to taste */
+    padding: 0.75rem 1.5rem;   /* match btn-primary padding */
+  }
+
+  .field-wrapper > i {
+    position: absolute;
+    top: 50%; right: 0.75rem;
+    transform: translateY(-50%);
+    font-size: 1.25rem;
+    color: var(--text-light);
+    pointer-events: none;
+  }
+  
+  .field-wrapper .delete-icon i {
+    pointer-events: auto;
+  }
+  
+  .field-wrapper .delete-icon {
+    z-index: 1;
+  }
+
+  .field-wrapper .delete-icon i {
+    color: var(--delete);
+  }
