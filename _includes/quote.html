@@ -23,16 +23,24 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Add Address button spacing */
   #add-address {
     display: block;
     margin: 0 auto 3rem;
     padding: 0.75rem;
-    background: var(--secondary-bg);
-    color: var(--text-color);
-    border: 1px solid var(--text-color);
+    width: auto;
     border-radius: var(--border-radius);
+    background-color: var(--primary-color);
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    border: none;
     cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  #add-address:hover {
+    background-color: var(--accent-color);
   }
 
   /* Base field styles */
