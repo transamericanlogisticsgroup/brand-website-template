@@ -9,6 +9,7 @@
     --error-color:      {{ site.error_color }};
     --border-radius:    {{ site.border_radius }};
     --button-radius:    {{ site.button_radius }};
+    --font-family:      '{{ site.google_fonts[0].family }}', sans-serif;
   }
 
   /* Spinner for submit button */
@@ -23,15 +24,16 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
+  /* Add Address button spacing */
   #add-address {
     display: block;
     margin: 0 auto 3rem;
     padding: 0.75rem;
     width: auto;
-    border-radius: var(--border-radius);
+    border-radius: var(--button-radius);
     background-color: var(--primary-color);
     color: #fff;
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-family);
     font-size: 1rem;
     font-weight: 600;
     text-align: center;
@@ -58,7 +60,7 @@
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-family);
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -67,7 +69,7 @@
 
   /* Ensure readonly date display matches */
   .field-wrapper input#date {
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-family);
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -81,7 +83,7 @@
     background: #fff;
     border: 1px solid #ccc;
     border-radius: var(--border-radius);
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-family);
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -127,6 +129,7 @@
   .field-wrapper {
     position: relative;
     margin-bottom: 1rem;
+    color: var(--accent-color);
   }
 
   /* Decorative icons never block clicks */
@@ -136,9 +139,6 @@
     transform: translateY(-50%);
     font-size: 1.25rem;
     pointer-events: none;
-  }
-  .field-wrapper {
-    color: var(--accent-color);
   }
 
   /* Delete-X button: visible only after 3+ addresses, catches clicks */
@@ -197,6 +197,8 @@
     background: var(--secondary-bg);
     color: var(--text-color);
     cursor: pointer;
+    font-family: var(--font-family);
+    font-size: 1rem;
   }
   .modal .btn-confirm {
     background: var(--accent-color);
@@ -218,12 +220,12 @@
     display: block;
     width: 100%;
     padding: 0.75rem;
-    border-radius: var(--border-radius);
+    border-radius: var(--button-radius);
     background-color: var(--primary-color);
-    color: #fff;               /* white text */
-    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+    font-family: var(--font-family);
     font-size: 1rem;
-    font-weight: 600;          /* thicker text */
+    font-weight: 600;
     text-align: center;
     border: none;
     cursor: pointer;
@@ -233,14 +235,14 @@
   }
 
   #job-type option {
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-family);
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
     color: var(--text-color);
     background: #fff;
   }
-  
+
   #job-type::-webkit-scrollbar {
     width: 0.75rem;
     border-radius: var(--border-radius);
@@ -253,7 +255,6 @@
     background: #ccc;
     border-radius: var(--border-radius);
   }
-  
 </style>
 
 <section id="quote">
