@@ -395,7 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
   submitBtn.addEventListener('click', () => {
     if (!form.checkValidity()) {
       form.reportValidity();
-      return;
+      return;       // stop here if invalid
     }
     confirmPhone.textContent = document.getElementById('phone').value;
     confirmEmail.textContent = document.getElementById('email').value;
