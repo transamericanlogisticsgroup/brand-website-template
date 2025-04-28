@@ -8,7 +8,7 @@ baseurl: ""                    # e.g. "/blog" if served from a subpath
 
 # Color variables for CSS (as hex or CSS values)
 primary_color: "#777777"        # Replace with your primary brand color
-aacccent_color: "#aaaaaa"      # Replace with your accent color
+accent_color: "#aaaaaa"      # Replace with your accent color
 error_color: "#ff0000"          # Replace with error/alert color
 secondary_bg_color: "#eeeeee"   # Replace with section background color
 text_color: "#333333"           # Replace with default text color
