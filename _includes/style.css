@@ -133,6 +133,25 @@ nav {
   font-weight: var(--font-weight-semibold);
 }
 
+/* Nav menu links: always text color, semibold, never purple when visited */
+.nav-menu li a,
+.nav-menu li a:visited {
+  color: var(--text);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+}
+
+/* Optional: keep same color on focus/active */
+.nav-menu li a:focus,
+.nav-menu li a:active {
+  color: var(--text);
+}
+
+/* Optional hover state (uses primary color) */
+.nav-menu li a:hover {
+  color: var(--primary);
+}
+
 
 /* Buttons */
 .btn {
