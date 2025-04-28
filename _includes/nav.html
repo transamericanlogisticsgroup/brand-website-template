@@ -1,15 +1,11 @@
 <nav>
   <div class="container">
-    <div class="logo">
-      {% include logo.html %}
-    </div>
-
+    {% include logo.html %}
     <ul class="nav-menu">
       {% for link in site.nav_links %}
         <li><a href="{{ link.url }}">{{ link.title }}</a></li>
       {% endfor %}
     </ul>
-
     <div class="actions">
       <a href="#quote" class="btn-accent">Get My Quote</a>
       <a href="tel:{{ site.phone.ie64 | remove: ' ' }}" class="link-text">
