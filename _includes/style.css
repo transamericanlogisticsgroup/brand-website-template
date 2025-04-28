@@ -28,7 +28,6 @@
   /* Text */
   --text:            {{ site.theme.colors.text }};
   --text-light:      {{ site.theme.colors.text_light }};
-  --text-dark-bg:    {{ site.theme.colors.text_dark_bg }};
   --text-on-dark:    {{ site.theme.colors.text_on_dark }};
 
   /* Accent & states */
@@ -98,7 +97,7 @@ nav .actions {
 }
 .btn-accent {
   background: var(--accent);
-  color:      var(--text-dark-bg);
+  color:      var(--text-on-dark);
 }
 .btn-accent:hover {
   background: var(--accent-dark);
@@ -126,7 +125,7 @@ nav .actions {
   width:           100%;
   height:          625px;
   border-radius:   var(--border-radius);
-  background:      var(--text-dark-bg);
+  background:      var(--text-on-dark);
   display:         flex;
   align-items:     center;
   justify-content: center;
