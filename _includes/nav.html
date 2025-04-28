@@ -7,11 +7,8 @@
       {% endfor %}
     </ul>
     <div class="actions">
-      <!-- uses our accent‐themed button -->
       <a href="#quote" class="btn-accent">Get My Quote</a>
-
-      <!-- now driven by a utility class instead of inline style -->
-      <a href="tel:{{ site.phone.ie64 | remove: ' ' }}" class="link-accent">
+      <a href="tel:{{ site.phone.ie64 | remove: ' ' }}" class="link-text">
         <i class="fas fa-phone"></i> {{ site.phone.display }}
       </a>
     </div>
