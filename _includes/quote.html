@@ -3,7 +3,7 @@
 <style>
   :root {
     --primary-color:    {{ site.primary_color }};
-    --accent-color:     {{ site.aacccent_color }};
+    --accent-color:     {{ site.accent_color }};
     --text-color:       {{ site.text_color }};
     --secondary-bg:     {{ site.secondary_bg_color }};
     --error-color:      {{ site.error_color }};
@@ -57,7 +57,7 @@
     color: var(--text-color);
   }
 
-  /* Also ensure the readonly display-date input matches */
+  /* Ensure readonly date display matches */
   .field-wrapper input#date {
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
@@ -66,9 +66,8 @@
     color: var(--text-color);
   }
 
-  /* Ensure job-type select matches the other fields */
-  .field-wrapper select,
-  #job-type {
+  /* Make the <select> look like the other inputs */
+  .field-wrapper select {
     width: 100%;
     padding: 0.75rem 2.5rem 0.75rem 0.75rem;
     background: #fff;
@@ -105,10 +104,9 @@
     transform: translateY(-50%);
     pointer-events: none;
     font-size: 1.25rem;
-    color: var(--text-color);
   }
 
-  /* Invisible native date picker icon */
+  /* Invisible native date input to trigger picker */
   .field-wrapper input#date-picker {
     position: absolute;
     top: 0; left: 0;
@@ -131,7 +129,7 @@
     font-size: 1.25rem;
     pointer-events: none;
   }
-  .field-wrapper{
+  .field-wrapper {
     color: var(--accent-color);
   }
   .field-wrapper i.fa-chevron-down {
