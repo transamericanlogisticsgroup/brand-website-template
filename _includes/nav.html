@@ -4,17 +4,45 @@
       {% include logo.html %}
     </div>
 
+    <!-- Hamburger toggles mobile menu -->
+    <button class="hamburger" aria-label="Toggle menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <!-- Desktop menu -->
     <ul class="nav-menu">
       {% for link in site.nav_links %}
         <li><a href="{{ link.url }}">{{ link.title }}</a></li>
       {% endfor %}
     </ul>
 
+    <!-- Desktop actions -->
     <div class="actions">
       <a href="tel:{{ site.phone.ie64 | remove: ' ' }}" class="link-text">
-        <i class="fas fa-phone"></i> {{ site.phone.display }}
+        <i class="fas fa-phone"></i><span class="phone-text">{{ site.phone.display }}</span>
       </a>
       <a href="#quote" class="btn-accent">Get My Quote</a>
     </div>
+
+    <!-- Mobile menu panel -->
+    <div class="mobile-menu">
+      <ul class="mobile-nav">
+        {% for link in site.nav_links %}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {% endfor %}
+      </ul>
+      <a href="tel:{{ site.phone.ie64 | remove: ' ' }}" class="link-text">
+        <i class="fas fa-phone"></i> {{ site.phone.display }}
+      </a>
+      <a href="#quote" class="btn-accent mobile-quote">Get My Quote</a>
+    </div>
   </div>
 </nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.querySelector('.hamburger');
+    const menu = document.querySelector('.mobile-menu');
+    btn.addEventListener('click', () => menu.classList.toggle('open'));
+  });
+</script>
