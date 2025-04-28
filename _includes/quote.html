@@ -16,44 +16,41 @@
     to { transform: rotate(360deg); }
   }
 
-  /* Add Address button: only bottom margin increased */
+  /* Space only below the Add Address button */
   #add-address {
     display: block;
-    margin: 0 auto 3rem; /* 3rem bottom for more separation */
+    margin: 0 auto 3rem;
     background: var(--secondary-bg);
     color: var(--text-color);
     border: 1px solid var(--text-color);
   }
 
-  /* Address group styling: match other form-group styles */
+  /* Delete button positioning inside form-group */
   .address-group {
     margin-bottom: 1rem;
   }
-  .address-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-  .address-input {
+  .address-group > .field-wrapper {
     position: relative;
   }
-  .address-input input {
-    width: 100%;
-    padding-right: 2em; /* space for delete button */
-  }
-  .address-input .delete-address {
+  .address-group .delete-address {
     position: absolute;
     top: 50%;
-    right: 0.5rem;
+    right: 0.75rem;
     transform: translateY(-50%);
     background: transparent;
     border: none;
     font-size: 1.2rem;
     color: var(--error-color);
     cursor: pointer;
-    display: none; /* show only when 3+ addresses */
+    display: none;
   }
 
-  /* Make job-type select background white */
+  /* Show delete when 3+ addresses */
+  .address-group.show-delete .delete-address {
+    display: inline;
+  }
+
+  /* White background on job-type */
   #job-type {
     background: #fff;
   }
@@ -119,16 +116,16 @@
 
         <!-- Service Addresses -->
         <div id="addresses-container">
-          <div class="address-group">
+          <div class="form-group address-group">
             <label>Address A</label>
-            <div class="address-input">
+            <div class="field-wrapper">
               <input type="text" name="Addresses" placeholder="Enter Address A" required />
               <button type="button" class="delete-address">&times;</button>
             </div>
           </div>
-          <div class="address-group">
+          <div class="form-group address-group">
             <label>Address B</label>
-            <div class="address-input">
+            <div class="field-wrapper">
               <input type="text" name="Addresses" placeholder="Enter Address B" required />
               <button type="button" class="delete-address">&times;</button>
             </div>
@@ -164,85 +161,58 @@ document.addEventListener('DOMContentLoaded', () => {
   const dateGroup = document.getElementById('date-group');
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-  // Make clicking anywhere on date group open picker
+  // Open date picker on group click
   dateGroup.addEventListener('click', () => {
     if (dateInput.showPicker) dateInput.showPicker(); else dateInput.focus();
   });
 
-  function updateAddressLabels() {
+  // Update address labels and delete visibility
+  function refreshAddresses() {
     const groups = addressesContainer.querySelectorAll('.address-group');
     groups.forEach((group, idx) => {
       const letter = letters[idx] || (idx + 1);
       group.querySelector('label').textContent = `Address ${letter}`;
       group.querySelector('input').placeholder = `Enter Address ${letter}`;
+      if (groups.length >= 3) group.classList.add('show-delete'); else group.classList.remove('show-delete');
     });
   }
 
-  function updateDeleteButtons() {
-    const groups = addressesContainer.querySelectorAll('.address-group');
-    groups.forEach(group => {
-      const btn = group.querySelector('.delete-address');
-      btn.style.display = (groups.length >= 3 ? 'inline-block' : 'none');
+  // Attach delete handler
+  function attachDelete(btn, group) {
+    btn.addEventListener('click', () => {
+      group.remove(); refreshAddresses();
     });
   }
 
-  function attachDelete(button, group) {
-    button.addEventListener('click', () => {
-      group.remove();
-      updateAddressLabels();
-      updateDeleteButtons();
-    });
-  }
-
+  // Initialize existing delete buttons
   addressesContainer.querySelectorAll('.address-group').forEach(group => {
     const btn = group.querySelector('.delete-address');
     attachDelete(btn, group);
   });
-  updateAddressLabels();
-  updateDeleteButtons();
+  refreshAddresses();
 
+  // Add address
   addBtn.addEventListener('click', () => {
-    const group = document.createElement('div');
-    group.className = 'address-group';
+    const group = document.createElement('div'); group.className = 'form-group address-group';
     const label = document.createElement('label');
-    const wrapper = document.createElement('div'); wrapper.className = 'address-input';
+    const wrapper = document.createElement('div'); wrapper.className = 'field-wrapper';
     const input = document.createElement('input'); input.type = 'text'; input.name = 'Addresses'; input.required = true;
     const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'delete-address'; btn.innerHTML = '&times;';
-    wrapper.append(input, btn);
-    group.append(label, wrapper);
-    addressesContainer.appendChild(group);
-    attachDelete(btn, group);
-    updateAddressLabels();
-    updateDeleteButtons();
+    wrapper.append(input, btn); group.append(label, wrapper); addressesContainer.appendChild(group);
+    attachDelete(btn, group); refreshAddresses();
   });
 
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="spinner"></span>';
+    submitBtn.disabled = true; submitBtn.innerHTML = '<span class="spinner"></span>';
     const data = new FormData(form);
-    const jobType = data.get('job_type');
-    const date = data.get('date');
-    const name = data.get('name');
-    const phone = data.get('From');
-    const email = data.get('email');
-    const addresses = data.getAll('Addresses');
-    let body =
-`Quote Request:
-Job Type:     ${jobType}
-Date:         ${date}
-Name:         ${name}
-Phone:        ${phone}
-Email:        ${email}
-`;
-    addresses.forEach((addr, i) => {
-      const letter = letters[i] || i + 1;
-      body += `Service Address ${letter}: ${addr}
-`;
-    });
-    const payload = new URLSearchParams({ AccountSid: '{{ site.phone.twilio_sid }}', From: phone, To: '{{ site.phone.ie64 }}', Body: body });
-    try { await fetch(form.action, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: payload }); } catch (err) { console.error('Error sending quote:', err); }
-    submitBtn.style.display = 'none'; successEl.style.display = 'block';
+    const jobType = data.get('job_type'); const date = data.get('date'); const name = data.get('name');
+    const phone = data.get('From'); const email = data.get('email'); const addrs = data.getAll('Addresses');
+    let body = `Quote Request:\nJob Type:     ${jobType}\nDate:         ${date}\nName:         ${name}\nPhone:        ${phone}\nEmail:        ${email}\n`;
+    addrs.forEach((a,i) => { const l=letters[i]||i+1; body+=`Service Address ${l}: ${a}\n`; });
+    const payload = new URLSearchParams({AccountSid:'{{ site.phone.twilio_sid }}',From:phone,To:'{{ site.phone.ie64 }}',Body:body});
+    try{await fetch(form.action,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:payload});}catch(err){console.error(err);}
+    submitBtn.style.display='none'; successEl.style.display='block';
   });
 });
 </script>
