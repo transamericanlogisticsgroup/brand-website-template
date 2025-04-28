@@ -1,18 +1,19 @@
 <nav>
-    <div class="container">
-      {% include logo.html %}
-      <ul>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#locations">Locations</a></li>
-        <li><a href="#moving-tips">Moving Tips</a></li>
-        <li><a href="#about-us">About Us</a></li>
-      </ul>
-      <div class="actions">
-        <a href="#quote" class="btn btn-red">Get My Quote</a>
-        <a href="tel:{{ site.phone.ie64 | remove: ' ' }}" style="color:var(--accent-color); font-weight:600;">
-          <i class="fas fa-phone"></i> {{ site.phone.display }}
-        </a>
-      </div>
+  <div class="container">
+    {% include logo.html %}
+    <ul>
+      {% for link in site.nav_links %}
+        <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+      {% endfor %}
+    </ul>
+    <div class="actions">
+      <!-- uses our accent‐themed button -->
+      <a href="#quote" class="btn-accent">Get My Quote</a>
+
+      <!-- now driven by a utility class instead of inline style -->
+      <a href="tel:{{ site.phone.ie64 | remove: ' ' }}" class="link-accent">
+        <i class="fas fa-phone"></i> {{ site.phone.display }}
+      </a>
     </div>
-  </nav>
-  
+  </div>
+</nav>
