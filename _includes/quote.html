@@ -50,8 +50,13 @@
   }
   .field-wrapper input,
   .field-wrapper select {
-    padding-right: 2.5rem;
-  }
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 1px solid #ccc; /* match other inputs */
+    box-shadow: none; /* remove default focus shadow */
+    outline: none; /* remove focus outline */
+}
   /* Ensure select matches other fields with rounded corners */
   .field-wrapper select {
     border-radius: var(--border-radius);
