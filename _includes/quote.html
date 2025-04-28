@@ -25,9 +25,10 @@
     border: 1px solid var(--text-color);
   }
 
-  /* Address group delete button */
+  /* Address group styling */
   .address-group {
     position: relative;
+    margin-bottom: 1rem;
   }
   .address-group .delete-address {
     position: absolute;
@@ -48,10 +49,9 @@
         Get Your Free Quote
       </h2>
       <form id="quote-form" method="POST" action="{{ site.quote.submission_url }}">
-        <!-- Branch number -->
         <input type="hidden" name="To" value="{{ site.phone.ie64 }}" />
 
-        <!-- Job Type selection -->
+        <!-- Job Type -->
         <div class="form-group">
           <label for="job-type">Job Type*</label>
           <select id="job-type" name="job_type" required>
@@ -100,15 +100,17 @@
           <input type="email" id="email" name="email" placeholder="you@example.com" required />
         </div>
 
-        <!-- Dynamic Service Addresses -->
+        <!-- Service Addresses -->
         <div id="addresses-container">
           <div class="form-group address-group">
             <label>Address A</label>
             <input type="text" name="Addresses" placeholder="Enter Address A" required />
+            <button type="button" class="delete-address">&times;</button>
           </div>
           <div class="form-group address-group">
             <label>Address B</label>
             <input type="text" name="Addresses" placeholder="Enter Address B" required />
+            <button type="button" class="delete-address">&times;</button>
           </div>
         </div>
         <button type="button" id="add-address" class="btn">Add Address</button>
@@ -146,29 +148,53 @@ document.addEventListener('DOMContentLoaded', () => {
   const successEl = document.getElementById('quote-success');
 
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  let addressCount = 2;
 
-  // Add new address field dynamically
+  // Update labels for all address fields
+  function updateAddressLabels() {
+    const groups = addressesContainer.querySelectorAll('.address-group');
+    groups.forEach((group, idx) => {
+      const letter = letters[idx] || idx + 1;
+      const label = group.querySelector('label');
+      label.textContent = `Address ${letter}`;
+      const input = group.querySelector('input');
+      input.placeholder = `Enter Address ${letter}`;
+    });
+  }
+
+  // Attach delete handler to a group
+  function attachDelete(button, group) {
+    button.addEventListener('click', () => {
+      group.remove();
+      updateAddressLabels();
+    });
+  }
+
+  // Initialize delete handlers on existing groups
+  addressesContainer.querySelectorAll('.address-group').forEach(group => {
+    const del = group.querySelector('.delete-address');
+    attachDelete(del, group);
+  });
+
+  // Initial label setup
+  updateAddressLabels();
+
+  // Add new address field
   addBtn.addEventListener('click', () => {
-    addressCount++;
-    const letter = letters[addressCount - 1] || (addressCount);
-    const div = document.createElement('div');
-    div.className = 'form-group address-group';
+    const group = document.createElement('div');
+    group.className = 'form-group address-group';
     const label = document.createElement('label');
-    label.textContent = `Address ${letter}`;
     const input = document.createElement('input');
     input.type = 'text';
     input.name = 'Addresses';
-    input.placeholder = `Enter Address ${letter}`;
     input.required = true;
-    // delete button
     const del = document.createElement('button');
     del.type = 'button';
     del.className = 'delete-address';
     del.innerHTML = '&times;';
-    del.addEventListener('click', () => div.remove());
-    div.append(label, input, del);
-    addressesContainer.append(div);
+    group.append(label, input, del);
+    addressesContainer.appendChild(group);
+    attachDelete(del, group);
+    updateAddressLabels();
   });
 
   form.addEventListener('submit', async (e) => {
@@ -197,7 +223,7 @@ Phone:        ${phone}
 Email:        ${email}
 `;
     addresses.forEach((addr, i) => {
-      const letter = letters[i] || (i + 1);
+      const letter = letters[i] || i + 1;
       body += `Service Address ${letter}: ${addr}
 `;
     });
