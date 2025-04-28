@@ -46,40 +46,42 @@
     position: relative;
     margin-bottom: 1rem;
   }
-  .field-wrapper i,
-  .field-wrapper .delete-icon {
+  /* Icon styling: non-blocking clicks */
+  .field-wrapper i {
     position: absolute;
     top: 50%;
     right: 0.5rem;
     transform: translateY(-50%);
-    pointer-events: all;
     font-size: 1.25rem;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-  }
-
-  /* Icon colors */
-  .field-wrapper i.fa-calendar-plus {
+    pointer-events: none;
     color: var(--accent-color);
   }
   .field-wrapper i.fa-chevron-down {
     color: var(--text-color);
   }
 
-  /* Hide native picker icon */
-  input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0; }
-  input[type="date"]::-ms-clear,
-  input[type="date"]::-ms-expand { display: none; }
-
-  /* Address delete icon */
-  .address-group .delete-icon {
+  /* Delete-icon must accept clicks */
+  .field-wrapper .delete-icon {
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+    pointer-events: all;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
     color: var(--error-color);
     display: none;
   }
   .address-group.show-delete .delete-icon {
     display: block;
   }
+
+  /* Hide native picker icon */
+  input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0; }
+  input[type="date"]::-ms-clear,
+  input[type="date"]::-ms-expand { display: none; }
 
   /* Modal backdrop */
   .modal-backdrop {
@@ -162,15 +164,8 @@
         <!-- Date -->
         <div class="form-group">
           <label for="date">Date*</label>
-          <div class="field-wrapper" id="date-wrapper">
-            <input
-              type="text"
-              id="date"
-              name="date"
-              placeholder="Select a date"
-              readonly
-              required
-            />
+          <div class="field-wrapper">
+            <input type="date" id="date" name="date" required />
             <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
           </div>
         </div>
@@ -258,51 +253,18 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const dateInput = document.getElementById('date');
-  const dateWrapper = document.getElementById('date-wrapper');
+  // Dynamic address fields & submission logic remain unchanged
+  const addBtn = document.getElementById('add-address');
+  const container = document.getElementById('addresses-container');
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   const submitBtn = document.getElementById('submit-btn');
   const modal = document.getElementById('confirm-modal');
   const cancelBtn = document.getElementById('cancel-btn');
   const confirmBtn = document.getElementById('confirm-btn');
   const confirmPhone = document.getElementById('confirm-phone');
   const confirmEmail = document.getElementById('confirm-email');
-  const addBtn = document.getElementById('add-address');
-  const container = document.getElementById('addresses-container');
   const successEl = document.getElementById('quote-success');
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-  // Single date field behavior
-  function openDatePicker() {
-    dateInput.type = 'date';
-    if (dateInput.showPicker) dateInput.showPicker();
-    else dateInput.focus();
-  }
-
-  dateWrapper.addEventListener('click', openDatePicker);
-
-  dateInput.addEventListener('change', () => {
-    const d = new Date(dateInput.value);
-    dateInput.type = 'text';
-    dateInput.value = d.toLocaleDateString('en-US', {
-      weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
-    });
-  });
-
-  dateInput.addEventListener('blur', () => {
-    if (dateInput.type === 'date') {
-      const d = new Date(dateInput.value);
-      dateInput.type = 'text';
-      if (!isNaN(d)) {
-        dateInput.value = d.toLocaleDateString('en-US', {
-          weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
-        });
-      } else {
-        dateInput.value = '';
-      }
-    }
-  });
-
-  // Address fields dynamic handling
   function refresh() {
     const groups = container.querySelectorAll('.address-group');
     groups.forEach((g, i) => {
@@ -314,12 +276,14 @@ document.addEventListener('DOMContentLoaded', () => {
       g.classList.toggle('show-delete', groups.length >= 3);
     });
   }
+
   function attach(g) {
     g.querySelector('.delete-icon').addEventListener('click', () => {
       g.remove();
       refresh();
     });
   }
+
   container.querySelectorAll('.address-group').forEach(attach);
   refresh();
 
@@ -343,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
     refresh();
   });
 
-  // Confirmation modal & submit
+  // Confirmation modal
   submitBtn.addEventListener('click', () => {
     confirmPhone.textContent = document.getElementById('phone').value;
     confirmEmail.textContent = document.getElementById('email').value;
