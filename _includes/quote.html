@@ -50,9 +50,65 @@
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text-color);
   }
 
-  /* Invisible native date input to trigger picker */
+  /* Also ensure the readonly display-date input matches */
+  .field-wrapper input#date {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text-color);
+  }
+
+  /* Ensure job-type select matches the other fields */
+  .field-wrapper select,
+  #job-type {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text-color);
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+
+  /* Hide native dropdown arrow in IE/Edge */
+  .field-wrapper select::-ms-expand {
+    display: none;
+  }
+
+  /* Style the options themselves */
+  .field-wrapper select option {
+    padding: 0.75rem;
+    background: #fff;
+    color: var(--text-color);
+  }
+
+  /* Keep your Font-Awesome chevron perfectly positioned */
+  .field-wrapper i.fa-chevron-down {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 1.25rem;
+    color: var(--text-color);
+  }
+
+  /* Invisible native date picker icon */
   .field-wrapper input#date-picker {
     position: absolute;
     top: 0; left: 0;
@@ -172,61 +228,7 @@
   .btn-submit:hover {
     background-color: var(--accent-color);
   }
-  .field-wrapper select, #job-type {
-    width: 100%;
-    padding: 0.75rem;
-    padding-right: 2.5rem;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: var(--border-radius);
-    box-sizing: border-box;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-  }
-  
-  /* Override any browser default on #job-type */
-  #job-type {
-    border-width: 1px !important;
-    border-style: solid !important;
-    border-color: #ccc !important;
-  }
 
-  .field-wrapper select {
-    width: 100%;
-    padding: 0.75rem 2.5rem 0.75rem 0.75rem;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: var(--border-radius);
-    font-family: inherit;
-    font-size: 1rem;
-    color: inherit;
-    box-sizing: border-box;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-  }
-  
-  .field-wrapper select::-ms-expand {
-    display: none;
-  }
-  
-  .field-wrapper select option {
-    padding: 0.75rem;
-    background: #fff;
-    color: inherit;
-  }
-  
-  .field-wrapper i.fa-chevron-down {
-    position: absolute;
-    top: 50%;
-    right: 0.75rem;
-    transform: translateY(-50%);
-    pointer-events: none;
-    font-size: 1.25rem;
-    color: var(--text-color);
-  }
-  
 </style>
 
 <section id="quote">
