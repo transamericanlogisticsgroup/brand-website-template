@@ -1,7 +1,7 @@
 <!-- _includes/quote.html -->
 
 <style>
-  /* Spinner */
+  /* Spinner for submit button */
   .spinner {
     display: inline-block;
     width: 1em;
@@ -14,7 +14,7 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Spacing for Add Address */
+  /* Add Address button spacing */
   #add-address {
     display: block;
     margin: 0 auto 3rem;
@@ -43,27 +43,28 @@
     -moz-appearance: none;
   }
 
-  /* Wrapper for any field needing an icon */
+  /* Wrapper for fields with icons */
   .field-wrapper {
     position: relative;
     margin-bottom: 1rem;
   }
-  /* Space right for icon */
   .field-wrapper input,
   .field-wrapper select {
     padding-right: 2.5rem;
   }
-  /* Icon inside field */
+  /* Ensure select matches other fields with rounded corners */
+  .field-wrapper select {
+    border-radius: var(--border-radius);
+  }
+  /* Icon positioning */
   .field-wrapper i,
   .field-wrapper .delete-icon {
     position: absolute;
     top: 50%;
-    right: 0.5rem;          /* slightly closer to the edge */
+    right: 0.5rem; /* slightly closer */
     transform: translateY(-50%);
     pointer-events: all;
     font-size: 1.25rem;
-    /* X icon now red */
-    color: var(--error-color);
     background: transparent;
     border: none;
     cursor: pointer;
@@ -71,13 +72,16 @@
   .field-wrapper i.fa-calendar-plus {
     color: var(--accent-color);
   }
+  .field-wrapper .delete-icon i {
+    color: var(--error-color);
+  }
 
-  /* Hide native picker icon */
+  /* Hide native date icon */
   input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0; }
   input[type="date"]::-ms-clear,
   input[type="date"]::-ms-expand { display: none; }
 
-  /* Address delete icon show/hide */
+  /* Show delete only when 3+ addresses */
   .address-group .delete-icon {
     display: none;
   }
@@ -159,20 +163,24 @@
           <input type="email" id="email" name="email" placeholder="you@example.com" required />
         </div>
 
-        <!-- Addresses -->
+        <!-- Service Addresses -->
         <div id="addresses-container">
           <div class="form-group address-group">
             <label>Address A</label>
             <div class="field-wrapper">
               <input type="text" name="Addresses" placeholder="Enter Address A" required />
-              <button type="button" class="delete-icon" aria-label="Delete address"><i class="fa-solid fa-xmark"></i></button>
+              <button type="button" class="delete-icon" aria-label="Delete address">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
             </div>
           </div>
           <div class="form-group address-group">
             <label>Address B</label>
             <div class="field-wrapper">
               <input type="text" name="Addresses" placeholder="Enter Address B" required />
-              <button type="button" class="delete-icon" aria-label="Delete address"><i class="fa-solid fa-xmark"></i></button>
+              <button type="button" class="delete-icon" aria-label="Delete address">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -184,7 +192,7 @@
         </div>
       </form>
 
-      <!-- Success -->
+      <!-- Success Message -->
       <div id="quote-success" style="display:none; text-align:center; margin-top:1rem; color:var(--primary-color);">
         <strong>Sent!</strong><br>
         Thank you! You will receive an emailed quote and an SMS or call follow-up shortly.
@@ -194,7 +202,7 @@
 </section>
 
 <script>
-// Front-end logic
+// Front-end logic for dynamic addresses and submission
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('quote-form');
@@ -203,10 +211,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const submitBtn = form.querySelector('button[type="submit"]');
   const successEl = document.getElementById('quote-success');
   const dateInput = document.getElementById('date');
-  const dateIcon = document.querySelector('.fa-calendar-plus');
+  const dateIcon = form.querySelector('.fa-calendar-plus');
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-  // Open date picker on icon or input focus
+  // Open date picker on input or icon click
   dateIcon.parentElement.addEventListener('click', () => {
     dateInput.showPicker ? dateInput.showPicker() : dateInput.focus();
   });
@@ -222,7 +230,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function attach(g) {
-    g.querySelector('.delete-icon').addEventListener('click', () => { g.remove(); refresh(); });
+    const btn = g.querySelector('.delete-icon');
+    btn.addEventListener('click', () => { g.remove(); refresh(); });
   }
 
   container.querySelectorAll('.address-group').forEach(attach);
@@ -244,11 +253,16 @@ document.addEventListener('DOMContentLoaded', () => {
     submitBtn.innerHTML = '<span class="spinner"></span>';
 
     const data = new FormData(form);
-    const job = data.get('job_type'), dateVal = data.get('date'), name = data.get('name');
-    const phone = data.get('From'), email = data.get('email'), addrs = data.getAll('Addresses');
+    const job = data.get('job_type');
+    const dateVal = data.get('date');
+    const name = data.get('name');
+    const phone = data.get('From');
+    const email = data.get('email');
+    const addrs = data.getAll('Addresses');
+
     let body =
 `Quote Request:\nJob Type:     ${job}\nDate:         ${dateVal}\nName:         ${name}\nPhone:        ${phone}\nEmail:        ${email}\n`;
-    addrs.forEach((a, i) => body += `Service Address ${letters[i] || i+1}: ${a}\n`);
+    addrs.forEach((a, i) => { body += `Service Address ${letters[i] || i+1}: ${a}\n`; });
 
     try {
       await fetch(form.action, {
@@ -256,7 +270,9 @@ document.addEventListener('DOMContentLoaded', () => {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ AccountSid: '{{ site.phone.twilio_sid }}', From: phone, To: '{{ site.phone.ie64 }}', Body: body })
       });
-    } catch {}
+    } catch (err) {
+      console.error(err);
+    }
 
     submitBtn.style.display = 'none';
     successEl.style.display = 'block';
