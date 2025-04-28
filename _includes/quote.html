@@ -1,3 +1,5 @@
+<!-- _includes/quote.html -->
+
 <style>
   /* Spinner for submit button */
   .spinner {
@@ -33,6 +35,24 @@
         <!-- Branch number -->
         <input type="hidden" name="To" value="{{ site.phone.ie64 }}" />
 
+        <!-- Job Type selection -->
+        <div class="form-group">
+          <label for="job-type">Job Type*</label>
+          <select id="job-type" name="job_type" required>
+            <option value="">– Please Select –</option>
+            <option>Piano Moving</option>
+            <option>Junk Removal</option>
+            <option>Apartment to Storage</option>
+            <option>House to Storage</option>
+            <option>Local Residential Move</option>
+            <option>Commercial Move</option>
+            <option>Office Relocation</option>
+            <option>Furniture Packing/Unpacking</option>
+            <option>Full-Service Packing</option>
+            <option>Partial Packing</option>
+          </select>
+        </div>
+
         <div class="form-group">
           <label for="date">Date of Move</label>
           <input type="date" id="date" name="date" required />
@@ -54,6 +74,7 @@
           <input type="email" id="email" name="email" placeholder="you@example.com" required />
         </div>
 
+        <!-- Dynamic Service Addresses -->
         <div id="addresses-container">
           <div class="form-group address-group">
             <label>Address A</label>
@@ -66,16 +87,6 @@
         </div>
         <button type="button" id="add-address" class="btn">Add Address</button>
 
-        <div class="form-group">
-          <label for="size">Move Size*</label>
-          <select id="size" name="size" required>
-            <option value="">– Please Select –</option>
-            <option>Studio</option>
-            <option>1 Bedroom</option>
-            <option>2 Bedrooms</option>
-            <option>3 + Bedrooms</option>
-          </select>
-        </div>
         <button
           type="submit"
           class="btn"
@@ -126,30 +137,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
     // show loading spinner
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span class="spinner"></span>';
 
     // collect form data
     const data = new FormData(form);
+    const jobType = data.get('job_type');
     const date = data.get('date');
     const fname = data.get('fname');
     const lname = data.get('lname');
     const phone = data.get('From');
     const email = data.get('email');
-    const size = data.get('size');
-    const addrs = data.getAll('Addresses');
+    const addresses = data.getAll('Addresses');
 
     // build message body
     let body =
 `Quote Request:
+Job Type:     ${jobType}
 Date:         ${date}
 Name:         ${fname} ${lname}
 Phone:        ${phone}
 Email:        ${email}
-Move Size:    ${size}
 `;
-    addrs.forEach((addr, i) => {
+    addresses.forEach((addr, i) => {
       const letter = letters[i] || (i + 1);
       body += `Service Address ${letter}: ${addr}
 `;
