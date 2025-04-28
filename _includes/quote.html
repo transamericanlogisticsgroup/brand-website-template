@@ -1,11 +1,10 @@
 <!-- _includes/quote.html -->
 
 <style>
-  /* Spinner for submit button */
+  /* Spinner */
   .spinner {
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: 1em; height: 1em;
     border: 2px solid var(--accent-color);
     border-top-color: transparent;
     border-radius: 50%;
@@ -14,7 +13,7 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Add Address button spacing */
+  /* Add Address button */
   #add-address {
     display: block;
     margin: 0 auto 3rem;
@@ -26,12 +25,16 @@
     cursor: pointer;
   }
 
-  /* Base field styles for both inputs and selects */
-  .field-wrapper select,
-  .field-wrapper input {
+  /* Wrapper for fields */
+  .field-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .field-wrapper input,
+  .field-wrapper select {
     width: 100%;
     padding: 0.75rem;
-    padding-right: 2.5rem; /* space for icon */
+    padding-right: 2.5rem;
     background: #fff;
     border: 1px solid #ccc;
     border-radius: var(--border-radius);
@@ -41,30 +44,21 @@
     -moz-appearance: none;
   }
 
-  /* Wrapper for fields with icons */
-  .field-wrapper {
-    position: relative;
-    margin-bottom: 1rem;
-  }
-  /* Icon styling: non-blocking clicks */
+  /* Icon inside wrapper */
   .field-wrapper i {
     position: absolute;
-    top: 50%;
-    right: 0.5rem;
+    top: 50%; right: 0.5rem;
     transform: translateY(-50%);
     font-size: 1.25rem;
     pointer-events: none;
-    color: var(--accent-color);
   }
-  .field-wrapper i.fa-chevron-down {
-    color: var(--text-color);
-  }
+  .field-wrapper i.fa-chevron-down { color: var(--text-color); }
+  .field-wrapper i.fa-calendar-plus { color: var(--accent-color); }
 
-  /* Delete-icon must accept clicks */
+  /* Delete icon */
   .field-wrapper .delete-icon {
     position: absolute;
-    top: 50%;
-    right: 0.5rem;
+    top: 50%; right: 0.5rem;
     transform: translateY(-50%);
     pointer-events: all;
     background: transparent;
@@ -72,62 +66,51 @@
     cursor: pointer;
     font-size: 1.25rem;
     color: var(--error-color);
-    display: none;
   }
-  .address-group.show-delete .delete-icon {
-    display: block;
-  }
+  /* never show delete on first address */
+  .address-group:first-child .delete-icon { display: none; }
 
-  /* Hide native picker icon */
+  /* Hide native date picker icon */
   input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0; }
   input[type="date"]::-ms-clear,
   input[type="date"]::-ms-expand { display: none; }
 
-  /* Modal backdrop */
+  /* Modal */
   .modal-backdrop {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+    position: fixed; top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(0,0,0,0.5);
+    display:none; align-items:center; justify-content:center;
+    z-index:1000;
   }
   .modal {
-    background: #fff;
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    max-width: 400px;
-    width: 90%;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    background:#fff; padding:2rem;
+    border-radius:var(--border-radius);
+    max-width:400px; width:90%;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
   }
-  .modal h3 { margin: 0 0 1rem; color: var(--primary-color); }
-  .modal p { margin-bottom: 1.5rem; }
-  .modal .btn-group {
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
-  }
+  .modal h3 { margin:0 0 1rem; color:var(--primary-color); }
+  .modal p { margin-bottom:1.5rem; }
+  .modal .btn-group { display:flex; gap:1rem; justify-content:flex-end; }
   .modal .btn {
-    padding: 0.5rem 1rem;
-    border-radius: var(--button-radius);
-    border: 1px solid var(--text-color);
-    background: var(--secondary-bg);
-    color: var(--text-color);
-    cursor: pointer;
+    padding:0.5rem 1rem;
+    border-radius:var(--button-radius);
+    border:1px solid var(--text-color);
+    background:var(--secondary-bg);
+    color:var(--text-color);
+    cursor:pointer;
   }
   .modal .btn-confirm {
-    background: var(--accent-color);
-    color: #fff;
-    border: none;
+    background:var(--accent-color);
+    color:#fff;
+    border:none;
   }
 </style>
 
 <section id="quote">
   <div class="container">
     <div class="card">
-      <h2 style="color: var(--primary-color); text-align: center; margin-bottom: 1.5rem;">
+      <h2 style="color:var(--primary-color); text-align:center; margin-bottom:1.5rem;">
         Get Your Free Quote
       </h2>
       <form id="quote-form" method="POST" action="{{ site.quote.submission_url }}">
@@ -164,7 +147,7 @@
         <!-- Date -->
         <div class="form-group">
           <label for="date">Date*</label>
-          <div class="field-wrapper">
+          <div class="field-wrapper" id="date-wrapper">
             <input type="date" id="date" name="date" required />
             <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
           </div>
@@ -253,10 +236,10 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Dynamic address fields & submission logic remain unchanged
+  const dateWrapper = document.getElementById('date-wrapper');
+  const dateInput = document.getElementById('date');
   const addBtn = document.getElementById('add-address');
   const container = document.getElementById('addresses-container');
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   const submitBtn = document.getElementById('submit-btn');
   const modal = document.getElementById('confirm-modal');
   const cancelBtn = document.getElementById('cancel-btn');
@@ -264,26 +247,29 @@ document.addEventListener('DOMContentLoaded', () => {
   const confirmPhone = document.getElementById('confirm-phone');
   const confirmEmail = document.getElementById('confirm-email');
   const successEl = document.getElementById('quote-success');
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
+  // clicking anywhere in date-wrapper focuses the date input
+  dateWrapper.addEventListener('click', () => {
+    dateInput.showPicker ? dateInput.showPicker() : dateInput.focus();
+  });
+
+  // dynamic address fields
   function refresh() {
-    const groups = container.querySelectorAll('.address-group');
-    groups.forEach((g, i) => {
+    container.querySelectorAll('.address-group').forEach((g, i) => {
       const lbl = g.querySelector('label');
       const inp = g.querySelector('input');
       lbl.textContent = `Address ${letters[i]}${i === 0 ? '*' : ''}`;
       inp.placeholder = `Enter Address ${letters[i]}`;
       inp.required = i === 0;
-      g.classList.toggle('show-delete', groups.length >= 3);
     });
   }
-
   function attach(g) {
     g.querySelector('.delete-icon').addEventListener('click', () => {
       g.remove();
       refresh();
     });
   }
-
   container.querySelectorAll('.address-group').forEach(attach);
   refresh();
 
@@ -294,11 +280,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const wrap = document.createElement('div');
     wrap.className = 'field-wrapper';
     const inp = document.createElement('input');
-    inp.type = 'text';
-    inp.name = 'Addresses';
+    inp.type = 'text'; inp.name = 'Addresses';
     const del = document.createElement('button');
-    del.type = 'button';
-    del.className = 'delete-icon';
+    del.type = 'button'; del.className = 'delete-icon';
     del.innerHTML = '<i class="fa-solid fa-xmark"></i>';
     wrap.append(inp, del);
     g.append(lbl, wrap);
@@ -307,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
     refresh();
   });
 
-  // Confirmation modal
+  // confirmation & submit
   submitBtn.addEventListener('click', () => {
     confirmPhone.textContent = document.getElementById('phone').value;
     confirmEmail.textContent = document.getElementById('email').value;
