@@ -4,8 +4,7 @@
   /* Spinner for submit button */
   .spinner {
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: 1em; height: 1em;
     border: 2px solid var(--accent-color);
     border-top-color: transparent;
     border-radius: 50%;
@@ -57,28 +56,27 @@
     position: relative;
     margin-bottom: 1rem;
   }
+
+  /* Decorative icons never block clicks */
   .field-wrapper i {
     position: absolute;
-    top: 50%;
-    right: 0.5rem;
+    top: 50%; right: 0.5rem;
     transform: translateY(-50%);
     font-size: 1.25rem;
     pointer-events: none;
   }
-
-  /* Color overrides */
-  .field-wrapper i.fa-calendar-plus {
+  .field-wrapper i.fa-calendar-plus,
+  .field-wrapper i.fa-map-marker-alt {
     color: var(--accent-color);
   }
   .field-wrapper i.fa-chevron-down {
     color: var(--text-color);
   }
-  
-  /* Delete-X button */
+
+  /* Delete-X button: visible only after 3+ addresses, catches clicks */
   .field-wrapper .delete-icon {
     position: absolute;
-    top: 50%;
-    right: 0.5rem;
+    top: 50%; right: 0.5rem;
     transform: translateY(-50%);
     background: transparent;
     border: none;
@@ -86,13 +84,11 @@
     font-size: 1.25rem;
     color: var(--error-color);
     display: none;
-    z-index: 9999;
+    z-index: 2;
+    pointer-events: all;
   }
   .address-group.show-delete .delete-icon {
     display: block;
-  }
-  .field-wrapper .delete-icon i {
-    pointer-events: none;
   }
 
   /* Hide native date picker icon */
@@ -122,9 +118,7 @@
     margin-top: 0; margin-bottom: 1rem;
     color: var(--primary-color);
   }
-  .modal p {
-    margin-bottom: 1.5rem;
-  }
+  .modal p { margin-bottom: 1.5rem; }
   .modal .btn-group {
     display: flex; gap: 1rem; justify-content: flex-end;
   }
@@ -223,6 +217,7 @@
             <label>Address A*</label>
             <div class="field-wrapper">
               <input type="text" name="Addresses" placeholder="Enter Address A" required />
+              <i class="fa-solid fa-map-marker-alt" aria-hidden="true"></i>
               <button type="button" class="delete-icon" aria-label="Delete address">
                 <i class="fa-solid fa-xmark"></i>
               </button>
@@ -232,6 +227,7 @@
             <label>Address B</label>
             <div class="field-wrapper">
               <input type="text" name="Addresses" placeholder="Enter Address B" />
+              <i class="fa-solid fa-map-marker-alt" aria-hidden="true"></i>
               <button type="button" class="delete-icon" aria-label="Delete address">
                 <i class="fa-solid fa-xmark"></i>
               </button>
@@ -287,9 +283,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const confirmEmail = document.getElementById('confirm-email');
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-  // Date picker handling (clicking either field opens native picker)
-  datePicker.addEventListener('click', () => datePicker.showPicker());
-  displayDate.addEventListener('click', () => datePicker.showPicker());
+  // Date picker: clicking either field opens picker
+  datePicker.addEventListener('click', () =>
+    datePicker.showPicker ? datePicker.showPicker() : datePicker.focus()
+  );
+  displayDate.addEventListener('click', () =>
+    datePicker.showPicker ? datePicker.showPicker() : datePicker.focus()
+  );
   datePicker.addEventListener('change', () => {
     const d = new Date(datePicker.value);
     displayDate.value = d.toLocaleDateString('en-US', {
@@ -303,9 +303,9 @@ document.addEventListener('DOMContentLoaded', () => {
     groups.forEach((g, i) => {
       const label = g.querySelector('label');
       const input = g.querySelector('input');
-      label.textContent = `Address ${letters[i]}${i === 0 ? '*' : ''}`;
+      label.textContent = `Address ${letters[i]}${i===0?'*':''}`;
       input.placeholder = `Enter Address ${letters[i]}`;
-      input.required = i === 0;
+      input.required = i===0;
       g.classList.toggle('show-delete', groups.length >= 3);
     });
   }
@@ -332,12 +332,16 @@ document.addEventListener('DOMContentLoaded', () => {
     inp.type = 'text';
     inp.name = 'Addresses';
 
+    const icon = document.createElement('i');
+    icon.className = 'fa-solid fa-map-marker-alt';
+    icon.setAttribute('aria-hidden', 'true');
+
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'delete-icon';
     btn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
 
-    wrapper.append(inp, btn);
+    wrapper.append(inp, icon, btn);
     g.append(lbl, wrapper);
     container.appendChild(g);
 
@@ -370,9 +374,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const addrs = data.getAll('Addresses');
 
     let body = `Quote Request:\nJob Type:     ${job}\nDate:         ${rawDate}\nName:         ${name}\nPhone:        ${phone}\nEmail:        ${email}\n`;
-    addrs.forEach((a, i) => {
-      body += `Service Address ${letters[i]}: ${a}\n`;
-    });
+    addrs.forEach((a, i) =>
+      body += `Service Address ${letters[i]}: ${a}\n`
+    );
 
     try {
       await fetch(form.action, {
