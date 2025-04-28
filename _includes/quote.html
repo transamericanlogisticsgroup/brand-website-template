@@ -66,6 +66,19 @@
     color: var(--text-color);
   }
 
+  /* Override dropdown to exactly match other fields */
+  #job-type {
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    padding: 0.75rem 2.5rem 0.75rem 0.75rem !important;
+    background: #fff !important;
+    border: 1px solid #ccc !important;
+    border-radius: var(--border-radius) !important;
+    appearance: none !important;
+  }
+
   /* Make the <select> look like the other inputs */
   .field-wrapper select {
     width: 100%;
@@ -217,10 +230,10 @@
     padding: 0.75rem;
     border-radius: var(--border-radius);
     background-color: var(--primary-color);
-    color: #fff;               /* white text */
+    color: #fff;
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
-    font-weight: 600;          /* thicker text */
+    font-weight: 600;
     text-align: center;
     border: none;
     cursor: pointer;
@@ -451,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = new FormData(form);
     const job = data.get('job_type');
     const rawDate = data.get('date');
-    const name = data.get('name');  
+    const name = data.get('name');
     const phone = data.get('From');
     const email = data.get('email');
     const addrs = data.getAll('Addresses');
