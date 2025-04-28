@@ -16,22 +16,75 @@
 
   /* Hide native calendar icon */
   .date-wrapper input::-webkit-calendar-picker-indicator { opacity: 0; }
-  .date-wrapper input::-ms-clear, .date-wrapper input::-ms-expand { display: none; }
+  .date-wrapper input::-ms-clear,
+  .date-wrapper input::-ms-expand { display: none; }
 
   /* Add Address spacing */
-  #add-address { display: block; margin: 0 auto 3rem; }
+  #add-address { display: block; margin: 0 auto 3rem; padding: 0.75rem; background: var(--secondary-bg); color: var(--text-color); border: 1px solid var(--text-color); }
 
-  /* Field wrapper icon positioning */
-  .field-wrapper { position: relative; }
-  .field-wrapper i {
+  /* Common field styles */
+  select,
+  input[type="date"],
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"] {
+    width: 100%;
+    padding: 0.75rem;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+  }
+
+  /* Custom select wrapper with hidden native arrow */
+  .select-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .select-wrapper select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: none;
+  }
+  .select-wrapper::after {
+    content: "\f078"; /* FontAwesome chevron-down */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
     position: absolute;
+    right: 1rem;
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
+    font-size: 1rem;
     color: var(--text-color);
   }
-  .field-wrapper .fa-chevron-down { right: 1rem; font-size: 1rem; }
-  .date-wrapper .fa-calendar-plus { right: 1rem; font-size: 1.25rem; color: var(--accent-color); }
+
+  /* Date wrapper with outline calendar icon */
+  .date-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .date-wrapper::after {
+    content: "\f2dc"; /* fa-regular calendar-plus replaced by outline calendar icon */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 400;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 1.25rem;
+    color: var(--accent-color);
+  }
+
+  /* Field wrapper for icons */
+  .field-wrapper { position: relative; }
+
+  /* Delete icon styling */
+  .address-group { margin-bottom: 1rem; }
+  .address-group label { display: block; margin-bottom: 0.5rem; }
+  .address-group input { width: 100%; padding: 0.75rem; background: #fff; border: 1px solid #ccc; border-radius: var(--border-radius); }
   .address-group .delete-icon {
     position: absolute;
     top: 50%;
@@ -39,23 +92,24 @@
     transform: translateY(-50%);
     background: transparent;
     border: none;
-    font-size: 1.2rem;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 1.5rem;
     color: var(--error-color);
     cursor: pointer;
     display: none;
   }
   .address-group.show-delete .delete-icon { display: block; }
 
-  /* Make select and date background white */
-  select, input[type="date"], input[type="text"], input[type="tel"], input[type="email"] {
-    background: #fff;
-    padding: 0.75rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
   /* Submit button styling */
-  .btn-submit { width: 100%; background: var(--secondary-bg); color: var(--text-color); padding: 0.75rem; margin-top: 0; }
+  .btn-submit {
+    width: 100%;
+    background: var(--secondary-bg);
+    color: var(--text-color);
+    padding: 0.75rem;
+    border: 1px solid var(--text-color);
+    border-radius: var(--border-radius);
+  }
 </style>
 
 <section id="quote">
@@ -68,7 +122,7 @@
         <input type="hidden" name="To" value="{{ site.phone.ie64 }}" />
 
         <!-- Job Type -->
-        <div class="form-group field-wrapper">
+        <div class="form-group select-wrapper">
           <label for="job-type">Job Type*</label>
           <select id="job-type" name="job_type" required>
             <option value="">– Please Select –</option>
@@ -90,7 +144,6 @@
               <option>Office Relocation</option>
             </optgroup>
           </select>
-          <i class="fa-solid fa-chevron-down"></i>
         </div>
 
         <!-- Date -->
@@ -98,7 +151,6 @@
           <label for="date">Date</label>
           <div class="field-wrapper">
             <input type="date" id="date" name="date" required />
-            <i class="fa-regular fa-calendar-plus"></i>
           </div>
         </div>
 
@@ -122,15 +174,19 @@
 
         <!-- Service Addresses -->
         <div id="addresses-container">
-          <div class="form-group address-group field-wrapper">
+          <div class="form-group address-group">
             <label>Address A</label>
-            <input type="text" name="Addresses" placeholder="Enter Address A" required />
-            <button type="button" class="delete-icon"><i class="fa-solid fa-xmark"></i></button>
+            <div class="field-wrapper">
+              <input type="text" name="Addresses" placeholder="Enter Address A" required />
+              <button type="button" class="delete-icon"><i class="fa-solid fa-xmark"></i></button>
+            </div>
           </div>
-          <div class="form-group address-group field-wrapper">
+          <div class="form-group address-group">
             <label>Address B</label>
-            <input type="text" name="Addresses" placeholder="Enter Address B" required />
-            <button type="button" class="delete-icon"><i class="fa-solid fa-xmark"></i></button>
+            <div class="field-wrapper">
+              <input type="text" name="Addresses" placeholder="Enter Address B" required />
+              <button type="button" class="delete-icon"><i class="fa-solid fa-xmark"></i></button>
+            </div>
           </div>
         </div>
         <button type="button" id="add-address" class="btn">Add Address</button>
@@ -151,6 +207,8 @@
 </section>
 
 <script>
+// Quote form logic
+
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('quote-form');
   const addBtn = document.getElementById('add-address');
@@ -161,7 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const dateInput = document.getElementById('date');
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-  // Open date picker on click anywhere
   dateGroup.addEventListener('click', () => {
     dateInput.showPicker ? dateInput.showPicker() : dateInput.focus();
   });
@@ -184,60 +241,26 @@ document.addEventListener('DOMContentLoaded', () => {
   refresh();
 
   addBtn.addEventListener('click', () => {
-    const g = document.createElement('div'); g.className = 'form-group address-group field-wrapper';
+    const g = document.createElement('div'); g.className = 'form-group address-group';
     const lbl = document.createElement('label');
-    const inp = document.createElement('input'); inp.type = 'text'; inp.name = 'Addresses'; inp.placeholder = '';
-    inp.required = true;
-    const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'delete-icon'; btn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-    g.append(lbl, inp, btn);
-    container.appendChild(g);
-    attach(g);
-    refresh();
+    const wrap = document.createElement('div'); wrap.className = 'field-wrapper';
+    const inp = document.createElement('input'); inp.type = 'text'; inp.name = 'Addresses'; inp.required = true;
+    const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'delete-icon';
+    btn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+    wrap.append(inp, btn); g.append(lbl, wrap); container.appendChild(g);
+    attach(g); refresh();
   });
 
   form.addEventListener('submit', async e => {
-    e.preventDefault();
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="spinner"></span>';
-
-    const data = new FormData(form);
-    const job = data.get('job_type');
-    const dateVal = data.get('date');
-    const name = data.get('name');
-    const phone = data.get('From');
-    const email = data.get('email');
-    const addrs = data.getAll('Addresses');
-
-    let body =
-`Quote Request:
-Job Type:     ${job}
-Date:         ${dateVal}
-Name:         ${name}
-Phone:        ${phone}
-Email:        ${email}
-`;
-    addrs.forEach((a, i) => { body += `Service Address ${letters[i] || i+1}: ${a}
-`; });
-
-    const payload = new URLSearchParams({
-      AccountSid: '{{ site.phone.twilio_sid }}',
-      From:       phone,
-      To:         '{{ site.phone.ie64 }}',
-      Body:       body
-    });
-
-    try {
-      await fetch(form.action, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: payload
-      });
-    } catch (err) {
-      console.error(err);
-    }
-
-    submitBtn.style.display = 'none';
-    successEl.style.display = 'block';
+    e.preventDefault(); submitBtn.disabled=true; submitBtn.innerHTML='<span class="spinner"></span>';
+    const d=new FormData(form);
+    const job=d.get('job_type'); const dateVal=d.get('date'); const name=d.get('name');
+    const phone=d.get('From'); const email=d.get('email'); const addrs=d.getAll('Addresses');
+    let body=`Quote Request:\nJob Type:     ${job}\nDate:         ${dateVal}\nName:         ${name}\nPhone:        ${phone}\nEmail:        ${email}\n`;
+    addrs.forEach((a,i)=>body+=`Service Address ${letters[i]||i+1}: ${a}\n`);
+    const payload=new URLSearchParams({AccountSid:'{{ site.phone.twilio_sid }}',From:phone,To:'{{ site.phone.ie64 }}',Body:body});
+    try{await fetch(form.action,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:payload});}catch{};
+    submitBtn.style.display='none'; successEl.style.display='block';
   });
 });
 </script>
