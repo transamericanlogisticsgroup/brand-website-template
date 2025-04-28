@@ -172,6 +172,25 @@
   .btn-submit:hover {
     background-color: var(--accent-color);
   }
+  .field-wrapper select, #job-type {
+    width: 100%;
+    padding: 0.75rem;
+    padding-right: 2.5rem;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  
+  /* Override any browser default on #job-type */
+  #job-type {
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: #ccc !important;
+  }
 
 </style>
 
