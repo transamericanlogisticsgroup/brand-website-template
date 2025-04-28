@@ -78,30 +78,57 @@ nav {
   box-shadow: 0 2px 5px var(--shadow-md);
   z-index: 100;
 }
+/* 1) Make container relative so children can be absolute */
 nav .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 0;
+  position: relative;
+  height: 4.5rem; /* or whatever your nav height is */
 }
-nav .logo svg {
-  height: 85px;
-  width: auto;
-}
-nav ul {
+
+/* 2) Center the menu UL */
+nav .nav-menu {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   gap: 1.5rem;
-  list-style: none;
 }
-nav ul li a {
-  color: var(--primary-light);
-  font-weight: var(--font-weight-semibold);
+nav .nav-menu li a {
+  color: var(--text);
+  font-weight: var(--font-weight-normal);
 }
+
+/* 3) Position logo on left, vertically centered */
+nav .logo {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* 4) Position actions on right, vertically centered */
 nav .actions {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   gap: 1rem;
   align-items: center;
 }
+
+/* 5) Ensure the “Get My Quote” button doesn’t auto-margin */
+nav .actions .btn-accent {
+  margin: 0;
+  display: inline-block;
+}
+
+/* 6) Phone link uses text color */
+.link-text {
+  color: var(--text);
+  font-weight: var(--font-weight-semibold);
+}
+
 
 /* Buttons */
 .btn {
@@ -112,12 +139,6 @@ nav .actions {
 .btn-accent {
   background: var(--accent);
   color: var(--text-dark-bg);
-}
-
-/* phone link in nav uses text color */
-.link-text {
-  color: var(--text);
-  font-weight: var(--font-weight-semibold);
 }
 
 /* override btn-accent in nav so it sits inline and has no auto margins */
