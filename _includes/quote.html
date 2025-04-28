@@ -14,36 +14,50 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Add Address spacing */
-  #add-address { display: block; margin: 0 auto 3rem; }
+  /* Hide native calendar indicator */
+  .date-wrapper input::-webkit-calendar-picker-indicator {
+    opacity: 0;
+  }
+  .date-wrapper input::-ms-clear,
+  .date-wrapper input::-ms-expand {
+    display: none;
+  }
 
-  /* Job Type wrapper with custom chevron */
+  /* Add Address spacing */
+  #add-address {
+    display: block;
+    margin: 0 auto 3rem;
+    background: var(--secondary-bg);
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+    padding: 0.75rem;
+  }
+
+  /* Custom select wrapper with lighter chevron */
   .select-wrapper {
     position: relative;
     margin-bottom: 1rem;
   }
   .select-wrapper select {
     width: 100%;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background: #fff;
     padding: 0.75rem;
+    appearance: none;
+    background: #fff;
   }
   .select-wrapper::after {
-    content: "\f0d7"; /* fa-caret-down */
+    content: "\f078"; /* FontAwesome chevron-down */
     font-family: "Font Awesome 6 Free";
-    font-weight: 900;
+    font-weight: 400; /* regular weight for outlined look */
     position: absolute;
     right: 1rem;
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
-    font-size: 1rem;
+    font-size: 1.25rem;
     color: var(--text-color);
   }
 
-  /* Date wrapper with simple calendar icon */
+  /* Date wrapper with outline calendar icon */
   .date-wrapper {
     position: relative;
     margin-bottom: 1rem;
@@ -53,22 +67,29 @@
     padding: 0.75rem;
   }
   .date-wrapper::after {
-    content: "\f133"; /* fa-calendar-alt */
+    content: "\f133"; /* FontAwesome calendar-alt unicode */
     font-family: "Font Awesome 6 Free";
-    font-weight: 900;
+    font-weight: 400; /* regular outline style */
     position: absolute;
     right: 1rem;
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     color: var(--accent-color);
   }
 
   /* Address field styling */
-  .address-group { margin-bottom: 1rem; }
-  .address-group label { display: block; margin-bottom: 0.5rem; }
-  .address-group .field-wrapper { position: relative; }
+  .address-group {
+    margin-bottom: 1rem;
+  }
+  .address-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .address-group .field-wrapper {
+    position: relative;
+  }
   .address-group input {
     width: 100%;
     padding: 0.75rem;
@@ -80,17 +101,24 @@
     transform: translateY(-50%);
     background: transparent;
     border: none;
-    font-size: 1.5rem;
-    color: var(--error-color);
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
+    font-size: 1.5rem;
+    color: var(--error-color);
     cursor: pointer;
     display: none;
   }
-  .address-group.show-delete .delete-address { display: block; }
+  .address-group.show-delete .delete-address {
+    display: block;
+  }
 
   /* Submit button styling */
-  .btn-submit { width: 100%; background: var(--secondary-bg); color: var(--text-color); padding: 0.75rem; }
+  .btn-submit {
+    width: 100%;
+    background: var(--secondary-bg);
+    color: var(--text-color);
+    padding: 0.75rem;
+  }
 </style>
 
 <section id="quote">
@@ -198,10 +226,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const dateGroup = document.getElementById('date-group');
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
+  // Open date picker on group click
   dateGroup.addEventListener('click', () => {
     dateInput.showPicker ? dateInput.showPicker() : dateInput.focus();
   });
 
+  // Refresh addresses
   function refresh() {
     const groups = container.querySelectorAll('.address-group');
     groups.forEach((g,i) => {
@@ -211,6 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Attach delete
   function attach(g) {
     const btn = g.querySelector('.delete-address');
     btn.addEventListener('click', () => { g.remove(); refresh(); });
@@ -219,13 +250,14 @@ document.addEventListener('DOMContentLoaded', () => {
   container.querySelectorAll('.address-group').forEach(attach);
   refresh();
 
+  // Add address
   addBtn.addEventListener('click', () => {
     const g = document.createElement('div'); g.className='form-group address-group';
     const lbl = document.createElement('label');
-    const w = document.createElement('div'); w.className='field-wrapper';
-    const inp=document.createElement('input'); inp.type='text'; inp.name='Addresses'; inp.required=true;
-    const btn=document.createElement('button'); btn.type='button'; btn.className='delete-address'; btn.innerHTML='\f00d';
-    w.append(inp,btn); g.append(lbl,w); container.appendChild(g);
+    const wrap = document.createElement('div'); wrap.className='field-wrapper';
+    const inp = document.createElement('input'); inp.type='text'; inp.name='Addresses'; inp.required=true;
+    const btn = document.createElement('button'); btn.type='button'; btn.className='delete-address'; btn.innerHTML='\f00d';
+    wrap.append(inp,btn); g.append(lbl, wrap); container.appendChild(g);
     attach(g); refresh();
   });
 
@@ -236,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let body=`Quote Request:\nJob Type:     ${job}\nDate:         ${date}\nName:         ${name}\nPhone:        ${phone}\nEmail:        ${email}\n`;
     addrs.forEach((a,i)=>body+=`Service Address ${letters[i]||i+1}: ${a}\n`);
     const payload=new URLSearchParams({AccountSid:'{{ site.phone.twilio_sid }}',From:phone,To:'{{ site.phone.ie64 }}',Body:body});
-    try{await fetch(form.action,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:payload});}catch{};
+    await fetch(form.action,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:payload});
     submitBtn.style.display='none'; successEl.style.display='block';
   });
 });
