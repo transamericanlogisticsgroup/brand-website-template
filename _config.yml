@@ -7,59 +7,38 @@ url: "https://example.com"        # Your production URL
 baseurl: ""                    # e.g. "/blog" if served from a subpath
 
 # Theming
-# _config.yml
 theme:
   font:
     family: "Montserrat"
-    weights:
-      normal:    400
-      semibold:  600
-      bold:      700
-    sizes:
-      xs:   "0.75rem"
-      sm:   "0.875rem"
-      base: "1rem"
-      lg:   "1.25rem"
-      xl:   "1.5rem"
+    weights: ["400", "600", "700"]
 
-  spacing:
-    xs: "0.25rem"
-    sm: "0.5rem"
-    md: "1rem"
-    lg: "2rem"
-    xl: "4rem"
-
-  radii:
-    sm:   "0.25rem"
-    md:   "0.5rem"
-    lg:   "1rem"
-    pill: "9999px"
+  border_radius: "0.5rem"
 
   colors:
-    background:       "#ffffff"   # page bg
-    background_alt:   "#f9f9f9"   # alternate bg
-    surface:          "#eeeeee"   # cards, panels
+    # backgrounds
+    background:      "#ffffff"
+    background_alt:  "#f9f9f9"
+    surface:         "#eeeeee"
 
-    primary:          "#777777"
-    primary_light:    "#888888"
-    primary_dark:     "#666666"
+    # primary / secondary
+    primary:         "#777777"
+    primary_light:   "#888888"
+    primary_dark:    "#666666"
+    secondary:       "#aaaaaa"
+    secondary_light: "#bbbbbb"
+    secondary_dark:  "#999999"
 
-    secondary:        "#aaaaaa"
-    secondary_light:  "#bbbbbb"
-    secondary_dark:   "#999999"
+    # text
+    text:            "#333333"
+    text_light:      "#666666"
+    text_dark_bg:    "#ccc"
 
-    text:             "#333333"
-    text_light:       "#666666"
-    text_on_dark:     "#ffffff"
+    # accents & states
+    accent:          "#dddddd"
+    accent_dark:     "#cccccc"
+    error:           "#ff0000"
+    delete:           "#ff0000"
 
-    accent:           "#dddddd"
-    accent_dark:      "#cccccc"
-
-    success:          "#10b981"
-    warning:          "#f59e0b"
-    error:            "#ef4444"
-    delete:           "#ef4444"
-    
 # Site data
 hero:
   description: "Replace me with your hero section headline or tagline."
