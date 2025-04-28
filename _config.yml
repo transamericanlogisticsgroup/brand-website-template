@@ -31,6 +31,7 @@ theme:
     # text
     text:            "#333333"
     text_light:      "#666666"
+    text_dark_bg:    "#ccc"
 
     # accents & states
     accent:          "#dddddd"
