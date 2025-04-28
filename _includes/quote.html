@@ -1,7 +1,7 @@
 <!-- _includes/quote.html -->
 
 <style>
-  /* Spinner for submit button */
+  /* Spinner */
   .spinner {
     display: inline-block;
     width: 1em;
@@ -14,7 +14,7 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Add Address button spacing */
+  /* Spacing for Add Address */
   #add-address {
     display: block;
     margin: 0 auto 3rem;
@@ -26,7 +26,7 @@
     cursor: pointer;
   }
 
-  /* Common input/select styles */
+  /* Base field styles */
   select,
   input[type="date"],
   input[type="text"],
@@ -43,36 +43,48 @@
     -moz-appearance: none;
   }
 
-  /* Field wrapper for icons */
+  /* Wrapper for any field needing an icon */
   .field-wrapper {
-    display: flex;
-    align-items: center;
     position: relative;
     margin-bottom: 1rem;
   }
-  .field-wrapper select,
-  .field-wrapper input {
-    flex: 1;
-    margin: 0;
+  /* Space right for icon */
+  .field-wrapper input,
+  .field-wrapper select {
+    padding-right: 2.5rem;
   }
+  /* Icon inside field */
   .field-wrapper i,
   .field-wrapper .delete-icon {
-    margin-left: 0.75rem;
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    pointer-events: all;
     font-size: 1.25rem;
     color: var(--text-color);
+    background: transparent;
+    border: none;
     cursor: pointer;
-    flex-shrink: 0;
   }
-  .field-wrapper .fa-calendar-plus {
+  .field-wrapper i.fa-calendar-plus {
     color: var(--accent-color);
   }
 
-  /* Hide native calendar icon */
+  /* Hide native picker icon */
   input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0; }
   input[type="date"]::-ms-clear,
   input[type="date"]::-ms-expand { display: none; }
 
-  /* Submit button styling */
+  /* Address delete icon show/hide */
+  .address-group .delete-icon {
+    display: none;
+  }
+  .address-group.show-delete .delete-icon {
+    display: block;
+  }
+
+  /* Submit button */
   .btn-submit {
     width: 100%;
     padding: 0.75rem;
@@ -87,9 +99,7 @@
 <section id="quote">
   <div class="container">
     <div class="card">
-      <h2 style="color:var(--primary-color); text-align:center; margin-bottom:1.5rem;">
-        Get Your Free Quote
-      </h2>
+      <h2 style="color:var(--primary-color); text-align:center; margin-bottom:1.5rem;">Get Your Free Quote</h2>
       <form id="quote-form" method="POST" action="{{ site.quote.submission_url }}">
         <input type="hidden" name="To" value="{{ site.phone.ie64 }}" />
 
@@ -117,7 +127,7 @@
                 <option>Office Relocation</option>
               </optgroup>
             </select>
-            <i class="fa-solid fa-chevron-down"></i>
+            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
           </div>
         </div>
 
@@ -126,7 +136,7 @@
           <label for="date">Date</label>
           <div class="field-wrapper">
             <input type="date" id="date" name="date" required />
-            <i class="fa-regular fa-calendar-plus"></i>
+            <i class="fa-regular fa-calendar-plus" aria-hidden="true"></i>
           </div>
         </div>
 
@@ -148,24 +158,20 @@
           <input type="email" id="email" name="email" placeholder="you@example.com" required />
         </div>
 
-        <!-- Service Addresses -->
+        <!-- Addresses -->
         <div id="addresses-container">
-          <div class="form-group">
+          <div class="form-group address-group">
             <label>Address A</label>
             <div class="field-wrapper">
               <input type="text" name="Addresses" placeholder="Enter Address A" required />
-              <button type="button" class="delete-icon">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
+              <button type="button" class="delete-icon" aria-label="Delete address"><i class="fa-solid fa-xmark"></i></button>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group address-group">
             <label>Address B</label>
             <div class="field-wrapper">
               <input type="text" name="Addresses" placeholder="Enter Address B" required />
-              <button type="button" class="delete-icon">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
+              <button type="button" class="delete-icon" aria-label="Delete address"><i class="fa-solid fa-xmark"></i></button>
             </div>
           </div>
         </div>
@@ -177,9 +183,9 @@
         </div>
       </form>
 
-      <!-- Success Message -->
+      <!-- Success -->
       <div id="quote-success" style="display:none; text-align:center; margin-top:1rem; color:var(--primary-color);">
-        <strong>Sent!</strong><br />
+        <strong>Sent!</strong><br>
         Thank you! You will receive an emailed quote and an SMS or call follow-up shortly.
       </div>
     </div>
@@ -187,7 +193,7 @@
 </section>
 
 <script>
-// Front-end logic for quote form
+// Front-end logic
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('quote-form');
@@ -195,44 +201,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('addresses-container');
   const submitBtn = form.querySelector('button[type="submit"]');
   const successEl = document.getElementById('quote-success');
-  const dateWrapper = form.querySelector('.field-wrapper .fa-calendar-plus');
   const dateInput = document.getElementById('date');
+  const dateIcon = document.querySelector('.fa-calendar-plus');
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-  // Open date picker when icon clicked
-  dateWrapper.addEventListener('click', () => {
+  // Open date picker on icon or input focus
+  dateIcon.parentElement.addEventListener('click', () => {
     dateInput.showPicker ? dateInput.showPicker() : dateInput.focus();
   });
+  dateInput.addEventListener('click', () => dateInput.showPicker && dateInput.showPicker());
 
   function refresh() {
     const groups = container.querySelectorAll('.address-group');
     groups.forEach((g, i) => {
       g.querySelector('label').textContent = `Address ${letters[i] || i+1}`;
       g.querySelector('input').placeholder = `Enter Address ${letters[i] || i+1}`;
-      g.querySelector('.delete-icon').style.display = (groups.length >= 3 ? 'block' : 'none');
+      g.classList.toggle('show-delete', groups.length >= 3);
     });
   }
 
   function attach(g) {
-    const btn = g.querySelector('.delete-icon');
-    btn.addEventListener('click', () => { g.remove(); refresh(); });
+    g.querySelector('.delete-icon').addEventListener('click', () => { g.remove(); refresh(); });
   }
 
-  container.querySelectorAll('.form-group').forEach(attach);
+  container.querySelectorAll('.address-group').forEach(attach);
   refresh();
 
   addBtn.addEventListener('click', () => {
-    const g = document.createElement('div'); g.className = 'form-group';
+    const g = document.createElement('div'); g.className = 'form-group address-group';
     const lbl = document.createElement('label');
     const wrapper = document.createElement('div'); wrapper.className = 'field-wrapper';
     const inp = document.createElement('input'); inp.type = 'text'; inp.name = 'Addresses'; inp.required = true;
-    const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'delete-icon';
-    btn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-    wrapper.append(inp, btn);
-    g.append(lbl, wrapper);
-    container.appendChild(g);
-    attach(g);
-    refresh();
+    const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'delete-icon'; btn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+    wrapper.append(inp, btn); g.append(lbl, wrapper); container.appendChild(g);
+    attach(g); refresh();
   });
 
   form.addEventListener('submit', async e => {
@@ -241,33 +243,19 @@ document.addEventListener('DOMContentLoaded', () => {
     submitBtn.innerHTML = '<span class="spinner"></span>';
 
     const data = new FormData(form);
-    const job = data.get('job_type');
-    const dateVal = data.get('date');
-    const name = data.get('name');
-    const phone = data.get('From');
-    const email = data.get('email');
-    const addrs = data.getAll('Addresses');
-
+    const job = data.get('job_type'), dateVal = data.get('date'), name = data.get('name');
+    const phone = data.get('From'), email = data.get('email'), addrs = data.getAll('Addresses');
     let body =
 `Quote Request:\nJob Type:     ${job}\nDate:         ${dateVal}\nName:         ${name}\nPhone:        ${phone}\nEmail:        ${email}\n`;
-    addrs.forEach((a, i) => { body += `Service Address ${letters[i] || i+1}: ${a}\n`; });
-
-    const payload = new URLSearchParams({
-      AccountSid: '{{ site.phone.twilio_sid }}',
-      From:       phone,
-      To:         '{{ site.phone.ie64 }}',
-      Body:       body
-    });
+    addrs.forEach((a, i) => body += `Service Address ${letters[i] || i+1}: ${a}\n`);
 
     try {
       await fetch(form.action, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: payload
+        body: new URLSearchParams({ AccountSid: '{{ site.phone.twilio_sid }}', From: phone, To: '{{ site.phone.ie64 }}', Body: body })
       });
-    } catch (err) {
-      console.error(err);
-    }
+    } catch {}
 
     submitBtn.style.display = 'none';
     successEl.style.display = 'block';
