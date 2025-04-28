@@ -45,7 +45,12 @@
   nav .container { display:flex; justify-content:space-between; align-items:center; padding:1rem 0 }
   nav .logo svg { height:85px; width:auto }
   nav ul { display:flex; gap:1.5rem; list-style:none }
-  nav ul li a { color:var(--primary-light); font-weight:600 }
+  nav ul li a { color:var(--primary_light); font-weight:600 }
+  nav .actions { display:flex; gap:1rem; align-items:center }
+
+  /* btn */
+  .btn { padding:.75rem 1.5rem; border-radius:var(--border_radius); font-weight:600 }
+  .btn-accent { background:var(--accent); color: var(--text_dark_bg) }
 
   /* Hide the native date‐picker input */
   input[type="date"]#date-picker {
