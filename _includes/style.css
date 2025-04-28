@@ -78,54 +78,54 @@ nav {
   box-shadow: 0 2px 5px var(--shadow-md);
   z-index: 100;
 }
-/* 1) Restore horizontal padding & set nav height */
+/* Full-width nav with 1rem side padding */
 .nav-container {
-  position: relative;
-  padding: 0 2rem;   /* adjust left/right gutter */
-  height: 5rem;      /* set your desired nav height */
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 1rem;
+  position: relative;   /* needed for absolute children */
+  height: 5rem;         /* adjust to match your nav height */
+  background: var(--bg);
 }
 
-/* 2) Pin logo & actions to edges, vertically centered */
-.nav-container .logo,
-.nav-container .actions {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}
-.nav-container .logo {
-  left: 2rem;
-}
-.nav-container .actions {
-  right: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-/* 3) Absolutely center the menu in the page */
+/* Center the menu */
 .nav-menu {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  
   display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 2rem;         /* space between menu items */
+  gap: 2rem;
 }
 
-/* 4) Use your theme’s text color and restore padding */
-.nav-menu li a {
-  color: var(--text);
-  padding: 0.5rem 1rem;  /* clickable area */
+/* Pin logo and actions to the edges */
+.nav-container .logo {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
 }
 
-/* 5) Prevent Get-My-Quote button auto-margin */
-.actions .btn-accent {
+.nav-container .actions {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Ensure phone link then button sit inline */
+.nav-container .actions .link-text,
+.nav-container .actions .btn-accent {
   margin: 0;
 }
+
 
 /* 6) Phone link uses text color */
 .link-text {
