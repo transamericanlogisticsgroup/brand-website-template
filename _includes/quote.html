@@ -349,7 +349,7 @@
 
         <!-- Submit -->
         <div class="form-group">
-          <button type="button" id="submit-btn" class="btn-submit">Get My Quote!</button>
+          <button type="submit" id="submit-btn" class="btn-submit">Get My Quote!</button>
         </div>
       </form>
 
@@ -392,11 +392,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const confirmEmail = document.getElementById('confirm-email');
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-  submitBtn.addEventListener('click', () => {
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;       // stop here if invalid
-    }
+  form.addEventListener('submit', (e) => {
+    e.preventDefault(); 
+  
     confirmPhone.textContent = document.getElementById('phone').value;
     confirmEmail.textContent = document.getElementById('email').value;
     modal.style.display = 'flex';
