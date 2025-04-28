@@ -43,15 +43,33 @@
     -moz-appearance: none;
   }
 
+  /* Visible display inputs for date and job type */
+  #date-display,
+  #job-type-display {
+    width: 100%;
+    padding: 0.75rem;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+  }
+
   /* Wrapper for fields with icons */
   .field-wrapper {
     position: relative;
     margin-bottom: 1rem;
   }
-  .field-wrapper input,
+  .field-wrapper input[type="date"],
   .field-wrapper select {
-    padding-right: 2.5rem;
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    cursor: pointer;
   }
+  /* Icons positioned inside field */
   .field-wrapper i,
   .field-wrapper .delete-icon {
     position: absolute;
@@ -63,9 +81,19 @@
     background: transparent;
     border: none;
     cursor: pointer;
+    color: var(--text-color);
   }
   .field-wrapper i.fa-calendar-plus {
     color: var(--accent-color);
+  }
+  .field-wrapper .address-icon {
+    left: 0.5rem;
+    color: var(--accent-color);
+    pointer-events: none;
+  }
+  .field-wrapper input[type="text"] {
+    /* add padding-left when icon present */
+    padding-left: 2.5rem;
   }
 
   /* Hide native date icon */
@@ -162,7 +190,8 @@
                 <option>Office Relocation</option>
               </optgroup>
             </select>
-            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+            <input type="text" id="job-type-display" placeholder="Select job type" readonly />
+            <i class="fa-solid fa-chevron-down"></i>
           </div>
         </div>
 
@@ -171,42 +200,35 @@
           <label for="date">Date*</label>
           <div class="field-wrapper">
             <input type="date" id="date" name="date" required />
-            <i class="fa-regular fa-calendar-plus" aria-hidden="true"></i>
+            <input type="text" id="date-display" placeholder="Select date" readonly />
+            <i class="fa-solid fa-calendar-plus"></i>
           </div>
         </div>
 
         <!-- Name -->
         <div class="form-group">
           <label for="name">Name*</label>
-          <div class="field-wrapper">
-            <input type="text" id="name" name="name" placeholder="Full Name" required />
-            <i class="fa-solid fa-user" aria-hidden="true"></i>
-          </div>
+          <input type="text" id="name" name="name" placeholder="Full Name" required />
         </div>
 
         <!-- Phone -->
         <div class="form-group">
           <label for="phone">Phone Number*</label>
-          <div class="field-wrapper">
-            <input type="tel" id="phone" name="From" placeholder="+1XXXXXXXXXX" required />
-            <i class="fa-solid fa-phone" aria-hidden="true"></i>
-          </div>
+          <input type="tel" id="phone" name="From" placeholder="+1XXXXXXXXXX" required />
         </div>
 
         <!-- Email -->
         <div class="form-group">
           <label for="email">Email*</label>
-          <div class="field-wrapper">
-            <input type="email" id="email" name="email" placeholder="you@example.com" required />
-            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-          </div>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required />
         </div>
 
-        <!-- Service Addresses -->
+        <!-- Addresses -->
         <div id="addresses-container">
           <div class="form-group address-group">
-            <label>Service Address A*</label>
+            <label>Address A*</label>
             <div class="field-wrapper">
+              <i class="fa-solid fa-map-marker-alt address-icon"></i>
               <input type="text" name="Addresses" placeholder="Enter Address A" required />
               <button type="button" class="delete-icon" aria-label="Delete address">
                 <i class="fa-solid fa-xmark"></i>
@@ -214,8 +236,9 @@
             </div>
           </div>
           <div class="form-group address-group">
-            <label>Service Address B</label>
+            <label>Address B</label>
             <div class="field-wrapper">
+              <i class="fa-solid fa-map-marker-alt address-icon"></i>
               <input type="text" name="Addresses" placeholder="Enter Address B" />
               <button type="button" class="delete-icon" aria-label="Delete address">
                 <i class="fa-solid fa-xmark"></i>
@@ -223,7 +246,7 @@
             </div>
           </div>
         </div>
-        <button type="button" id="add-address" class="btn"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add Address</button>
+        <button type="button" id="add-address" class="btn"><i class="fa-solid fa-plus"></i> Add Address</button>
 
         <!-- Submit -->
         <div class="form-group">
@@ -269,12 +292,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const confirmPhone = document.getElementById('confirm-phone');
   const confirmEmail = document.getElementById('confirm-email');
   const dateInput = document.getElementById('date');
-  const dateIcon = form.querySelector('.fa-calendar-plus');
+  const dateDisplay = document.getElementById('date-display');
+  const jobTypeSelect = document.getElementById('job-type');
+  const jobTypeDisplay = document.getElementById('job-type-display');
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-  // Date picker handling
+  // Job type display update
+  jobTypeSelect.addEventListener('change', () => {
+    jobTypeDisplay.value = jobTypeSelect.value;
+  });
+
+  // Date picker handling and display
+  const dateIcon = form.querySelector('.fa-calendar-plus');
+  dateInput.addEventListener('change', () => {
+    if (dateInput.value) {
+      const d = new Date(dateInput.value);
+      dateDisplay.value = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+    }
+  });
   dateIcon.parentElement.addEventListener('click', () => dateInput.showPicker ? dateInput.showPicker() : dateInput.focus());
-  dateInput.addEventListener('click', () => dateInput.showPicker && dateInput.showPicker());
 
   // Address fields dynamic handling
   function refresh() {
@@ -283,10 +319,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const label = g.querySelector('label');
       const input = g.querySelector('input');
       if (i === 0) {
-        label.textContent = `Service Address ${letters[i]}*`;
+        label.textContent = `Address ${letters[i]}*`;
         input.required = true;
       } else {
-        label.textContent = `Service Address ${letters[i]}`;
+        label.textContent = `Address ${letters[i]}`;
         input.required = false;
       }
       input.placeholder = `Enter Address ${letters[i]}`;
@@ -306,9 +342,10 @@ document.addEventListener('DOMContentLoaded', () => {
     g.className = 'form-group address-group';
     const lbl = document.createElement('label');
     const wrapper = document.createElement('div'); wrapper.className = 'field-wrapper';
+    const icon = document.createElement('i'); icon.className = 'fa-solid fa-map-marker-alt address-icon';
     const inp = document.createElement('input'); inp.type = 'text'; inp.name = 'Addresses'; inp.required = false;
     const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'delete-icon'; btn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-    wrapper.append(inp, btn);
+    wrapper.append(icon, inp, btn);
     g.append(lbl, wrapper);
     container.appendChild(g);
     attach(g);
@@ -329,13 +366,11 @@ document.addEventListener('DOMContentLoaded', () => {
   confirmBtn.addEventListener('click', async () => {
     modal.style.display = 'none';
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="spinner"></span>';
+    submitBtn.innerHTML = '<span class=\"spinner\"></span>';
 
     const data = new FormData(form);
     const job = data.get('job_type');
-    const rawDate = data.get('date');
-    const dateObj = new Date(rawDate);
-    const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+    const formattedDate = dateDisplay.value;
     const name = data.get('name');
     const phone = data.get('From');
     const email = data.get('email');
@@ -351,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ AccountSid: '{{ site.phone.twilio_sid }}', From: phone, To: '{{ site.phone.ie64 }}', Body: body })
       });
-      document.getElementById('submit-btn').style.display = 'none';
+      submitBtn.style.display = 'none';
       successEl.style.display = 'block';
     } catch (err) {
       console.error(err);
