@@ -36,6 +36,7 @@ theme:
     accent:          "#dddddd"
     accent_dark:     "#cccccc"
     error:           "#ff0000"
+    delete:           "#ff0000"
 
 # Site data
 hero:
