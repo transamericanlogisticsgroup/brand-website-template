@@ -52,6 +52,46 @@
   .btn { padding:.75rem 1.5rem; border-radius:var(--border_radius); font-weight:600 }
   .btn-accent { background:var(--accent); color: var(--text_dark_bg) }
 
+    .btn { padding:.75rem 1.5rem; border-radius:var(--border_radius); font-weight:600 }
+    .btn-accent { background:var(--accent); color:#fff }
+
+    .hero { background:var(--background_alt); text-align:center; padding:4rem 0 }
+    .hero h1 { color:var(--primary); font-size:2.75rem; margin-bottom:1rem }
+    .hero p { font-size:1.125rem; max-width:700px; margin:0 auto 2rem }
+    .placeholder-img { width:100%; height:625px; border-radius:var(--border_radius); background:#ccc; display:flex; align-items:center; justify-content:center; color:#666 }
+    section { padding:4rem 0 }
+    .card { background:#fff; border-radius:var(--border_radius); box-shadow:0 3px 10px rgba(0,0,0,0.05); padding:2rem }
+    #quote .card { max-width:600px; margin:0 auto }
+    .form-group { margin-bottom:1rem }
+    .form-group label { display:block; font-weight:600; margin-bottom:.25rem }
+    .form-group input, .form-group select { width:100%; padding:.75rem; border:2px solid var(--accent); border-radius:var(--border_radius) }
+    #book .card { display:flex; flex-wrap:wrap }
+    #book .book-text { background:var(--primary); color:#fff; padding:2rem; flex:1 }
+    #book .book-img { flex:1 }
+    #about { background:var(--primary); color:#fff }
+    #about h2 { text-align:center; font-size:2rem; margin-bottom:2rem }
+    #about .feature { margin-bottom:1.5rem }
+    #about .feature h3 { font-size:1.25rem; margin-bottom:.5rem }
+    #locations .two-col { display:flex; gap:2rem; flex-wrap:wrap }
+    #locations .areas { list-style:none; columns:3; gap:1rem }
+    #locations .areas li { margin-bottom:.75rem }
+    #locations .areas li i { color:var(--accent); margin-right:.5rem }
+    #contact .info { display:flex; gap:2rem; flex-wrap:wrap; justify-content:center }
+    #contact .item { flex:1; min-width:200px; text-align:center }
+    #contact .item i { font-size:1.5rem; color:var(--accent); margin-bottom:.5rem }
+    #ready { text-align:center }
+    .placeholder-circle { width:200px; height:200px; border-radius:50%; background:var(--accent); margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; color:#fff; font-size:2rem }
+    footer { background:var(--primary); color:#fff }
+    footer .footer-cols { display:flex; flex-wrap:wrap; gap:2rem; max-width:1200px; margin:0 auto; padding:4rem 0 }
+    footer .col { flex:1; min-width:150px }
+    footer h4 { margin-bottom:1rem; font-size:1.1rem }
+    footer ul { list-style:none }
+    footer ul li { margin-bottom:.5rem }
+    footer ul li a { color:#fff }
+    .social { display:flex; gap:1rem; margin-top:1rem }
+    .social a { color:#fff; font-size:1.25rem }
+    .placeholder-img img { display:block; width:100%; height:100%; object-fit:cover; border-radius:var(--border_radius) }
+
   /* Hide the native date‐picker input */
   input[type="date"]#date-picker {
     position: absolute;
