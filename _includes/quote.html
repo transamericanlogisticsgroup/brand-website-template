@@ -140,7 +140,7 @@
     color: var(--bg);
     border: none;
     border-radius: var(--border-radius);
-    padding: 0.5rem 1rem;
+    padding: 0.5rem;
     font-family: var(--font-family);
     font-weight: var(--font-weight-normal);
     font-size: 1rem;
@@ -170,6 +170,21 @@
     background-color: var(--accent-dark);
   }
 
+  .modal .btn-group .btn-secondary,
+  .modal .btn-group .btn-primary {
+    /* remove any auto-margins and equalize padding */
+    margin: 0;
+    padding: 0.75rem 1.5rem;
+    display: inline-block;    /* let them sit side-by-side */
+    vertical-align: middle;
+  }
+  
+  /* specifically nuke the 1rem auto from .btn-primary */
+  .modal .btn-group .btn-primary {
+    /* override the global margin:1rem auto; */
+    margin: 0;
+  }
+    
   /* Modal */
   .modal-backdrop {
     position: fixed; inset: 0;
