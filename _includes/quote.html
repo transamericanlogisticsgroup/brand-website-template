@@ -34,6 +34,7 @@
     --accent:            {{ site.theme.colors.accent }};
     --accent-dark:       {{ site.theme.colors.accent_dark }};
     --error:             {{ site.theme.colors.error }};
+    --delete:             {{ site.theme.colors.delete }};
   }
 
   /* Hide the native date‐picker input */
@@ -209,6 +210,9 @@
     z-index: 1;
   }
 
+  .field-wrapper .delete-icon i {
+    color: var(--delete);
+  }
 
 </style>
 
