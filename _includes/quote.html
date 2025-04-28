@@ -12,11 +12,9 @@
     animation: spin 0.6s linear infinite;
     vertical-align: middle;
   }
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Space only below the Add Address button */
+  /* Add Address button: only bottom margin */
   #add-address {
     display: block;
     margin: 0 auto 3rem;
@@ -25,13 +23,54 @@
     border: 1px solid var(--text-color);
   }
 
-  /* Delete button positioning inside form-group */
-  .address-group {
+  /* Hide native select arrow */
+  .select-wrapper {
+    position: relative;
     margin-bottom: 1rem;
   }
-  .address-group > .field-wrapper {
-    position: relative;
+  .select-wrapper select {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 2.5rem;
+    background: #fff;
   }
+  .select-wrapper::after {
+    content: "\f078"; /* FontAwesome chevron-down */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--text-color);
+    font-size: 1rem;
+  }
+
+  /* Date field wrapper with calendar icon */
+  .date-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .date-wrapper input {
+    width: 100%;
+    padding-right: 2.5rem;
+  }
+  .date-wrapper .fa-calendar-alt {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 1.25rem;
+    color: var(--accent-color);
+  }
+
+  /* Address delete button positioning */
+  .address-group { margin-bottom: 1rem; }
+  .address-group > .field-wrapper { position: relative; }
   .address-group .delete-address {
     position: absolute;
     top: 50%;
@@ -44,15 +83,13 @@
     cursor: pointer;
     display: none;
   }
+  .address-group.show-delete .delete-address { display: inline; }
 
-  /* Show delete when 3+ addresses */
-  .address-group.show-delete .delete-address {
-    display: inline;
-  }
-
-  /* White background on job-type */
-  #job-type {
-    background: #fff;
+  /* Submit button text */
+  .btn-submit {
+    width: 100%;
+    background: var(--secondary-bg);
+    color: var(--text-color);
   }
 </style>
 
@@ -66,7 +103,7 @@
         <input type="hidden" name="To" value="{{ site.phone.ie64 }}" />
 
         <!-- Job Type -->
-        <div class="form-group">
+        <div class="form-group select-wrapper">
           <label for="job-type">Job Type*</label>
           <select id="job-type" name="job_type" required>
             <option value="">– Please Select –</option>
@@ -91,9 +128,10 @@
         </div>
 
         <!-- Date -->
-        <div class="form-group" id="date-group">
+        <div class="form-group date-wrapper" id="date-group">
           <label for="date">Date</label>
           <input type="date" id="date" name="date" required />
+          <i class="fas fa-calendar-alt"></i>
         </div>
 
         <!-- Name -->
@@ -134,9 +172,9 @@
         <button type="button" id="add-address" class="btn">Add Address</button>
 
         <!-- Submit -->
-        <button type="submit" class="btn" style="width:100%; background: var(--secondary-bg); color: var(--text-color);">
-          Get My Quote!
-        </button>
+        <div class="form-group">
+          <button type="submit" class="btn btn-submit">Get My Quote!</button>
+        </div>
       </form>
 
       <!-- Success Message -->
@@ -149,8 +187,6 @@
 </section>
 
 <script>
-// Front-end logic for quote form
-
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('quote-form');
   const addBtn = document.getElementById('add-address');
@@ -166,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (dateInput.showPicker) dateInput.showPicker(); else dateInput.focus();
   });
 
-  // Update address labels and delete visibility
+  // Refresh address labels and delete visibility
   function refreshAddresses() {
     const groups = addressesContainer.querySelectorAll('.address-group');
     groups.forEach((group, idx) => {
@@ -184,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Initialize existing delete buttons
+  // Initialize delete buttons
   addressesContainer.querySelectorAll('.address-group').forEach(group => {
     const btn = group.querySelector('.delete-address');
     attachDelete(btn, group);
@@ -202,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
     attachDelete(btn, group); refreshAddresses();
   });
 
-  form.addEventListener('submit', async e => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     submitBtn.disabled = true; submitBtn.innerHTML = '<span class="spinner"></span>';
     const data = new FormData(form);
@@ -211,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let body = `Quote Request:\nJob Type:     ${jobType}\nDate:         ${date}\nName:         ${name}\nPhone:        ${phone}\nEmail:        ${email}\n`;
     addrs.forEach((a,i) => { const l=letters[i]||i+1; body+=`Service Address ${l}: ${a}\n`; });
     const payload = new URLSearchParams({AccountSid:'{{ site.phone.twilio_sid }}',From:phone,To:'{{ site.phone.ie64 }}',Body:body});
-    try{await fetch(form.action,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:payload});}catch(err){console.error(err);}
+    try { await fetch(form.action,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:payload}); } catch(err){console.error(err);}    
     submitBtn.style.display='none'; successEl.style.display='block';
   });
 });
