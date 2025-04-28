@@ -39,6 +39,10 @@ theme:
     error:           "#ff0000"
     delete:           "#ff0000"
 
+    on_primary:   "#ffffff"
+    shadow_md:    "rgba(0,0,0,0.1)"
+    shadow_sm:    "rgba(0,0,0,0.05)"
+
 # Site data
 hero:
   description: "Replace me with your hero section headline or tagline."
