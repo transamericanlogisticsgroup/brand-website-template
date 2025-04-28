@@ -25,16 +25,17 @@
     cursor: pointer;
   }
 
-  /* Wrapper for fields */
+  /* Field wrapper around each input/select */
   .field-wrapper {
     position: relative;
     margin-bottom: 1rem;
+    width: 100%;
   }
   .field-wrapper input,
   .field-wrapper select {
     width: 100%;
     padding: 0.75rem;
-    padding-right: 2.5rem;
+    padding-right: 2.5rem; /* room for icon */
     background: #fff;
     border: 1px solid #ccc;
     border-radius: var(--border-radius);
@@ -44,22 +45,26 @@
     -moz-appearance: none;
   }
 
-  /* Decorative icons: disable pointer events so they never block */
-  .field-wrapper i.fa-chevron-down,
-  .field-wrapper i.fa-calendar-plus {
-    pointer-events: none;
+  /* Decorative icons sit INSIDE the input border */
+  .field-wrapper i {
     position: absolute;
-    top: 50%; right: 0.5rem;
+    top: 50%;
+    right: 1rem;          /* snug inside corner */
     transform: translateY(-50%);
     font-size: 1.25rem;
+    pointer-events: none; /* don’t block clicks on the field */
   }
   .field-wrapper i.fa-chevron-down { color: var(--text-color); }
   .field-wrapper i.fa-calendar-plus { color: var(--accent-color); }
+  .field-wrapper i.fa-user,
+  .field-wrapper i.fa-phone,
+  .field-wrapper i.fa-envelope { color: var(--text-color); }
 
-  /* Delete-X button: re-enable clicks, put on top */
+  /* Delete-X button only appears after 3 addresses */
   .field-wrapper .delete-icon {
     position: absolute;
-    top: 50%; right: 0.5rem;
+    top: 50%;
+    right: 1rem;
     transform: translateY(-50%);
     background: transparent;
     border: none;
@@ -68,9 +73,7 @@
     color: var(--error-color);
     z-index: 2;
     display: none;
-  }
-  .field-wrapper .delete-icon i {
-    pointer-events: none; /* let the button catch it */
+    pointer-events: all;
   }
   .address-group.show-delete .delete-icon {
     display: block;
@@ -244,14 +247,14 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Date picker: open native picker when clicking anywhere in the wrapper
+  // Date picker: clicking wrapper opens
   const dateWrapper = document.getElementById('date-wrapper');
   const dateInput = document.getElementById('date');
   dateWrapper.addEventListener('click', () =>
     dateInput.showPicker ? dateInput.showPicker() : dateInput.focus()
   );
 
-  // Dynamic address fields
+  // Addresses
   const container = document.getElementById('addresses-container');
   const addBtn = document.getElementById('add-address');
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
@@ -285,13 +288,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const lbl = document.createElement('label');
     const wrap = document.createElement('div');
     wrap.className = 'field-wrapper';
+
     const inp = document.createElement('input');
     inp.type = 'text';
     inp.name = 'Addresses';
+
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'delete-icon';
     btn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+
     wrap.append(inp, btn);
     g.append(lbl, wrap);
     container.appendChild(g);
@@ -299,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
     refresh();
   });
 
-  // Confirmation modal & submit
+  // Confirmation & submit
   const submitBtn = document.getElementById('submit-btn');
   const modal = document.getElementById('confirm-modal');
   const cancelBtn = document.getElementById('cancel-btn');
@@ -330,9 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addrs = data.getAll('Addresses');
 
     let body = `Quote Request:\nJob Type:     ${job}\nDate:         ${rawDate}\nName:         ${name}\nPhone:        ${phone}\nEmail:        ${email}\n`;
-    addrs.forEach((a, i) => {
-      body += `Service Address ${letters[i]}: ${a}\n`;
-    });
+    addrs.forEach((a, i) => body += `Service Address ${letters[i]}: ${a}\n`);
 
     try {
       await fetch(form.action, {
