@@ -74,6 +74,18 @@ body {
   color: var(--text);
 }
 
+section {
+  padding: 4rem 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+nav {
+  z-index: 2000 !important;
+}
+
 /* Container */
 .container {
   width: 90%;
@@ -86,15 +98,6 @@ body {
   border-radius: var(--border-radius-1);
   box-shadow: 0 3px 10px var(--shadow-sm);
   padding: 2rem;
-}
-
-section {
-  padding: 4rem 0;
-}
-
-/* Links */
-a {
-  text-decoration: none;
 }
 
 /* Buttons */
