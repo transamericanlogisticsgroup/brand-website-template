@@ -46,6 +46,7 @@ html, body {
   --accent-dark:       {{ site.theme.colors.accent_dark }};
   --error:             {{ site.theme.colors.error }};
   --delete:            {{ site.theme.colors.delete }};
+  --border-color:      {{ site.theme.colors.border }};
 
   /* New variables – add these to your _config.yml under theme.colors:
      on_primary: "#ffffff"
@@ -105,7 +106,12 @@ a {
   background: var(--accent);
   color: var(--text-dark-bg);
 }
-
+.btn,
+.btn-primary,
+.btn-secondary,
+.btn-accent {
+  border: 1px solid var(--border-color);
+}
 
 /* Form */
 .form-group {

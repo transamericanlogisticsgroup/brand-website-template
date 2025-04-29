@@ -38,7 +38,8 @@ theme:
     accent:          "#dddddd"
     accent_dark:     "#cccccc"
     error:           "#ff0000"
-    delete:           "#ff0000"
+    delete:          "#ff0000"
+    border:          "#cccccc"
 
     on_primary:   "#ffffff"
     shadow_md:    "rgba(0,0,0,0.1)"
