@@ -10,6 +10,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
+    justify-content: center;    /* center columns in the container */
     max-width: 1200px;
     margin: 0 auto;
     padding: 4rem 0;
@@ -17,6 +18,7 @@
   footer .col {
     flex: 1;
     min-width: 150px;
+    text-align: center;         /* center all content in each column */
   }
   footer h4 {
     margin-bottom: 1rem;
@@ -59,14 +61,12 @@
 <footer>
   <div class="container footer-cols">
 
-    <!-- Address column (scrolls to locations) -->
+    <!-- Address column -->
     <div class="col">
       <h4>Address</h4>
       <ul>
         {% for line in site.address %}
-          <li>
-            <a href="#locations">{{ line }}</a>
-          </li>
+          <li><a href="#locations">{{ line }}</a></li>
         {% endfor %}
       </ul>
     </div>
@@ -76,9 +76,7 @@
       <h4>Locations</h4>
       <ul>
         {% for location in site.locations %}
-          <li>
-            <a href="#locations">{{ location.name }}</a>
-          </li>
+          <li><a href="#locations">{{ location.name }}</a></li>
         {% endfor %}
       </ul>
     </div>
