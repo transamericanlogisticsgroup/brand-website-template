@@ -97,7 +97,7 @@ a {
 }
 
 /* Inputs */
-input {
+input, select {
   border: 2px solid var(--border);
 }
 
@@ -115,7 +115,7 @@ input {
 .btn-primary,
 .btn-secondary,
 .btn-accent {
-  border: 1px solid var(--border)!important;
+  border: 2px solid var(--border)!important;
 }
 
 /* Form */
