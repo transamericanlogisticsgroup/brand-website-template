@@ -10,15 +10,19 @@ section {
   flex-wrap: wrap;
 }
 #book .book-text {
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
   background: var(--primary);
   color: var(--on-primary);
   padding: 2rem;
   flex: 1;
 }
+
 #book .book-img {
   width: 100%;
   height: 625px;
-  border-radius: var(--border-radius);
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  overflow: hidden;
+  position: relative;
   background: var(--surface);
   display: flex;
   align-items: center;
@@ -27,9 +31,12 @@ section {
   flex: 1;
 }
 
-#book .btn-accent {
-  display: inline-block;
-  margin: 1rem auto;
+/* Make the img inside fill and respect the rounding */
+#book .book-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 </style>
