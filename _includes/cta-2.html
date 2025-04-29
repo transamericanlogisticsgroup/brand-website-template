@@ -1,33 +1,38 @@
+<!-- _includes/cta-2.html -->
+
 <style>
-/* Ready */
-#ready {
-  text-align: center;
-}
+  /* Ready (CTA-2) */
+  #ready {
+    text-align: center;
+    padding: 4rem 0;
+  }
 
-.placeholder-circle {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: var(--accent);
-  margin: 0 auto 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--on-primary);
-  font-size: 2rem;
-}
+  .placeholder-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--on-primary);
+    font-size: 2rem;
+  }
 
-#cta-2 .btn-accent {
-  display: inline-block;
-  width: auto;
-  margin: 1rem auto 0;
-}
-
+  /* Override full-width */
+  #ready .btn-accent {
+    display: inline-block !important;
+    width: auto !important;
+    margin: 1rem auto 0 !important;
+  }
 </style>
 
 <section id="ready">
   <div class="container">
-    <div class="placeholder-circle"><i class="fas fa-box-open"></i></div>
+    <div class="placeholder-circle">
+      <i class="fas fa-box-open"></i>
+    </div>
     <h2 style="margin-bottom:1rem;">Ready to Go?</h2>
     <a href="#quote" class="btn btn-accent">Get My Quote</a>
   </div>
