@@ -54,13 +54,25 @@
   #locations .areas.special-5 li:nth-child(4) { grid-column: 2; grid-row: 2; }
   #locations .areas.special-5 li:nth-child(5) { grid-column: 4; grid-row: 2; }
 
-  /* MOBILE: widen the second container (the UL wrapper) */
+  /* ─── MOBILE OVERRIDE ─── */
   @media (max-width: 600px) {
-    /* target the 2nd .container inside #locations */
+    /* Make the UL container itself full-bleed (minus 1rem padding) */
     #locations > .container:nth-of-type(2) {
-      width: calc(100% - 2rem) !important;
+      width: 100% !important;
       max-width: none !important;
       padding: 0 1rem !important;
+    }
+
+    /* Revert special-5 back to flex, keep two columns */
+    #locations .areas,
+    #locations .areas.special-5 {
+      display: flex !important;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+    #locations .areas li {
+      flex: 0 0 50%;
     }
   }
 </style>
@@ -94,7 +106,7 @@
   document.addEventListener("DOMContentLoaded", () => {
     const coords = [
       {% for loc in site.locations %}
-        [{{ loc.coordinates }}]{% unless forloop.last %},{% endunless %}
+      [{{ loc.coordinates }}]{% unless forloop.last %},{% endunless %}
       {% endfor %}
     ];
 
