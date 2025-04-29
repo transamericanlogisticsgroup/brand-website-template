@@ -97,6 +97,18 @@ locations:
   - name: "Location C"
   - name: "Location D"
 
+about:
+  title: "Why Choose Vancouver Movers"
+  features:
+    - title: "Local Expertise"
+      text: "Our team knows Vancouver inside and out—your move is in trusted hands."
+    - title: "Reliable Service"
+      text: "We pride ourselves on timeliness, care, and clear communication."
+    - title: "Community Focus"
+      text: "A portion of every move supports local Vancouver initiatives."
+    - title: "Smoothest Moves"
+      text: "From expert packing to careful unloading, we handle the heavy lifting."
+
 # Testimonials for carousel
 testimonials:
   - text: "Replace with your first testimonial text."
