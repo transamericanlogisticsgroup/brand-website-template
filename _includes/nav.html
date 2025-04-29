@@ -11,18 +11,17 @@ nav {
 /* Edge-to-edge nav wrapper */
 .nav-container {
   width: 100%;
-  margin: 0;
   padding: 0 1rem;
   position: relative;
-  height: 5rem;
+  height: 5rem;           /* match your nav height */
   background: var(--bg);
+  margin: 0;              /* no auto-margins */
 }
 
 /* Center the desktop menu */
 .nav-menu {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   list-style: none;
@@ -30,28 +29,31 @@ nav {
   margin: 0; padding: 0;
 }
 
-/* Logo on left */
+/* Logo on the left */
 .nav-container .logo {
   position: absolute;
   top: 50%; left: 1rem;
   transform: translateY(-50%);
 }
 
-/* Actions on right */
+/* Actions on the right */
 .nav-container .actions {
   position: absolute;
   top: 50%; right: 1rem;
   transform: translateY(-50%);
-  display: flex; gap: 1rem; align-items: center;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  z-index: 100;
 }
 
-/* phone link color */
+/* Phone link */
 .link-text {
   color: var(--text);
   font-weight: var(--font-weight-semibold);
 }
 
-/* Desktop nav link colors */
+/* Desktop menu links */
 .nav-menu a {
   color: var(--text);
   font-weight: var(--font-weight-semibold);
@@ -61,30 +63,32 @@ nav {
   color: var(--primary);
 }
 
-/* Hide hamburger & mobile panel by default */
+/* Hide mobile controls by default */
 .hamburger,
 .mobile-menu {
   display: none;
 }
 
-/* Collapse phone-text under 1080px */
+/* Collapse phone number text <1080px */
 @media (max-width: 1080px) {
   .phone-text { display: none; }
 }
 
-/* MOBILE (<960px) */
+/* MOBILE: <960px */
 @media (max-width: 960px) {
+  /* remove any nav-container padding if you want true edge-to-edge */
+  .nav-container {
+    padding: 0;
+  }
+
   /* hide desktop menu */
   .nav-menu { display: none; }
 
   /* show phone icon left of hamburger */
   .nav-container .actions {
     right: 3rem;
-    z-index: 1001;
   }
-  .actions .btn-accent {
-    display: none !important;
-  }
+  .actions .btn-accent { display: none !important; }
 
   /* show hamburger */
   .hamburger {
@@ -94,7 +98,7 @@ nav {
     transform: translateY(-50%);
     background: none; border: none;
     font-size: 1.5rem; color: var(--text);
-    cursor: pointer; z-index: 1002;
+    cursor: pointer; z-index: 101;
   }
 
   /* mobile panel */
@@ -104,25 +108,26 @@ nav {
     background: var(--bg); padding: 1rem;
     box-shadow: 0 4px 8px var(--shadow-md);
     transform: translateY(-10px); opacity: 0;
-    pointer-events: none;
-    transition: opacity .2s, transform .2s;
-    z-index: 1000;
+    pointer-events: none; transition: .2s ease;
+    z-index: 100;
   }
   .mobile-menu.open {
     transform: translateY(0); opacity: 1;
     pointer-events: auto;
   }
 
-  /* mobile links */
-  .mobile-nav { list-style: none; margin:0; padding:0; display:flex; flex-direction:column; gap:.75rem; }
+  .mobile-nav {
+    display: flex; flex-direction: column; gap: .75rem;
+    list-style: none; margin: 0; padding: 0;
+  }
   .mobile-nav a {
-    color: var(--text); font-weight: var(--font-weight-semibold);
+    color: var(--text);
+    font-weight: var(--font-weight-semibold);
     padding: .5rem;
   }
 
-  /* mobile quote button */
   .mobile-quote {
-    display: block; width:100%; text-align:center;
+    display: block; width: 100%; text-align: center;
   }
 
   /* hide phone link inside mobile panel */
@@ -131,24 +136,24 @@ nav {
 </style>
 
 <nav>
-  <div class="nav-container">
+  <div class="nav-container"><!-- no .container -->
     <div class="logo">
       {% include logo.html %}
     </div>
 
-    <!-- Hamburger -->
+    <!-- hamburger icon -->
     <button class="hamburger" aria-label="Toggle menu">
       <i class="fa-solid fa-bars"></i>
     </button>
 
-    <!-- Desktop menu -->
+    <!-- desktop menu -->
     <ul class="nav-menu">
       {% for link in site.nav_links %}
         <li><a href="{{ link.url }}">{{ link.title }}</a></li>
       {% endfor %}
     </ul>
 
-    <!-- Phone + Quote (desktop only) -->
+    <!-- phone + quote (desktop only) -->
     <div class="actions">
       <a href="tel:{{ site.phone.ie64 | remove: ' ' }}" class="link-text">
         <i class="fas fa-phone"></i><span class="phone-text">{{ site.phone.display }}</span>
@@ -156,7 +161,7 @@ nav {
       <a href="#quote" class="btn-accent">Get My Quote</a>
     </div>
 
-    <!-- Mobile panel -->
+    <!-- mobile menu panel -->
     <div class="mobile-menu">
       <ul class="mobile-nav">
         {% for link in site.nav_links %}
@@ -171,6 +176,8 @@ nav {
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.hamburger')
-      .addEventListener('click', () => document.querySelector('.mobile-menu').classList.toggle('open'));
+      .addEventListener('click', () =>
+        document.querySelector('.mobile-menu').classList.toggle('open')
+      );
   });
 </script>
