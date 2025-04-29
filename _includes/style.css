@@ -122,21 +122,6 @@ nav .actions {
   font-size: 2rem;
 }
 
-/* Sections */
-section {
-  padding: 4rem 0;
-}
-.card {
-  background: var(--bg);
-  border-radius: var(--border-radius);
-  box-shadow: 0 3px 10px var(--shadow-sm);
-  padding: 2rem;
-}
-#quote .card {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
 /* Form */
 .form-group {
   margin-bottom: 1rem;
@@ -155,21 +140,6 @@ section {
   font-family: var(--font-family);
   font-size: 1rem;
   color: var(--text);
-}
-
-/* Book Section */
-#book .card {
-  display: flex;
-  flex-wrap: wrap;
-}
-#book .book-text {
-  background: var(--primary);
-  color: var(--on-primary);
-  padding: 2rem;
-  flex: 1;
-}
-#book .book-img {
-  flex: 1;
 }
 
 /* About Section */
