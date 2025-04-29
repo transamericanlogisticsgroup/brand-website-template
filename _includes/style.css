@@ -96,14 +96,6 @@ a {
   text-decoration: none;
 }
 
-/* Inputs */
-input{
-  border: 2px solid var(--border);
-}
-select{
-  border: 2px solid var(--border);
-}
-
 /* Buttons */
 .btn {
   padding: 0.75rem 1.5rem;
@@ -134,11 +126,17 @@ select{
 .form-group select {
   width: 100%;
   padding: 0.75rem;
-  border: 2px solid var(--accent);
   border-radius: var(--border-radius-2);
   font-family: var(--font-family);
   font-size: 1rem;
   color: var(--text);
+}
+/* Inputs */
+input{
+  border: 2px solid var(--border);
+}
+select{
+  border: 2px solid var(--border);
 }
 
 /* Field wrappers & icons */
