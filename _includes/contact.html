@@ -7,7 +7,7 @@
   }
   #contact h2 {
     text-align: center;
-    margin-bottom: 3rem;       /* added extra space under the title */
+    margin-bottom: 3rem;
     color: var(--primary);
   }
 
@@ -26,6 +26,14 @@
     font-size: 1.5rem;
     color: var(--accent);
     margin-bottom: 0.5rem;
+  }
+  /* Ensure all text links in contact use the same text color */
+  #contact .item a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  #contact .item a:hover {
+    color: var(--primary);
   }
 </style>
 
@@ -46,7 +54,7 @@
         <i class="fas fa-phone"></i>
         <h3>Phone</h3>
         <p>
-          <a href="tel:{{ site.phone.ie64 }}" style="color:var(--accent);">
+          <a href="tel:{{ site.phone.ie64 }}">
             {{ site.phone.display }}
           </a>
         </p>
