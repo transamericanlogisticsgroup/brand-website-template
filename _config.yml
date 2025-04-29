@@ -55,6 +55,25 @@ cta:
 
 quote:
   submission_url: "https://shadow-seagull-4892.twil.io/submit_quote_request"
+  job_types:
+    - label: "Home"
+      options:
+        - "Studio Home"
+        - "1 Bedroom Home"
+        - "2 Bedroom Home"
+        - "3+ Bedroom Home"
+    - label: "Specialty Services"
+      options:
+        - "Piano Moving"
+        - "Junk Removal"
+        - "Furniture Packing/Unpacking"
+        - "Full-Service Packing"
+        - "Partial Packing"
+    - label: "Commercial/Other"
+      options:
+        - "Commercial Move"
+        - "Office Relocation"
+
 
 # Contact info
 phone:
