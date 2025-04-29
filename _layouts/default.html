@@ -19,33 +19,6 @@
   {% include nav.html %}
   {{ content }}
   {% include footer.html %}
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const testimonials = {{ site.data.testimonials | jsonify }}
-      let current = 0;
-      const textEl = document.getElementById('testimonial-text');
-      const authorEl = document.getElementById('testimonial-author');
-      const locationEl = document.getElementById('testimonial-location-text');
-      const starsEl = document.getElementById('stars');
-      function showTestimonial(idx) {
-        const t = testimonials[idx];
-        textEl.textContent = t.text;
-        authorEl.textContent = t.author;
-        locationEl.textContent = t.location;
-        const filled = '★'.repeat(Math.round(t.rating));
-        const empty = '☆'.repeat(5 - Math.round(t.rating));
-        starsEl.textContent = `${filled}${empty} ${t.rating.toFixed(1)}/5.0`;
-      }
-      document.querySelector('.prev').addEventListener('click', () => {
-        current = (current - 1 + testimonials.length) % testimonials.length;
-        showTestimonial(current);
-      });
-      document.querySelector('.next').addEventListener('click', () => {
-        current = (current + 1) % testimonials.length;
-        showTestimonial(current);
-      });
-      showTestimonial(current);
-    });
-  </script>
+
 </body>
 </html>
