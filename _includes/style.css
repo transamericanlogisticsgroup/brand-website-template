@@ -108,34 +108,7 @@ nav .actions {
 }
 
 
-/* Hero */
-.hero {
-  background: var(--bg-alt);
-  text-align: center;
-  padding: 4rem 0;
-}
-.hero h1 {
-  color: var(--primary);
-  font-size: 2.75rem;
-  margin-bottom: 1rem;
-}
-.hero p {
-  font-size: 1.125rem;
-  max-width: 700px;
-  margin: 0 auto 2rem;
-}
 
-/* Placeholder */
-.placeholder-img {
-  width: 100%;
-  height: 625px;
-  border-radius: var(--border-radius);
-  background: var(--surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-light);
-}
 .placeholder-circle {
   width: 200px;
   height: 200px;
