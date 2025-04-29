@@ -10,13 +10,18 @@ section {
   flex-wrap: wrap;
 }
 #book .book-text {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 1rem;                                /* space between rows */
   border-radius: var(--border-radius) 0 0 var(--border-radius);
   background: var(--primary);
   color: var(--on-primary);
   padding: 2rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  text-align: center;
+}
+
+#book .book-text p {
+  margin: 0;
 }
 
 #book .book-img {
@@ -44,9 +49,9 @@ section {
 #book .book-text .btn-accent {
   display: inline-block;
   width: auto;        /* never stretch full-width */
-  margin-top: auto;   /* push itself down to the bottom */
+  justify-self: center;
 }
-
+  
 </style>
 
 <section id="book">
