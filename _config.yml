@@ -70,6 +70,10 @@ quote:
         - "Moving Helpers (No Truck)"
         - "Full-Service Packing"
         - "Partial Packing"
+    - label: "Long Distance"
+      options:
+        - "National (within country)"
+        - "International (out of country)"
     - label: "Commercial/Other"
       options:
         - "Commercial Move"
