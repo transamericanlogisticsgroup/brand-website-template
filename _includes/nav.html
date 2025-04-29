@@ -7,14 +7,15 @@ nav {
   box-shadow: 0 2px 5px var(--shadow-md);
   z-index: 100;
 }
+
 /* Full-width nav with 1rem side padding */
 .nav-container {
   width: 100% !important;
   max-width: none !important;
   margin: 0 !important;
   padding: 0 1rem;
-  position: relative;   /* needed for absolute children */
-  height: 5rem;         /* adjust to match your nav height */
+  position: relative;
+  height: 5rem;
   background: var(--bg);
 }
 
@@ -31,14 +32,13 @@ nav {
   gap: 2rem;
 }
 
-/* Pin logo and actions to the edges */
+/* Logo & desktop actions */
 .nav-container .logo {
   position: absolute;
   top: 50%;
   left: 1rem;
   transform: translateY(-50%);
 }
-
 .nav-container .actions {
   position: absolute;
   top: 50%;
@@ -48,39 +48,29 @@ nav {
   gap: 1rem;
   align-items: center;
 }
-
-/* Ensure phone link then button sit inline */
+.link-text {
+  color: var(--text);
+  font-weight: var(--font-weight-semibold);
+}
 .nav-container .actions .link-text,
 .nav-container .actions .btn-accent {
   margin: 0;
 }
 
-/* Phone link uses text color */
-.link-text {
-  color: var(--text);
-  font-weight: var(--font-weight-semibold);
-}
-
-/* Nav menu links: always text color, semibold, never purple when visited */
+/* Nav menu link colors */
 .nav-menu li a,
-.nav-menu li a:visited {
+.nav-menu li a:visited,
+.nav-menu li a:focus,
+.nav-menu li a:active {
   color: var(--text);
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
 }
-
-/* Keep same color on focus/active */
-.nav-menu li a:focus,
-.nav-menu li a:active {
-  color: var(--text);
-}
-
-/* Hover state (uses primary color) */
 .nav-menu li a:hover {
   color: var(--primary);
 }
 
-/* Hide mobile-specific controls by default */
+/* Hide mobile controls by default */
 .hamburger,
 .mobile-menu {
   display: none;
@@ -100,7 +90,24 @@ nav {
     display: none;
   }
 
-  /* Show hamburger toggle */
+  /* Always show phone icon next to hamburger */
+  .actions {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 3rem;
+    transform: translateY(-50%);
+    z-index: 1001;
+  }
+  .actions .link-text {
+    display: inline-block;
+  }
+  /* Hide the desktop “Get My Quote” here */
+  .actions .btn-accent {
+    display: none !important;
+  }
+
+  /* Hamburger toggle */
   .hamburger {
     display: block;
     position: absolute;
@@ -112,26 +119,7 @@ nav {
     font-size: 1.5rem;
     color: var(--text);
     cursor: pointer;
-    z-index: 1001;
-  }
-
-  /* Position phone icon left of hamburger */
-  .actions {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 3rem;
-    transform: translateY(-50%);
-    z-index: 1001;
-  }
-  .actions .link-text {
-    display: inline-block;
-    color: var(--text);
-    font-weight: var(--font-weight-semibold);
-  }
-  /* Hide Get My Quote button in actions */
-  .actions .btn-accent {
-    display: none;
+    z-index: 1002;
   }
 
   /* Mobile menu panel */
@@ -150,16 +138,12 @@ nav {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease, transform 0.2s ease;
-    z-index: 999;
+    z-index: 1000;
   }
   .mobile-menu.open {
     transform: translateY(0);
     opacity: 1;
     pointer-events: auto;
-  }
-  /* Remove phone link from mobile panel */
-  .mobile-menu .link-text {
-    display: none;
   }
 
   /* Mobile nav links */
@@ -177,11 +161,16 @@ nav {
     padding: 0.5rem;
   }
 
-  /* Mobile quote button full width */
+  /* Mobile "Get My Quote" full width */
   .mobile-quote {
     display: block;
     width: 100%;
     text-align: center;
+  }
+
+  /* Remove phone link from mobile panel */
+  .mobile-menu .link-text {
+    display: none;
   }
 }
 </style>
@@ -204,7 +193,7 @@ nav {
       {% endfor %}
     </ul>
 
-    <!-- Desktop actions -->
+    <!-- Desktop actions: phone + quote -->
     <div class="actions">
       <a href="tel:{{ site.phone.ie64 | remove: ' ' }}" class="link-text">
         <i class="fas fa-phone"></i><span class="phone-text">{{ site.phone.display }}</span>
@@ -219,9 +208,6 @@ nav {
           <li><a href="{{ link.url }}">{{ link.title }}</a></li>
         {% endfor %}
       </ul>
-      <a href="tel:{{ site.phone.ie64 | remove: ' ' }}" class="link-text">
-        <i class="fas fa-phone"></i> {{ site.phone.display }}
-      </a>
       <a href="#quote" class="btn-accent mobile-quote">Get My Quote</a>
     </div>
   </div>
