@@ -1,3 +1,5 @@
+<!-- _includes/cta-1.html -->
+
 <style>
   /* Sections */
   section {
@@ -7,7 +9,7 @@
   /* CTA-1 Section */
   #cta-1 .card {
     display: flex;
-    flex-wrap: nowrap;      /* keep two columns side by side */
+    flex-wrap: nowrap;      /* two columns side by side on desktop */
     align-items: stretch;   /* equal height columns */
   }
   
@@ -58,21 +60,42 @@
     height: 100%;
     object-fit: cover;
   }
-  </style>
-  
-  <section id="cta-1">
-    <div class="container card">
-      <div class="cta-1-text">
-        <h2>{{ site.cta.title }}</h2>
-        <p>{{ site.cta.text }}</p>
-        <a href="#quote" class="btn btn-accent">{{ site.cta.button }}</a>
-      </div>
-      <div class="cta-1-img">
-        <img
-          src="{{ '/assets/cta.webp' | relative_url }}"
-          alt="Call to action image"
-        >
-      </div>
+
+  /* ─── MOBILE STACKING (≤768px) ─── */
+  @media (max-width: 768px) {
+    #cta-1 .card {
+      flex-direction: column;
+    }
+    /* image on top */
+    #cta-1 .cta-1-img {
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+      height: auto;            /* allow natural height or set a fixed one if you prefer */
+    }
+    /* text block below */
+    #cta-1 .cta-1-text {
+      border-radius: 0 0 var(--border-radius) var(--border-radius);
+    }
+    /* make both full-width */
+    #cta-1 .cta-1-text,
+    #cta-1 .cta-1-img {
+      flex: 0 0 auto;
+      width: 100%;
+    }
+  }
+</style>
+
+<section id="cta-1">
+  <div class="container card">
+    <div class="cta-1-text">
+      <h2>{{ site.cta.title }}</h2>
+      <p>{{ site.cta.text }}</p>
+      <a href="#quote" class="btn btn-accent">{{ site.cta.button }}</a>
     </div>
-  </section>
-  
+    <div class="cta-1-img">
+      <img
+        src="{{ '/assets/cta.webp' | relative_url }}"
+        alt="Call to action image"
+      >
+    </div>
+  </div>
+</section>
