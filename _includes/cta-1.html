@@ -1,3 +1,35 @@
+<style>
+/* Sections */
+section {
+  padding: 4rem 0;
+}
+  
+/* Book Section */
+#book .card {
+  display: flex;
+  flex-wrap: wrap;
+}
+#book .book-text {
+  background: var(--primary);
+  color: var(--on-primary);
+  padding: 2rem;
+  flex: 1;
+}
+#book .book-img {
+  width: 100%;
+  height: 625px;
+  border-radius: var(--border-radius);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+  flex: 1;
+}
+
+
+</style>
+
 <section id="book">
   <div class="container card">
     <div class="book-text">
@@ -9,7 +41,7 @@
       <img
         src="{{ '/assets/cta.webp' | relative_url }}"
         alt="Call to action image"
-        class="placeholder-img"
+        class="book-img"
       >
     </div>
   </div>
