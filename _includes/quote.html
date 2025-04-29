@@ -79,23 +79,13 @@ input:not(#date-picker), select, textarea {
           <div class="field-wrapper">
             <select id="job-type" name="job_type" required>
               <option value="">– Please Select –</option>
-              <optgroup label="Home">
-                <option>Studio Home</option>
-                <option>1 Bedroom Home</option>
-                <option>2 Bedroom Home</option>
-                <option>3+ Bedroom Home</option>
-              </optgroup>
-              <optgroup label="Specialty Services">
-                <option>Piano Moving</option>
-                <option>Junk Removal</option>
-                <option>Furniture Packing/Unpacking</option>
-                <option>Full-Service Packing</option>
-                <option>Partial Packing</option>
-              </optgroup>
-              <optgroup label="Commercial/Other">
-                <option>Commercial Move</option>
-                <option>Office Relocation</option>
-              </optgroup>
+              {% for group in site.quote.job_types %}
+                <optgroup label="{{ group.label }}">
+                  {% for option in group.options %}
+                    <option value="{{ option }}">{{ option }}</option>
+                  {% endfor %}
+                </optgroup>
+              {% endfor %}
             </select>
             <i class="fa-solid fa-chevron-down"></i>
           </div>
