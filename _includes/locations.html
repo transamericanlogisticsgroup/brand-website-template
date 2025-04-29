@@ -2,19 +2,21 @@
   /* Locations Section */
   #locations h2 {
     text-align: center;
-    margin-bottom: 2rem;           /* more space between title and content */
+    margin-bottom: 2rem;    /* extra space below title */
   }
   
+  /* Stack map and list, center everything */
   #locations .two-col {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 2rem;
-    flex-wrap: wrap;
-    align-items: flex-start;       /* align list to top of map */
   }
   
+  /* Map placeholder styling */
   #locations .locations-img {
-    flex: 1;
     width: 100%;
+    max-width: 800px;
     height: 625px;
     border-radius: var(--border-radius);
     background: var(--surface);
@@ -24,35 +26,25 @@
     color: var(--text-light);
   }
   
+  /* Centered list under the map */
   #locations .areas {
-    flex: 1;
     list-style: none;
     columns: 3;
     gap: 1rem;
     margin: 0;
     padding: 0;
-    text-align: center;            /* center each item’s text */
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
   }
   
+  /* List items */
   #locations .areas li {
     margin-bottom: 0.75rem;
   }
-  
   #locations .areas li i {
     color: var(--accent);
     margin-right: 0.5rem;
-  }
-  
-  /* On narrower screens, stack and center under the map */
-  @media (max-width: 768px) {
-    #locations .two-col {
-      flex-direction: column;
-      align-items: center;
-    }
-    #locations .areas {
-      columns: 1;
-      margin-top: 2rem;             /* add space under map */
-    }
   }
   </style>
   
