@@ -2,7 +2,7 @@
 
 <style>
   #locations {
-    background-color: var(--bg-light);
+    background-color: var(--bg-secondary);
   }
   /* Force the map and its controls below the nav and other content */
   #locations-map,
@@ -50,7 +50,7 @@
     margin-right: 0.5rem;
   }
 
-  /* Special 5-item layout: 5-column grid with offsets */
+  /* Special 5‐item grid */
   #locations .areas.special-5 {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -68,15 +68,12 @@
 
   /* ─── MOBILE OVERRIDE (≤600px) ─── */
   @media (max-width: 600px) {
-    /* make the second container (the UL wrapper) truly full-width */
     #locations > .container:last-of-type {
       width: 100% !important;
       max-width: none !important;
       margin: 0 !important;
       padding: 0 1rem !important;
     }
-
-    /* force both default and special lists into a 2-column grid */
     #locations .areas,
     #locations .areas.special-5 {
       display: grid !important;
@@ -85,21 +82,13 @@
       margin: 0 auto;
       padding: 0;
     }
-
-    /* cancel out the desktop-only nth-child positioning */
     #locations .areas.special-5 li {
       grid-column: auto !important;
       grid-row: auto !important;
     }
-
-    /* ensure each item sits in its column */
-    #locations .areas li {
-      margin-bottom: 0.75rem;
-    }
   }
 </style>
 
-<!-- Leaflet CSS & JS (no API key needed) -->
 <link
   rel="stylesheet"
   href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
@@ -113,9 +102,10 @@
   </div>
 
   <div class="container">
-    {% assign n = site.locations | size %}
+    {% assign locs = site.locations.location_data %}
+    {% assign n = locs | size %}
     <ul class="areas{% if n == 5 %} special-5{% endif %}">
-      {% for loc in site.locations %}
+      {% for loc in locs %}
         <li>
           <i class="fas fa-map-marker-alt"></i>{{ loc.name }}
         </li>
@@ -126,15 +116,39 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const coords = [
-      {% for loc in site.locations %}
-        [{{ loc.coordinates }}]{% unless forloop.last %},{% endunless %}
+    // pull your array of locations from config
+    const locations = [
+      {% for loc in locs %}
+        { name: "{{ loc.name }}", coords: [{{ loc.coordinates }}] }{% unless forloop.last %},{% endunless %}
       {% endfor %}
     ];
-    const map = L.map("locations-map").setView(coords[0], 11);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: "&copy; OpenStreetMap contributors"
-    }).addTo(map);
-    coords.forEach(c => L.marker(c).addTo(map));
+
+    // init map
+    const map = L.map("locations-map");
+
+    // tile layer URL from config, or default OSM
+    {% if site.locations.map_theme_url %}
+      var tileUrl = "{{ site.locations.map_theme_url }}";
+    {% else %}
+      var tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+    {% endif %}
+
+    var attribution = "{{ site.locations.map_theme_attribution | default: '&copy; OpenStreetMap contributors' }}";
+    L.tileLayer(tileUrl, { attribution }).addTo(map);
+
+    // single‐config marker color
+    const markerIconClass = "{{ site.locations.map_marker_icon | default: 'fa-solid fa-location-dot' }}"
+    const markerColor = "{{ site.locations.map_marker_color | default: '#960A0A' }}";
+    const markerIcon = L.divIcon({
+      html: `<i class="${markerIconClass}" style="color: ${markerColor}; font-size:2.5rem; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));"></i>`,
+      className: "custom-marker-icon",
+      iconAnchor: [10, 20]
+    });
+
+    // add markers & collect them for bounds
+    const markers = locations.map(loc => L.marker(loc.coords, { icon: markerIcon }).addTo(map));
+
+    // auto‐fit to all markers
+    map.fitBounds(markers.map(m => m.getLatLng()), { padding: [40, 40] });
   });
 </script>

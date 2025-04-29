@@ -3,6 +3,7 @@
 <style>
   /* Contact Section */
   #contact {
+    background-color: var(--bg-main);
     padding: 4rem 0;
   }
   #contact h2 {
@@ -16,11 +17,16 @@
     gap: 2rem;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;            /* vertically center all items */
   }
   #contact .item {
     flex: 1;
     min-width: 200px;
     text-align: center;
+    display: flex;                  /* make each block a flex column */
+    flex-direction: column;
+    justify-content: center;        /* center contents vertically */
+    align-items: center;            /* center contents horizontally */
   }
   #contact .item i {
     font-size: 1.5rem;

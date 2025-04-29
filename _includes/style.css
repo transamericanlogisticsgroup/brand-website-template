@@ -24,6 +24,7 @@ html, body {
 
   /* Backgrounds */
   --bg-main:             {{ site.theme.colors.bg_main }};
+  --bg-secondary:        {{ site.theme.colors.bg_secondary }};
   --bg-accent:           {{ site.theme.colors.bg_accent }};
   --bg-light:            {{ site.theme.colors.bg_light }};
   --surface:             {{ site.theme.colors.surface }};
@@ -91,13 +92,6 @@ nav {
   width: 90%;
   max-width: 1200px;
   margin: 0 auto;
-}
-
-.card {
-  background: var(--bg-main);
-  border-radius: var(--border-radius-1);
-  box-shadow: 0 3px 10px var(--shadow-sm);
-  padding: 2rem;
 }
 
 /* Buttons */
@@ -197,7 +191,7 @@ select{
   display: block;
   margin: 1rem auto;
   background-color: var(--primary);
-  color: var(--bg-main);
+  color: var(--text-dark-bg);
   border: none;
   border-radius: var(--border-radius-2);
   padding: 0.75rem 1.5rem;
@@ -257,9 +251,4 @@ select{
 }
 #job-type::-webkit-scrollbar-thumb {
   background: var(--primary-light); border-radius: var(--border-radius-1);
-}
-/* Submit button sizing */
-#submit-btn {
-  min-width: 220px;
-  padding: 0.75rem 1.5rem;
 }

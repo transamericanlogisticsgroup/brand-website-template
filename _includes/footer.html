@@ -90,7 +90,7 @@
       <h4>Locations</h4>
       <div class="footer-content">
         <ul>
-          {% for location in site.locations %}
+          {% for location in site.locations.location_data %}
             <li><a href="#locations">{{ location.name }}</a></li>
           {% endfor %}
         </ul>
