@@ -119,21 +119,6 @@ nav .actions {
 }
 
 
-
-.placeholder-circle {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: var(--accent);
-  margin: 0 auto 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--on-primary);
-  font-size: 2rem;
-}
-
-
 /* Form */
 .form-group {
   margin-bottom: 1rem;
