@@ -69,13 +69,18 @@ body {
   max-width: 1200px;
   margin: 0 auto;
 }
-@media (max-width: 960px) {
-  .container {
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 1rem; /* keep a 1rem gutter if you like */
-  }
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* for your hero placeholder specifically, make the inner <img> fill the box */
+.placeholder-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Links */
