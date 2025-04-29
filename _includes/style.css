@@ -154,24 +154,6 @@ nav .actions {
   color: var(--text);
 }
 
-/* About Section */
-#about {
-  background: var(--primary);
-  color: var(--on-primary);
-}
-#about h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 2rem;
-}
-#about .feature {
-  margin-bottom: 1.5rem;
-}
-#about .feature h3 {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-}
-
 /* Locations */
 #locations .two-col {
   display: flex;
