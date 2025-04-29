@@ -10,20 +10,32 @@
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
-    justify-content: center;    /* center columns in the container */
+    justify-content: center;
     max-width: 1200px;
     margin: 0 auto;
     padding: 4rem 0;
+    align-items: stretch;
   }
   footer .col {
     flex: 1;
     min-width: 150px;
-    text-align: center;         /* center all content in each column */
+    display: flex;
+    flex-direction: column;
+    text-align: center;
   }
   footer h4 {
     margin-bottom: 1rem;
     font-size: 1.1rem;
   }
+
+  /* Wrap the content under the title so we can center it vertically */
+  .footer-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
   footer ul {
     list-style: none;
     padding: 0;
@@ -64,44 +76,52 @@
     <!-- Address column -->
     <div class="col">
       <h4>Address</h4>
-      <ul>
-        {% for line in site.address %}
-          <li><a href="#locations">{{ line }}</a></li>
-        {% endfor %}
-      </ul>
+      <div class="footer-content">
+        <ul>
+          {% for line in site.address %}
+            <li><a href="#locations">{{ line }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
 
     <!-- Locations column -->
     <div class="col">
       <h4>Locations</h4>
-      <ul>
-        {% for location in site.locations %}
-          <li><a href="#locations">{{ location.name }}</a></li>
-        {% endfor %}
-      </ul>
+      <div class="footer-content">
+        <ul>
+          {% for location in site.locations %}
+            <li><a href="#locations">{{ location.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
 
     <!-- Hours column -->
     <div class="col">
       <h4>Hours</h4>
-      <ul>
-        {% for day in site.hours %}
-          <li>{{ day }}</li>
-        {% endfor %}
-      </ul>
+      <div class="footer-content">
+        <ul>
+          {% for day in site.hours %}
+            <li>{{ day }}</li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
 
     <!-- Contact column -->
     <div class="col contact">
       <h4>Contact</h4>
-      <p>
-        <i class="fas fa-phone"></i>
-        <a href="tel:{{ site.phone.ie64 }}">{{ site.phone.display }}</a>
-      </p>
-      <p>
-        <i class="fas fa-envelope"></i>
-        <a href="mailto:{{ site.email }}">{{ site.email }}</a>
-      </p>
+      <div class="footer-content">
+        <p>
+          <i class="fas fa-phone"></i>
+          <a href="tel:{{ site.phone.ie64 }}">{{ site.phone.display }}</a>
+        </p>
+        <p>
+          <i class="fas fa-envelope"></i>
+          <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+        </p>
+      </div>
     </div>
 
   </div>
