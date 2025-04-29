@@ -1,26 +1,91 @@
-<section id="testimonials">
-  <div class="container" style="text-align:center;">
-    <h2>Our Testimonials</h2>
-    <div id="stars" class="stars"></div>
-    <div class="testimonial-card card" style="position:relative; max-width:600px; margin:1rem auto; padding:2rem; background:var(--secondary-bg); border-radius:var(--border-radius);">
-      <div class="nav-arrows" style="position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%);">
-        <i class="fas fa-chevron-left arrow prev" style="cursor:pointer; border-radius:var(--button-radius); padding:.5rem; background:var(--accent-color); color:#fff"></i>
-        <i class="fas fa-chevron-right arrow next" style="cursor:pointer; border-radius:var(--button-radius); padding:.5rem; background:var(--accent-color); color:#fff"></i>
+<style>
+  /* Testimonials Section */
+  #testimonials {
+    padding: 4rem 0;
+    background: var(--bg-alt);
+  }
+  #testimonials .container {
+    text-align: center;
+  }
+  #testimonials h2 {
+    margin-bottom: 1rem;
+    color: var(--primary);
+  }
+  #testimonials .stars {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+  .testimonial-card {
+    position: relative;
+    max-width: 600px;
+    margin: 1rem auto;
+    padding: 2rem;
+    background: var(--secondary);
+    border-radius: var(--border-radius);
+    box-shadow: 0 3px 10px var(--shadow-sm);
+  }
+  .nav-arrows {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+  }
+  .nav-arrows .arrow {
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+    background: var(--accent);
+    color: var(--on-primary);
+    font-size: 1rem;
+  }
+  #testimonial-text {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+  .author {
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: 0.25rem;
+  }
+  .location {
+    font-size: 0.9rem;
+    color: var(--primary-light);
+  }
+  </style>
+  
+  <section id="testimonials">
+    <div class="container">
+      <h2>Our Testimonials</h2>
+      <div id="stars" class="stars"></div>
+      <div class="testimonial-card card">
+        <div class="nav-arrows">
+          <i class="fas fa-chevron-left arrow prev" aria-label="Previous testimonial"></i>
+          <i class="fas fa-chevron-right arrow next" aria-label="Next testimonial"></i>
+        </div>
+        <p id="testimonial-text"></p>
+        <div id="testimonial-author" class="author"></div>
+        <div class="location">
+          <i class="fas fa-map-marker-alt"></i>
+          <span id="testimonial-location-text"></span>
+        </div>
       </div>
-      <p id="testimonial-text" style="font-size:1rem; line-height:1.5;"></p>
-      <div id="testimonial-author" class="author" style="margin-top:1rem; font-weight:600;"></div>
-      <div class="location" style="font-size:.9rem; color:var(--primary-color); margin-top:.25rem;"><i class="fas fa-map-marker-alt"></i> <span id="testimonial-location-text"></span></div>
     </div>
-  </div>
-</section>
+  </section>
+  
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const testimonials = {{ site.data.testimonials | jsonify }}
+      // use site.testimonials (from _config.yml) instead of site.data
+      const testimonials = {{ site.testimonials | jsonify }};
       let current = 0;
       const textEl = document.getElementById('testimonial-text');
       const authorEl = document.getElementById('testimonial-author');
       const locationEl = document.getElementById('testimonial-location-text');
       const starsEl = document.getElementById('stars');
+  
       function showTestimonial(idx) {
         const t = testimonials[idx];
         textEl.textContent = t.text;
@@ -30,6 +95,7 @@
         const empty = '☆'.repeat(5 - Math.round(t.rating));
         starsEl.textContent = `${filled}${empty} ${t.rating.toFixed(1)}/5.0`;
       }
+  
       document.querySelector('.prev').addEventListener('click', () => {
         current = (current - 1 + testimonials.length) % testimonials.length;
         showTestimonial(current);
@@ -38,6 +104,8 @@
         current = (current + 1) % testimonials.length;
         showTestimonial(current);
       });
+  
       showTestimonial(current);
     });
   </script>
+  
