@@ -64,3 +64,39 @@
     </div>
   </div>
 </section>
+
+<!-- Map-->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+/>
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+<style>
+  #locations-map { height: 400px; width: 100%; border-radius: var(--border-radius); }
+</style>
+
+<section id="locations">
+  <div class="container">
+    <h2>Service Areas</h2>
+    <div id="locations-map"></div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // 1) initialize map centered on average of your coords
+    const coords = [
+      {% for loc in site.locations %}
+        [{{ loc.coordinates }}]{{ forloop.last | replace: "true", "" }},
+      {% endfor %}
+    ];
+    const map = L.map("locations-map").setView(coords[0], 11);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "&copy; OpenStreetMap contributors"
+    }).addTo(map);
+
+    // 2) drop your markers
+    coords.forEach(c => L.marker(c).addTo(map));
+  });
+</script>

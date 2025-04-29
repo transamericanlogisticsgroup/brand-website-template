@@ -93,9 +93,13 @@ services:
 
 locations:
   - name: "Location A"
+    coordinates: "49.272045, -123.095068"
   - name: "Location B"
+    coordinates: "49.185446, -123.128114"
   - name: "Location C"
+    coordinates: "49.241333, -123.009217"
   - name: "Location D"
+    coordinates: "49.312032, -123.070640"
 
 about:
   title: "Why Choose Vancouver Movers"
