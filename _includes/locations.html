@@ -19,7 +19,7 @@
     margin-bottom: 2rem;
   }
 
-  /* Locations list: flex wrap, centered rows */
+  /* Default list: flex wrap, centered rows */
   #locations .areas {
     display: flex;
     flex-wrap: wrap;
@@ -28,15 +28,8 @@
     margin: 0 auto;
     padding: 0;
     list-style: none;
+    max-width: 800px;
   }
-  /* 1–6 column splits */
-  #locations .areas.grid-cols-1 li { flex: 0 0 100%; }
-  #locations .areas.grid-cols-2 li { flex: 0 0 50%; }
-  #locations .areas.grid-cols-3 li { flex: 0 0 calc(100%/3); }
-  #locations .areas.grid-cols-4 li { flex: 0 0 25%; }
-  #locations .areas.grid-cols-5 li { flex: 0 0 20%; }
-  #locations .areas.grid-cols-6 li { flex: 0 0 calc(100%/6); }
-
   #locations .areas li {
     text-align: center;
     margin-bottom: 0.75rem;
@@ -44,6 +37,34 @@
   #locations .areas li i {
     color: var(--accent);
     margin-right: 0.5rem;
+  }
+
+  /* Special case: exactly 5 items → 5-column grid, offset last two */
+  #locations .areas.special-5 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    max-width: 800px;
+  }
+  #locations .areas.special-5 li {
+    /* reset flex rules */
+    margin-bottom: 0;
+  }
+  /* First 3 items will auto-place in row 1 cols 1–3 */
+  /* Item 4 → row 2, col 2 */
+  #locations .areas.special-5 li:nth-child(4) {
+    grid-column: 2;
+    grid-row: 2;
+    text-align: center;
+  }
+  /* Item 5 → row 2, col 4 */
+  #locations .areas.special-5 li:nth-child(5) {
+    grid-column: 4;
+    grid-row: 2;
+    text-align: center;
   }
 </style>
 
@@ -62,40 +83,34 @@
 
   <div class="container">
     {% assign n = site.locations | size %}
-    {% if n <= 4 %}
-      {% assign cols = n %}
-    {% elsif n | modulo: 2 == 0 %}
-      {% assign cols = n | divided_by: 2 %}
+    {% comment %}Choose UL class based on count{% endcomment %}
+    {% if n == 5 %}
+      <ul class="areas special-5">
     {% else %}
-      {% assign cols = 4 %}
+      <ul class="areas">
     {% endif %}
-
-    <ul class="areas grid-cols-{{ cols }}">
-      {% for loc in site.locations %}
-        <li>
-          <i class="fas fa-map-marker-alt"></i>{{ loc.name }}
-        </li>
-      {% endfor %}
-    </ul>
+        {% for loc in site.locations %}
+          <li>
+            <i class="fas fa-map-marker-alt"></i>{{ loc.name }}
+          </li>
+        {% endfor %}
+      </ul>
   </div>
 </section>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    // Build coords array without trailing commas
     const coords = [
       {% for loc in site.locations %}
         [{{ loc.coordinates }}]{% unless forloop.last %},{% endunless %}
       {% endfor %}
     ];
 
-    // Initialize Leaflet map
     const map = L.map("locations-map").setView(coords[0], 11);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: "&copy; OpenStreetMap contributors"
     }).addTo(map);
 
-    // Add a marker for each location
     coords.forEach(c => L.marker(c).addTo(map));
   });
 </script>
