@@ -317,41 +317,7 @@ input:not(#date-picker), select, textarea {
 .btn-accent:hover {
   background-color: var(--accent-dark);
 }
-/* Modal button overrides */
-.modal .btn-group .btn-secondary,
-.modal .btn-group .btn-primary {
-  margin: 0;
-  padding: 0.75rem 1.5rem;
-  display: inline-block;
-  vertical-align: middle;
-}
-.modal .btn-group .btn-primary {
-  margin: 0;
-}
-/* Modal */
-.modal-backdrop {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.5);
-  display: none;
-  align-items: center; justify-content: center;
-  z-index: 1000;
-}
-.modal {
-  background: var(--bg);
-  padding: 2rem;
-  border-radius: var(--border-radius);
-  max-width: 400px; width: 90%;
-  box-shadow: 0 4px 12px var(--shadow-md);
-}
-.modal h3 {
-  margin: 0 0 1rem;
-  font-family: var(--font-family);
-  color: var(--primary);
-}
-.modal p { margin-bottom: 1rem; }
-.btn-group {
-  display: flex; gap: 0.5rem; justify-content: flex-end;
-}
+
 /* Scrollbars */
 #job-type::-webkit-scrollbar {
   width: 0.75rem; border-radius: var(--border-radius);
