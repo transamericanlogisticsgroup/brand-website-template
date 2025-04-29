@@ -65,9 +65,17 @@ body {
 
 /* Container */
 .container {
-  width: 100%;
+  width: 90%;
   max-width: 1200px;
   margin: 0 auto;
+}
+@media (max-width: 960px) {
+  .container {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 1rem;      /* if you still want a little gutter */
+  }
 }
 
 /* Links */
