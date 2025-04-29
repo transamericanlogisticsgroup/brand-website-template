@@ -23,9 +23,10 @@ html, body {
   --border-radius-2:     {{ site.theme.border_radius_2 }};
 
   /* Backgrounds */
-  --bg:                {{ site.theme.colors.background }};
-  --bg-alt:            {{ site.theme.colors.background_alt }};
-  --surface:           {{ site.theme.colors.surface }};
+  --bg-main:             {{ site.theme.colors.bg_main }};
+  --bg-accent:           {{ site.theme.colors.bg_accent }};
+  --bg-light:            {{ site.theme.colors.bg_light }};
+  --surface:             {{ site.theme.colors.surface }};
 
   /* Primary palette */
   --primary:           {{ site.theme.colors.primary }};
@@ -81,7 +82,7 @@ body {
 }
 
 .card {
-  background: var(--bg);
+  background: var(--bg-main);
   border-radius: var(--border-radius-1);
   box-shadow: 0 3px 10px var(--shadow-sm);
   padding: 2rem;
@@ -193,7 +194,7 @@ select{
   display: block;
   margin: 1rem auto;
   background-color: var(--primary);
-  color: var(--bg);
+  color: var(--bg-main);
   border: none;
   border-radius: var(--border-radius-2);
   padding: 0.75rem 1.5rem;
@@ -210,7 +211,7 @@ select{
 .btn-secondary {
   display: inline-block;
   background-color: var(--secondary);
-  color: var(--bg);
+  color: var(--bg-main);
   border: none;
   border-radius: var(--border-radius-2);
   padding: 0.5rem;
@@ -249,7 +250,7 @@ select{
   width: 0.75rem; border-radius: var(--border-radius-1);
 }
 #job-type::-webkit-scrollbar-track {
-  background: var(--bg-alt); border-radius: var(--border-radius-1);
+  background: var(--bg-accent); border-radius: var(--border-radius-1);
 }
 #job-type::-webkit-scrollbar-thumb {
   background: var(--primary-light); border-radius: var(--border-radius-1);

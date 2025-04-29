@@ -16,15 +16,12 @@ theme:
   border_radius_2: "50px"
 
   colors:
-    # backgrounds
-    background:      "#ffffff"
-    background_alt:  "#f9f9f9"
-    surface:         "#eeeeee"
 
-    # three distinct section backgrounds
-    section_bg_1: "#ffffff"   # gray
-    section_bg_2: "#f9f9f9"   # orange
-    section_bg_3: "#eeeeee"   # ghost white
+    # backgrounds
+    bg_main:         "#ffffff"
+    bg_accent:       "#f9f9f9" 
+    bg_light:        "#eeeeee"
+    surface:         "#eeeeee"
 
     # primary / secondary
     primary:         "#777777"
