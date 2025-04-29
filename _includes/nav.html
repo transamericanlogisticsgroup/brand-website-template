@@ -19,7 +19,7 @@ nav {
   background: var(--bg);
 }
 
-/* Center the menu */
+/* Center the desktop menu */
 .nav-menu {
   position: absolute;
   top: 50%;
@@ -47,7 +47,10 @@ nav {
   display: flex;
   gap: 1rem;
   align-items: center;
+  z-index: 100; /* base z-index */
 }
+
+/* Phone link color */
 .link-text {
   color: var(--text);
   font-weight: var(--font-weight-semibold);
@@ -57,7 +60,7 @@ nav {
   margin: 0;
 }
 
-/* Nav menu link colors */
+/* Desktop nav link colors */
 .nav-menu li a,
 .nav-menu li a:visited,
 .nav-menu li a:focus,
@@ -83,31 +86,32 @@ nav {
   }
 }
 
-/* Mobile layout under 960px */
+/* MOBILE: under 960px */
 @media (max-width: 960px) {
-  /* Hide desktop nav menu */
+  /* remove side padding */
+  .nav-container {
+    padding: 0 !important;
+  }
+
+  /* hide desktop menu */
   .nav-menu {
     display: none;
   }
 
-  /* Always show phone icon next to hamburger */
-  .actions {
-    display: block;
-    position: absolute;
-    top: 50%;
+  /* show phone icon left of hamburger */
+  .nav-container .actions {
     right: 3rem;
-    transform: translateY(-50%);
-    z-index: 1001;
+    z-index: 1002;
   }
   .actions .link-text {
     display: inline-block;
   }
-  /* Hide the desktop “Get My Quote” here */
+  /* hide desktop quote button */
   .actions .btn-accent {
     display: none !important;
   }
 
-  /* Hamburger toggle */
+  /* hamburger toggle */
   .hamburger {
     display: block;
     position: absolute;
@@ -119,10 +123,10 @@ nav {
     font-size: 1.5rem;
     color: var(--text);
     cursor: pointer;
-    z-index: 1002;
+    z-index: 1001;
   }
 
-  /* Mobile menu panel */
+  /* mobile menu panel */
   .mobile-menu {
     display: flex;
     flex-direction: column;
@@ -146,7 +150,7 @@ nav {
     pointer-events: auto;
   }
 
-  /* Mobile nav links */
+  /* mobile nav links */
   .mobile-nav {
     list-style: none;
     margin: 0;
@@ -161,14 +165,14 @@ nav {
     padding: 0.5rem;
   }
 
-  /* Mobile "Get My Quote" full width */
+  /* mobile quote button full width */
   .mobile-quote {
     display: block;
     width: 100%;
     text-align: center;
   }
 
-  /* Remove phone link from mobile panel */
+  /* remove phone link from mobile panel */
   .mobile-menu .link-text {
     display: none;
   }
