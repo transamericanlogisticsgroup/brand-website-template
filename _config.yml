@@ -62,8 +62,7 @@ phone:
   display: "(123) 456-7890"   # Formatted display phone number
   twilio_account_sid: "AC2d402e54f448be3bafcc2cc1df1ddf4f"
 email: "contact@example.com"
-contact:
-  title: "Contact Our Branch"
+
 address:
   - "123 Example Street"
   - "Suite 100"

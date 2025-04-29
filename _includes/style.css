@@ -154,24 +154,6 @@ nav .actions {
   color: var(--text);
 }
 
-/* Contact */
-#contact .info {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-#contact .item {
-  flex: 1;
-  min-width: 200px;
-  text-align: center;
-}
-#contact .item i {
-  font-size: 1.5rem;
-  color: var(--accent);
-  margin-bottom: 0.5rem;
-}
-
 /* Ready */
 #ready {
   text-align: center;
