@@ -1,6 +1,7 @@
-<!-- LOCATIONS -->
+<!-- _includes/locations.html -->
+
 <style>
-  /* Section spacing */
+  /* Locations Section */
   #locations {
     padding: 4rem 0;
   }
@@ -12,25 +13,32 @@
 
   /* Map container */
   #locations-map {
-    height: 400px;
     width: 100%;
+    height: 400px;
     border-radius: var(--border-radius);
     margin-bottom: 2rem;
   }
 
-  /* Centered, responsive grid for location names */
+  /* Locations list: flex wrap, centered rows */
   #locations .areas {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 1rem;
-    margin: 0 auto;     /* center the whole grid */
+    margin: 0 auto;
     padding: 0;
     list-style: none;
-    width: 100%;
-    max-width: 800px;   /* optional max width to match map */
-    text-align: center;
   }
+  /* 1–6 column splits */
+  #locations .areas.grid-cols-1 li { flex: 0 0 100%; }
+  #locations .areas.grid-cols-2 li { flex: 0 0 50%; }
+  #locations .areas.grid-cols-3 li { flex: 0 0 calc(100%/3); }
+  #locations .areas.grid-cols-4 li { flex: 0 0 25%; }
+  #locations .areas.grid-cols-5 li { flex: 0 0 20%; }
+  #locations .areas.grid-cols-6 li { flex: 0 0 calc(100%/6); }
+
   #locations .areas li {
+    text-align: center;
     margin-bottom: 0.75rem;
   }
   #locations .areas li i {
@@ -39,6 +47,7 @@
   }
 </style>
 
+<!-- Leaflet CSS/JS (no API key needed) -->
 <link
   rel="stylesheet"
   href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
@@ -48,12 +57,20 @@
 <section id="locations">
   <div class="container">
     <h2>Service Areas</h2>
-
-    <!-- Map -->
     <div id="locations-map"></div>
+  </div>
 
-    <!-- Locations list -->
-    <ul class="areas">
+  <div class="container">
+    {% assign n = site.locations | size %}
+    {% if n <= 4 %}
+      {% assign cols = n %}
+    {% elsif n | modulo: 2 == 0 %}
+      {% assign cols = n | divided_by: 2 %}
+    {% else %}
+      {% assign cols = 4 %}
+    {% endif %}
+
+    <ul class="areas grid-cols-{{ cols }}">
       {% for loc in site.locations %}
         <li>
           <i class="fas fa-map-marker-alt"></i>{{ loc.name }}
@@ -65,17 +82,20 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
+    // Build coords array without trailing commas
     const coords = [
       {% for loc in site.locations %}
         [{{ loc.coordinates }}]{% unless forloop.last %},{% endunless %}
       {% endfor %}
     ];
 
+    // Initialize Leaflet map
     const map = L.map("locations-map").setView(coords[0], 11);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: "&copy; OpenStreetMap contributors"
     }).addTo(map);
 
+    // Add a marker for each location
     coords.forEach(c => L.marker(c).addTo(map));
   });
 </script>
