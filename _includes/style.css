@@ -78,6 +78,17 @@ body {
   margin: 0 auto;
 }
 
+.card {
+  background: var(--bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 3px 10px var(--shadow-sm);
+  padding: 2rem;
+}
+
+section {
+  padding: 4rem 0;
+}
+
 /* Links */
 a {
   text-decoration: none;
@@ -121,6 +132,7 @@ nav .actions {
   color: var(--on-primary);
   font-size: 2rem;
 }
+
 
 /* Form */
 .form-group {
