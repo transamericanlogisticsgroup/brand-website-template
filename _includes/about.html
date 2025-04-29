@@ -1,21 +1,11 @@
 <section id="about">
   <div class="container">
-    <h2>Why Choose Vancouvers Movers</h2>
-    <div class="feature">
-      <h3>Local Expertise</h3>
-      <p>Our team knows Vancouver inside and out—your move is in trusted hands.</p>
-    </div>
-    <div class="feature">
-      <h3>Reliable Service</h3>
-      <p>We pride ourselves on timeliness, care, and clear communication.</p>
-    </div>
-    <div class="feature">
-      <h3>Community Focus</h3>
-      <p>A portion of every move supports local Vancouver initiatives.</p>
-    </div>
-    <div class="feature">
-      <h3>Smoothest Moves</h3>
-      <p>From expert packing to careful unloading, we handle the heavy lifting.</p>
-    </div>
+    <h2>{{ site.about.title }}</h2>
+    {% for feature in site.about.features %}
+      <div class="feature">
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.text }}</p>
+      </div>
+    {% endfor %}
   </div>
 </section>
