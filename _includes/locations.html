@@ -1,32 +1,36 @@
+<!-- LOCATIONS -->
 <style>
-  /* Locations Section */
+  /* Section spacing */
+  #locations {
+    padding: 4rem 0;
+  }
   #locations h2 {
     text-align: center;
     margin-bottom: 2rem;
     color: var(--primary);
   }
 
-  /* Stack map + list vertically and center */
-  #locations .two-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
+  /* Map container */
+  #locations-map {
+    height: 400px;
+    width: 100%;
+    border-radius: var(--border-radius);
+    margin-bottom: 2rem;
   }
 
-  /* Centered, responsive grid for locations */
+  /* Centered, responsive grid for location names */
   #locations .areas {
     display: grid;
-    /* auto-fit as many 200px columns as will fit, then stretch */
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
-    width: 100%;
-    margin: 0;
+    margin: 0 auto;     /* center the whole grid */
     padding: 0;
     list-style: none;
+    width: 100%;
+    max-width: 800px;   /* optional max width to match map */
+    text-align: center;
   }
   #locations .areas li {
-    text-align: center;
     margin-bottom: 0.75rem;
   }
   #locations .areas li i {
@@ -35,63 +39,43 @@
   }
 </style>
 
-<!-- Map-->
 <link
   rel="stylesheet"
   href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
 />
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
 
-<style>
-  #locations-map {
-    height: 400px;
-    width: 100%;
-    border-radius: var(--border-radius);
-    margin-bottom: 2rem;
-  }
-</style>
-
 <section id="locations">
   <div class="container">
     <h2>Service Areas</h2>
+
+    <!-- Map -->
     <div id="locations-map"></div>
+
+    <!-- Locations list -->
+    <ul class="areas">
+      {% for loc in site.locations %}
+        <li>
+          <i class="fas fa-map-marker-alt"></i>{{ loc.name }}
+        </li>
+      {% endfor %}
+    </ul>
   </div>
 </section>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    // Build a proper JS array with commas only between items
     const coords = [
       {% for loc in site.locations %}
         [{{ loc.coordinates }}]{% unless forloop.last %},{% endunless %}
       {% endfor %}
     ];
 
-    // Initialize on the first location
     const map = L.map("locations-map").setView(coords[0], 11);
-
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: "&copy; OpenStreetMap contributors"
     }).addTo(map);
 
-    // Add each marker
-    coords.forEach(c => {
-      L.marker(c).addTo(map);
-    });
+    coords.forEach(c => L.marker(c).addTo(map));
   });
 </script>
-
-
-<section id="locations">
-  <div class="container">
-    <div class="two-col">
-      <ul class="areas">
-        {% for location in site.locations %}
-          <li>
-            <i class="fas fa-map-marker-alt"></i>{{ location.name }}
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
-</section>
