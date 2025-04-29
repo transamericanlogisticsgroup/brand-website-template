@@ -96,7 +96,7 @@ nav .actions .btn-accent {
 nav .actions {
   display: flex;
   align-items: center;
-  gap: 1rem; /* optional spacing */
+  padding-left: 1.5rem; /* optional spacing */
 }
 
 
