@@ -12,7 +12,8 @@ theme:
     family: "Montserrat"
     weights: ["400", "600", "700"]
 
-  border_radius: "0.5rem"
+  border_radius_1: "0.5rem"
+  border_radius_2: "50px"
 
   colors:
     # backgrounds

@@ -25,7 +25,7 @@
     display: grid;
     grid-template-rows: auto 1fr auto;
     gap: 1rem;
-    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    border-radius: var(--border-radius-1) 0 0 var(--border-radius-1);
     background: var(--primary);
     color: var(--on-primary);
     padding: 2rem;
@@ -52,7 +52,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    border-radius: 0 var(--border-radius-1) var(--border-radius-1) 0;
   }
   #cta-1 .cta-1-img img {
     display: block;
@@ -71,12 +71,12 @@
     #cta-1 .cta-1-img {
       order: -1;                          /* show on top */
       height: 250px;                      /* or whatever mobile height you want */
-      border-radius: var(--border-radius) var(--border-radius) 0 0;
+      border-radius: var(--border-radius-1) var(--border-radius-1) 0 0;
     }
 
     /* Text block below, rounded bottom corners */
     #cta-1 .cta-1-text {
-      border-radius: 0 0 var(--border-radius) var(--border-radius);
+      border-radius: 0 0 var(--border-radius-1) var(--border-radius-1);
     }
 
     /* Full width each */
