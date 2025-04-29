@@ -53,7 +53,7 @@ theme:
 hero:
   description: >
     Insert hero description here.
-  image: "/assets/hero-placeholder.jpg"
+  image: "/assets/hero.webp"
 
 # About / Features section
 about:
@@ -76,16 +76,28 @@ cta-2:
 
 # Quote form
 quote:
-  submission_url: "https://your-submit-url.com/submit"
+  submission_url: "https://shadow-seagull-4892.twil.io/submit_quote_request"
   job_types:
-    - label: "Job Type Label"
+    - label: "Residential Moving"
       options:
-        - "Option 1"
-        - "Option 2"
-    - label: "Job Type Label"
+        - "Studio Home"
+        - "1 Bedroom Home"
+        - "2 Bedroom Home"
+        - "3+ Bedroom Home"
+    - label: "Specialty Services"
       options:
-        - "Option A"
-        - "Option B"
+        - "Piano Moving"
+        - "Junk Removal"
+        - "Furniture Packing/Unpacking"
+        - "Full-Service Packing"
+        - "Partial Packing"
+    - label: "Commercial"
+      options:
+        - "Commercial Moving"
+        - "Office Relocation"
+    - label: "Other"
+      options:
+        - "Other (Not listed)"
 
 # Contact info
 phone:
@@ -99,21 +111,25 @@ address:
   - "Your City, ST ZIP"
 
 hours:
-  - "Mon–Fri: 9 AM – 5 PM"
-  - "Sat–Sun: Closed"
+  - "Mon–Fri: 7 AM – 9 PM"
+  - "Sat–Sun: 9 AM – 9 PM"
 
 # Navigation links
 nav_links:
-  - title: "Section 1"
-    url: "#section1"
-  - title: "Section 2"
-    url: "#section2"
+  - title: "Services"
+    url: "#faq"
+  - title: "Locations"
+    url: "#locations"
+  - title: "Moving Tips"
+    url: "#faq"
+  - title: "About Us"
+    url: "#about"
 
 # Locations map & data
 locations:
-  map_theme_url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-  map_marker_icon: "fa-solid fa-map-marker-alt"
-  map_marker_color: "#cccccc"
+  #map_theme_url: "OSM Theme URL Here"
+  #map_marker_icon: "fa-solid fa-map-marker-alt"
+  #map_marker_color: "#cccccc"
   location_data:
     - name: "Location Name"
       coordinates: "0.0000, 0.0000"
