@@ -1,162 +1,140 @@
 # _config.yml
 
 # Site settings
-title: "Insert Title Here"  # Replace with your site title
-description: "Replace with your site description or tagline."
-url: "https://example.com"        # Your production URL
-baseurl: ""                    # e.g. "/blog" if served from a subpath
+title: "Insert Site Title Here"
+description: "Insert site description here."
+url: "https://your-production-url.com"
+baseurl: ""  # e.g. "/blog" if hosted on a subpath
 
 # Theming
 theme:
   font:
-    family: "Montserrat"
-    weights: ["400", "600", "700"]
+    family: "YourFontFamily"
+    weights: ["400","600","700"]
 
   border_radius_1: "0.5rem"
   border_radius_2: "50px"
 
   colors:
+    # backgrounds (placeholder grey shades)
+    bg_main:      "#dddddd"
+    bg_secondary: "#cccccc"
+    bg_accent:    "#bbbbbb"
+    bg_light:     "#eeeeee"
+    surface:      "#ffffff"
 
-    # backgrounds
-    bg_main:         "#ffffff"
-    bg_accent:       "#f9f9f9" 
-    bg_light:        "#eeeeee"
-    surface:         "#eeeeee"
+    # Primary / Accent (placeholder greys)
+    primary:       "#aaaaaa"
+    primary_light: "#bbbbbb"
+    primary_dark:  "#999999"
 
-    # primary / secondary
-    primary:         "#777777"
-    primary_light:   "#888888"
-    primary_dark:    "#666666"
-    secondary:       "#aaaaaa"
-    secondary_light: "#bbbbbb"
-    secondary_dark:  "#999999"
+    # Secondary (placeholder greys)
+    secondary:       "#888888"
+    secondary_light: "#777777"
+    secondary_dark:  "#666666"
 
-    # text
-    text:            "#333333"
-    text_light:      "#666666"
-    text_dark_bg:    "#ccc"
+    # Text
+    text:         "#000000"
+    text_light:   "#333333"
+    text_dark_bg: "#ffffff"
 
-    # accents & states
-    accent:          "#dddddd"
-    accent_dark:     "#cccccc"
-    error:           "#ff0000"
-    delete:          "#ff0000"
-    border:          "#cccccc"
+    # Accents & states
+    accent:       "#aaaaaa"
+    accent_dark:  "#888888"
+    border:       "#aaaaaa"
+    error:        "#ff4d4d"
+    delete:       "#ff4d4d"
 
-    on_primary:   "#ffffff"
-    shadow_md:    "rgba(0,0,0,0.1)"
-    shadow_sm:    "rgba(0,0,0,0.05)"
+    on_primary:  "#ffffff"
+    shadow_sm:   "rgba(0,0,0,0.05)"
+    shadow_md:   "rgba(0,0,0,0.10)"
 
-# Site data
+# Hero section
 hero:
-  description: "Replace me with your hero section headline or tagline."
-  image: "/assets/hero.webp"
+  description: >
+    Insert hero description here.
+  image: "/assets/hero-placeholder.jpg"
 
-cta:
-  title: "Call To Action Title Here"
-  text: "Replace me with a short call-to-action message."
+# About / Features section
+about:
+  title: "Insert Section Title Here"
+  features:
+    - title: "Feature Title Here"
+      text: "Insert feature description here."
+    - title: "Feature Title Here"
+      text: "Insert feature description here."
+
+# Call-to-Action blocks
+cta-1:
+  title: "Insert CTA Title Here"
+  text: "Insert CTA text here."
   button: "Button Text Here"
 
-quote:
-  submission_url: "https://shadow-seagull-4892.twil.io/submit_quote_request"
-  job_types:
-    - label: "Residential Moving"
-      options:
-        - "Studio Home"
-        - "1 Bedroom Home"
-        - "2 Bedroom Home"
-        - "3+ Bedroom Home"
-        - "Moving Helpers (No truck)"
-    - label: "Specialty Services"
-      options:
-        - "Piano Moving"
-        - "Junk Removal"
-        - "Furniture Packing/Unpacking"
-        - "Full-Service Packing"
-        - "Partial Packing"
-    - label: "Long Distance"
-      options:
-        - "National (Within country)"
-        - "International (Out of country)"
-    - label: "Commercial"
-      options:
-        - "Commercial Moving"
-        - "Office Relocation"
-        - "Restauraunt Equipment"
-        - "Heavy Duty Machinery"
-    - label: "Other"
-      options:
-        - "Other (Not listed)"
+cta-2:
+  title: "Insert CTA Title Here"
+  button: "Button Text Here"
 
+# Quote form
+quote:
+  submission_url: "https://your-submit-url.com/submit"
+  job_types:
+    - label: "Job Type Label"
+      options:
+        - "Option 1"
+        - "Option 2"
+    - label: "Job Type Label"
+      options:
+        - "Option A"
+        - "Option B"
 
 # Contact info
 phone:
-  ie64: "+16473636683"          # International dialing number, no spaces
-  display: "(123) 456-7890"   # Formatted display phone number
-  twilio_account_sid: "AC2d402e54f448be3bafcc2cc1df1ddf4f"
-email: "contact@example.com"
+  ie64: "+11234567890"
+  display: "(123) 456-7890"
+  twilio_account_sid: "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+email: "info@yourdomain.com"
 
 address:
-  - "123 Example Street"
-  - "Suite 100"
-  - "City, State ZIP"
+  - "123 Placeholder St"
+  - "Your City, ST ZIP"
+
 hours:
-  - "Mon–Fri: 9 AM – 6 PM"
-  - "Sat: 10 AM – 4 PM"
-  - "Sun: Closed"
+  - "Mon–Fri: 9 AM – 5 PM"
+  - "Sat–Sun: Closed"
 
 # Navigation links
 nav_links:
-  - title: "Services"
-    url: "#services"
-  - title: "Locations"
-    url: "#locations"
-  - title: "Moving Tips"
-    url: "#moving-tips"
-  - title: "About Us"
-    url: "#about"
+  - title: "Section 1"
+    url: "#section1"
+  - title: "Section 2"
+    url: "#section2"
 
-# Footer lists
-services:
-  - name: "Residential Moves"
-  - name: "Commercial Moves"
-  - name: "Packing Services"
-  - name: "Storage Solutions"
-
+# Locations map & data
 locations:
-  - name: "Location A"
-    coordinates: "49.272045, -123.095068"
-  - name: "Location B"
-    coordinates: "49.185446, -123.128114"
-  - name: "Location C"
-    coordinates: "49.241333, -123.009217"
-  - name: "Location D"
-    coordinates: "49.312032, -123.070640"
+  map_theme_url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  map_marker_icon: "fa-solid fa-map-marker-alt"
+  map_marker_color: "#cccccc"
+  location_data:
+    - name: "Location Name"
+      coordinates: "0.0000, 0.0000"
+    - name: "Location Name"
+      coordinates: "0.0000, 0.0000"
 
+# FAQ & Moving Tips
+faq_title: "Insert FAQ Section Title Here"
+faq:
+  - question: "Insert question here?"
+    answer: "Insert answer here."
+  - question: "Insert question here?"
+    answer: "Insert answer here."
 
-about:
-  title: "Why Choose Vancouver Movers"
-  features:
-    - title: "Local Expertise"
-      text: "Our team knows Vancouver inside and out—your move is in trusted hands."
-    - title: "Reliable Service"
-      text: "We pride ourselves on timeliness, care, and clear communication."
-    - title: "Community Focus"
-      text: "A portion of every move supports local Vancouver initiatives."
-    - title: "Smoothest Moves"
-      text: "From expert packing to careful unloading, we handle the heavy lifting."
-
-# Testimonials for carousel
+# Testimonials
 testimonials:
-  - text: "Replace with your first testimonial text."
-    author: "— Jane Doe"
-    location: "City Name"
+  - text: "Insert testimonial text here."
+    author: "— Author Name"
+    location: "Location"
     rating: 5
-  - text: "Replace with your second testimonial."
-    author: "— John Smith"
-    location: "Another City"
+  - text: "Insert testimonial text here."
+    author: "— Author Name"
+    location: "Location"
     rating: 4.5
-  - text: "Replace with your third testimonial."
-    author: "— Alice Johnson"
-    location: "Sample City"
-    rating: 4
