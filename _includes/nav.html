@@ -1,5 +1,5 @@
 <style>
-/* 1) Nav background edge-to-edge */
+/* 1) Base nav */
 nav {
   position: sticky;
   top: 0;
@@ -8,26 +8,17 @@ nav {
   box-shadow: 0 2px 5px var(--shadow-md);
   z-index: 100;
 }
-
-/* 2) Inner content container */
 nav .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 5rem;            /* your nav height */
-  padding: 0 1rem;         /* same gutter as rest of site */
+  height: 5rem;
+  padding: 0 1rem;
 }
 
-/* 3) Logo, hamburger & actions flex items */
-.logo,
-.hamburger,
-.actions {
-  flex: 0 0 auto;
-}
-
-/* 4) Centered desktop menu */
+/* 2) Desktop: center menu */
 .nav-menu {
-  flex: 1 1 auto;
+  flex: 1;
   display: flex;
   justify-content: center;
   gap: 2rem;
@@ -35,8 +26,6 @@ nav .container {
   margin: 0;
   padding: 0;
 }
-
-/* 5) Desktop link styles */
 .nav-menu a {
   color: var(--text);
   font-weight: var(--font-weight-semibold);
@@ -46,30 +35,36 @@ nav .container {
   color: var(--primary);
 }
 
-/* 6) Hide phone-text at <1080px */
+/* 3) Logo, phone & quote */
+.logo { flex: 0 0 auto; }
+.actions { flex: 0 0 auto; display: flex; gap: 1rem; align-items: center; }
+.link-text {
+  color: var(--text);
+  font-weight: var(--font-weight-semibold);
+}
+.phone-text { display: inline; }
+
+/* 4) Hamburger + mobile panel hidden by default */
+.hamburger,
+.mobile-menu { display: none; }
+
+/* 5) Collapse phone text <1080px */
 @media (max-width: 1080px) {
-  .phone-text {
-    display: none;
-  }
+  .phone-text { display: none; }
 }
 
-/* 7) Mobile: replace menu+quote with hamburger+phone */
+/* 6) Mobile view <960px */
 @media (max-width: 960px) {
-  /* hide desktop menu & quote button */
+  /* hide desktop menu & desktop quote button */
   .nav-menu,
   .actions .btn-accent {
-    display: none;
+    display: none !important;
   }
-
   /* always show phone icon */
   .actions .link-text {
     display: inline-flex;
-    align-items: center;
-    color: var(--text);
-    font-weight: var(--font-weight-semibold);
   }
-
-  /* hamburger */
+  /* show hamburger */
   .hamburger {
     display: inline-flex;
     background: none;
@@ -78,8 +73,7 @@ nav .container {
     color: var(--text);
     cursor: pointer;
   }
-
-  /* mobile slide-down panel */
+  /* mobile panel */
   .mobile-menu {
     display: flex;
     flex-direction: column;
@@ -94,7 +88,7 @@ nav .container {
     transform: translateY(-10px);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: opacity 0.2s, transform 0.2s;
     z-index: 99;
   }
   .mobile-menu.open {
@@ -102,7 +96,7 @@ nav .container {
     opacity: 1;
     pointer-events: auto;
   }
-  .mobile-menu .mobile-nav {
+  .mobile-nav {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -120,10 +114,8 @@ nav .container {
     width: 100%;
     text-align: center;
   }
-  /* hide phone link inside mobile panel */
-  .mobile-menu .link-text {
-    display: none;
-  }
+  /* hide phone in mobile panel */
+  .mobile-menu .link-text { display: none; }
 }
 </style>
 
@@ -164,9 +156,8 @@ nav .container {
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.hamburger')
-      .addEventListener('click', () =>
-        document.querySelector('.mobile-menu').classList.toggle('open')
-      );
+    const btn    = document.querySelector('.hamburger');
+    const panel  = document.querySelector('.mobile-menu');
+    btn.addEventListener('click', () => panel.classList.toggle('open'));
   });
 </script>
