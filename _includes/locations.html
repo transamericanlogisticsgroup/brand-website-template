@@ -2,21 +2,21 @@
   /* Locations Section */
   #locations h2 {
     text-align: center;
-    margin-bottom: 2rem;    /* extra space below title */
+    margin-bottom: 2rem;
   }
-  
-  /* Stack map and list, center everything */
+
+  /* Stack map + list vertically, center everything */
   #locations .two-col {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2rem;
   }
-  
-  /* Map placeholder styling */
+
+  /* Constrain map width (same as before) and center it */
   #locations .locations-img {
     width: 100%;
-    max-width: 800px;
+    max-width: 800px;          /* or whatever your old width was */
     height: 625px;
     border-radius: var(--border-radius);
     background: var(--surface);
@@ -25,20 +25,17 @@
     justify-content: center;
     color: var(--text-light);
   }
-  
+
   /* Centered list under the map */
   #locations .areas {
-    list-style: none;
-    columns: 3;
-    gap: 1rem;
-    margin: 0;
+    display: inline-block;     /* shrink‐wrap the UL */
+    margin: 0 auto;            /* center it */
     padding: 0;
-    text-align: center;
-    width: 100%;
-    max-width: 800px;
+    list-style: none;
+    columns: 3;                /* maintain 3 columns */
+    column-gap: 1rem;
+    text-align: left;          /* keep items’ icon+text together */
   }
-  
-  /* List items */
   #locations .areas li {
     margin-bottom: 0.75rem;
   }
@@ -46,19 +43,30 @@
     color: var(--accent);
     margin-right: 0.5rem;
   }
-  </style>
-  
-  <section id="locations">
-    <div class="container">
-      <h2>Service Areas</h2>
-      <div class="two-col">
-        <div class="locations-img map">Map Placeholder</div>
-        <ul class="areas">
-          {% for location in site.locations %}
-            <li><i class="fas fa-map-marker-alt"></i>{{ location.name }}</li>
-          {% endfor %}
-        </ul>
+
+  /* On small screens, switch to single column for readability */
+  @media (max-width: 600px) {
+    #locations .areas {
+      columns: 1;
+      width: 100%;
+    }
+  }
+</style>
+
+<section id="locations">
+  <div class="container">
+    <h2>Service Areas</h2>
+    <div class="two-col">
+      <div class="locations-img map">
+        Map Placeholder
       </div>
+      <ul class="areas">
+        {% for location in site.locations %}
+          <li>
+            <i class="fas fa-map-marker-alt"></i>{{ location.name }}
+          </li>
+        {% endfor %}
+      </ul>
     </div>
-  </section>
-  
+  </div>
+</section>
