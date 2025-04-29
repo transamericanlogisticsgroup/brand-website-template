@@ -40,7 +40,6 @@
     margin-right: 0.5rem;
   }
   footer .col.contact a {
-    /* make phone & email look like normal text */
     color: inherit;
     text-decoration: none;
     font-weight: var(--font-weight-normal);
@@ -59,24 +58,32 @@
 
 <footer>
   <div class="container footer-cols">
+
+    <!-- Address column (scrolls to locations) -->
     <div class="col">
-      <h4>Services</h4>
+      <h4>Address</h4>
       <ul>
-        {% for service in site.services %}
-          <li>{{ service.name }}</li>
+        {% for line in site.address %}
+          <li>
+            <a href="#locations">{{ line }}</a>
+          </li>
         {% endfor %}
       </ul>
     </div>
 
+    <!-- Locations column -->
     <div class="col">
       <h4>Locations</h4>
       <ul>
         {% for location in site.locations %}
-          <li>{{ location.name }}</li>
+          <li>
+            <a href="#locations">{{ location.name }}</a>
+          </li>
         {% endfor %}
       </ul>
     </div>
 
+    <!-- Hours column -->
     <div class="col">
       <h4>Hours</h4>
       <ul>
@@ -86,6 +93,7 @@
       </ul>
     </div>
 
+    <!-- Contact column -->
     <div class="col contact">
       <h4>Contact</h4>
       <p>
@@ -97,5 +105,6 @@
         <a href="mailto:{{ site.email }}">{{ site.email }}</a>
       </p>
     </div>
+
   </div>
 </footer>
