@@ -67,13 +67,13 @@ quote:
         - "Piano Moving"
         - "Junk Removal"
         - "Furniture Packing/Unpacking"
-        - "Moving Helpers (No Truck)"
+        - "Moving Helpers (No truck)"
         - "Full-Service Packing"
         - "Partial Packing"
     - label: "Long Distance"
       options:
-        - "National (within country)"
-        - "International (out of country)"
+        - "National (Within country)"
+        - "International (Out of country)"
     - label: "Commercial/Other"
       options:
         - "Commercial Move"
