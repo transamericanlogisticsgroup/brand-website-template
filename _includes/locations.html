@@ -1,7 +1,20 @@
 <!-- _includes/locations.html -->
 
 <style>
-  /* Locations Section */
+  /* ─── Z-INDEX FIXES ─── */
+  /* Ensure your sticky nav stays above the Leaflet map controls */
+  nav {
+    z-index: 2000 !important;
+  }
+  /* Force the map and its controls below the nav and other content */
+  #locations-map,
+  #locations-map .leaflet-pane,
+  #locations-map .leaflet-control-container {
+    position: relative;
+    z-index: 0 !important;
+  }
+
+  /* ─── Locations Section ─── */
   #locations {
     padding: 4rem 0;
   }
@@ -55,7 +68,7 @@
   #locations .areas.special-5 li:nth-child(4) { grid-column: 2; grid-row: 2; }
   #locations .areas.special-5 li:nth-child(5) { grid-column: 4; grid-row: 2; }
 
-  /* ── MOBILE OVERRIDE (≤600px) ── */
+  /* ─── MOBILE OVERRIDE (≤600px) ─── */
   @media (max-width: 600px) {
     /* make the second container (the UL wrapper) truly full-width */
     #locations > .container:last-of-type {
