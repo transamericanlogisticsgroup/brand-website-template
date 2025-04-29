@@ -1,5 +1,5 @@
 <style>
-/* Navigation */
+/* Navigation background */
 nav {
   position: sticky;
   top: 0;
@@ -8,14 +8,10 @@ nav {
   z-index: 100;
 }
 
-/* Edge-to-edge nav wrapper */
+/* Inner content wrapper: re-use your .container for alignment */
 .nav-container {
-  width: 100%;
-  padding: 0 1rem;
   position: relative;
-  height: 5rem;           /* match your nav height */
-  background: var(--bg);
-  margin: 0;              /* no auto-margins */
+  height: 5rem;           /* adjust to match your nav height */
 }
 
 /* Center the desktop menu */
@@ -29,31 +25,29 @@ nav {
   margin: 0; padding: 0;
 }
 
-/* Logo on the left */
+/* Logo on left */
 .nav-container .logo {
   position: absolute;
   top: 50%; left: 1rem;
   transform: translateY(-50%);
 }
 
-/* Actions on the right */
+/* Actions (phone + quote) on right */
 .nav-container .actions {
   position: absolute;
   top: 50%; right: 1rem;
   transform: translateY(-50%);
-  display: flex;
-  gap: 1rem;
-  align-items: center;
+  display: flex; gap: 1rem; align-items: center;
   z-index: 100;
 }
 
-/* Phone link */
+/* Phone link color */
 .link-text {
   color: var(--text);
   font-weight: var(--font-weight-semibold);
 }
 
-/* Desktop menu links */
+/* Desktop nav link colors */
 .nav-menu a {
   color: var(--text);
   font-weight: var(--font-weight-semibold);
@@ -69,26 +63,27 @@ nav {
   display: none;
 }
 
-/* Collapse phone number text <1080px */
+/* Collapse phone number text under 1080px */
 @media (max-width: 1080px) {
-  .phone-text { display: none; }
+  .phone-text {
+    display: none;
+  }
 }
 
-/* MOBILE: <960px */
+/* MOBILE (<960px) */
 @media (max-width: 960px) {
-  /* remove any nav-container padding if you want true edge-to-edge */
-  .nav-container {
-    padding: 0;
-  }
-
   /* hide desktop menu */
-  .nav-menu { display: none; }
-
-  /* show phone icon left of hamburger */
-  .nav-container .actions {
-    right: 3rem;
+  .nav-menu {
+    display: none;
   }
-  .actions .btn-accent { display: none !important; }
+
+  /* move the phone icon left of the hamburger */
+  .nav-container .actions {
+    right: 3.5rem;
+  }
+  .actions .btn-accent {
+    display: none !important;
+  }
 
   /* show hamburger */
   .hamburger {
@@ -116,9 +111,10 @@ nav {
     pointer-events: auto;
   }
 
+  /* mobile nav links */
   .mobile-nav {
-    display: flex; flex-direction: column; gap: .75rem;
-    list-style: none; margin: 0; padding: 0;
+    list-style: none; margin:0; padding:0;
+    display:flex; flex-direction:column; gap:.75rem;
   }
   .mobile-nav a {
     color: var(--text);
@@ -126,34 +122,37 @@ nav {
     padding: .5rem;
   }
 
+  /* mobile quote button */
   .mobile-quote {
-    display: block; width: 100%; text-align: center;
+    display:block; width:100%; text-align:center;
   }
-
-  /* hide phone link inside mobile panel */
-  .mobile-menu .link-text { display: none; }
+  
+  /* hide phone link in mobile panel */
+  .mobile-menu .link-text {
+    display: none;
+  }
 }
 </style>
 
 <nav>
-  <div class="nav-container"><!-- no .container -->
+  <div class="container nav-container">
     <div class="logo">
       {% include logo.html %}
     </div>
 
-    <!-- hamburger icon -->
+    <!-- Hamburger -->
     <button class="hamburger" aria-label="Toggle menu">
       <i class="fa-solid fa-bars"></i>
     </button>
 
-    <!-- desktop menu -->
+    <!-- Desktop menu -->
     <ul class="nav-menu">
       {% for link in site.nav_links %}
         <li><a href="{{ link.url }}">{{ link.title }}</a></li>
       {% endfor %}
     </ul>
 
-    <!-- phone + quote (desktop only) -->
+    <!-- Phone + Quote (desktop) -->
     <div class="actions">
       <a href="tel:{{ site.phone.ie64 | remove: ' ' }}" class="link-text">
         <i class="fas fa-phone"></i><span class="phone-text">{{ site.phone.display }}</span>
@@ -161,7 +160,7 @@ nav {
       <a href="#quote" class="btn-accent">Get My Quote</a>
     </div>
 
-    <!-- mobile menu panel -->
+    <!-- Mobile menu panel -->
     <div class="mobile-menu">
       <ul class="mobile-nav">
         {% for link in site.nav_links %}
