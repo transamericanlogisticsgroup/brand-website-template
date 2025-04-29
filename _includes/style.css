@@ -154,25 +154,6 @@ nav .actions {
   color: var(--text);
 }
 
-/* Locations */
-#locations .two-col {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-#locations .areas {
-  list-style: none;
-  columns: 3;
-  gap: 1rem;
-}
-#locations .areas li {
-  margin-bottom: 0.75rem;
-}
-#locations .areas li i {
-  color: var(--accent);
-  margin-right: 0.5rem;
-}
-
 /* Contact */
 #contact .info {
   display: flex;
