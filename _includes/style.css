@@ -154,12 +154,6 @@ nav .actions {
   color: var(--text);
 }
 
-/* Ready */
-#ready {
-  text-align: center;
-}
-
-
 /* Field wrappers & icons */
 .field-wrapper {
   position: relative;
