@@ -21,6 +21,11 @@ theme:
     background_alt:  "#f9f9f9"
     surface:         "#eeeeee"
 
+    # three distinct section backgrounds
+    section_bg_1: "#ffffff"   # gray
+    section_bg_2: "#f9f9f9"   # orange
+    section_bg_3: "#eeeeee"   # ghost white
+
     # primary / secondary
     primary:         "#777777"
     primary_light:   "#888888"
