@@ -1,26 +1,37 @@
+<!-- _includes/contact.html -->
+
 <style>
-/* Contact */
-#contact .info {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-#contact .item {
-  flex: 1;
-  min-width: 200px;
-  text-align: center;
-}
-#contact .item i {
-  font-size: 1.5rem;
-  color: var(--accent);
-  margin-bottom: 0.5rem;
-}
+  /* Contact Section */
+  #contact {
+    padding: 4rem 0;
+  }
+  #contact h2 {
+    text-align: center;
+    margin-bottom: 3rem;       /* added extra space under the title */
+    color: var(--primary);
+  }
+
+  #contact .info {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  #contact .item {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+  }
+  #contact .item i {
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
 </style>
 
 <section id="contact">
   <div class="container">
-    <h2 style="text-align:center;">Get In Touch!</h2>
+    <h2>Get In Touch!</h2>
     <div class="info">
       <div class="item">
         <i class="fas fa-map-marker-alt"></i>
@@ -35,7 +46,7 @@
         <i class="fas fa-phone"></i>
         <h3>Phone</h3>
         <p>
-          <a href="tel:{{ site.phone.ie64 }}" style="color:var(--accent-color);">
+          <a href="tel:{{ site.phone.ie64 }}" style="color:var(--accent);">
             {{ site.phone.display }}
           </a>
         </p>
