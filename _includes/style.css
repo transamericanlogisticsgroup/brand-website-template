@@ -97,7 +97,7 @@ a {
 }
 
 /* Inputs */
-input, select {
+input select {
   border: 2px solid var(--border);
 }
 
