@@ -5,14 +5,14 @@
     display: inline-block;
     margin: 0;
   }
-  
+
   /* ensure the two items are vertically centered */
   nav .actions {
     display: flex;
     align-items: center;
     padding-left: 1.5rem; /* optional spacing */
   }
-  
+
   nav {
     position: sticky;
     top: 0;
@@ -20,49 +20,44 @@
     box-shadow: 0 2px 5px var(--shadow-md);
     z-index: 100;
   }
-  
-  /* Full-width nav with 1rem side padding */
+
+  /* Full-width nav with flex layout */
   .nav-container {
     width: 100% !important;
     max-width: none !important;
     margin: 0 !important;
-  
+
     position: relative;
-    height: 5rem;
     background: var(--bg-main);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem; /* adjust vertical & horizontal padding as needed */
   }
-  
-  /* Center the desktop menu */
+
+  /* Logo in flow */
+  .nav-container .logo {
+    margin-left: 1rem;
+  }
+
+  /* Desktop menu */
   .nav-menu {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     display: flex;
     list-style: none;
     margin: 0;
     padding: 0;
     gap: 2rem;
   }
-  
-  /* Logo & desktop actions */
-  .nav-container .logo {
-    position: absolute;
-    top: 50%;
-    left: 1rem;
-    transform: translateY(-50%);
-  }
+
+  /* Desktop actions */
   .nav-container .actions {
-    position: absolute;
-    top: 50%;
-    right: 1rem;
-    transform: translateY(-50%);
     display: flex;
     gap: 1rem;
     align-items: center;
+    margin-right: 1rem;
     z-index: 100; /* base z-index */
   }
-  
+
   /* Phone link color */
   .link-text {
     color: var(--text);
@@ -72,7 +67,7 @@
   .nav-container .actions .btn-accent {
     margin: 0;
   }
-  
+
   /* Desktop nav link colors */
   .nav-menu li a,
   .nav-menu li a:visited,
@@ -85,45 +80,54 @@
   .nav-menu li a:hover {
     color: var(--primary);
   }
-  
+
   /* Hide mobile controls by default */
   .hamburger,
   .mobile-menu {
     display: none;
   }
-  
+
   /* Hide phone number text under 1080px */
   @media (max-width: 1080px) {
     .phone-text {
       display: none;
     }
   }
-  
+
   /* MOBILE: under 960px */
   @media (max-width: 960px) {
     /* remove side padding */
     .nav-container {
       padding: 0 !important;
     }
-  
+
     /* hide desktop menu */
     .nav-menu {
       display: none;
     }
-  
-    /* show phone icon left of hamburger */
+
+    /* position phone icon beside hamburger */
     .nav-container .actions {
+      position: absolute;
+      top: 50%;
       right: 3rem;
-      z-index: 1002;
+      transform: translateY(-50%);
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      z-index: 1002; /* above hamburger */
     }
-    .actions .link-text {
-      display: inline-block;
-    }
+
     /* hide desktop quote button */
     .actions .btn-accent {
       display: none !important;
     }
-  
+
+    /* show phone icon text */
+    .actions .link-text {
+      display: inline-block;
+    }
+
     /* hamburger toggle */
     .hamburger {
       display: block;
@@ -138,7 +142,7 @@
       cursor: pointer;
       z-index: 1001;
     }
-  
+
     /* mobile menu panel */
     .mobile-menu {
       display: flex;
@@ -162,7 +166,7 @@
       opacity: 1;
       pointer-events: auto;
     }
-  
+
     /* mobile nav links */
     .mobile-nav {
       list-style: none;
@@ -177,20 +181,22 @@
       font-weight: var(--font-weight-semibold);
       padding: 0.5rem;
     }
-  
+
     /* mobile quote button full width */
     .mobile-quote {
       display: block;
       width: 100%;
       text-align: center;
     }
-  
+
     /* remove phone link from mobile panel */
     .mobile-menu .link-text {
       display: none;
     }
   }
-  </style>
+</style>
+
+
   
   <nav>
     <div class="container nav-container">
@@ -215,7 +221,7 @@
         <a href="tel:{{ site.phone.ie64 | remove: ' ' }}" class="link-text">
           <i class="fas fa-phone"></i><span class="phone-text">{{ site.phone.display }}</span>
         </a>
-        <a href="#quote" class="btn-accent">Get My Quote</a>
+        <a href="#quote" class="btn-accent shake-5s">Get My Quote</a>
       </div>
   
       <!-- Mobile menu panel -->
@@ -225,7 +231,7 @@
             <li><a href="{{ link.url }}">{{ link.title }}</a></li>
           {% endfor %}
         </ul>
-        <a href="#quote" class="btn-accent mobile-quote">Get My Quote</a>
+        <a href="#quote" class="btn-accent shake-5s mobile-quote">Get My Quote</a>
       </div>
     </div>
   </nav>
